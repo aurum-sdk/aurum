@@ -176,7 +176,47 @@ async function main() {
   }
 
   console.log(pc.bold(pc.cyan('\n✨ Version bump complete.')));
-  console.log(pc.yellow('Ready to publish when you are! (Run pnpm publish -r)'));
+
+  // 11. Prompt to publish
+  const { shouldPublish } = await prompt({
+    type: 'confirm',
+    name: 'shouldPublish',
+    message: 'Publish packages to npm now?',
+    initial: true,
+  });
+
+  if (shouldPublish) {
+    const npmTag = releaseType === 'canary' ? 'canary' : 'latest';
+
+    // Publish in dependency order: types → logos → core → hooks
+    const publishOrder = ['types', 'logos', 'core', 'hooks'];
+
+    console.log(pc.gray(`\nPublishing packages with tag "${npmTag}"...`));
+
+    for (const pkgName of publishOrder) {
+      const pkgDir = path.join(packagesDir, pkgName);
+      if (!fs.existsSync(pkgDir)) continue;
+
+      const pkgJson = JSON.parse(fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf-8'));
+      console.log(pc.gray(`\nPublishing ${pkgJson.name}@${newVersion}...`));
+
+      try {
+        execSync(`pnpm publish --access public --tag ${npmTag} --no-git-checks`, {
+          cwd: pkgDir,
+          stdio: 'inherit',
+        });
+        console.log(`  ${pc.green('✓')} Published ${pkgJson.name}@${newVersion}`);
+      } catch (error) {
+        console.error(pc.red(`\n❌ Failed to publish ${pkgJson.name}`));
+        process.exit(1);
+      }
+    }
+
+    console.log(pc.bold(pc.green('\n🎉 All packages published successfully!')));
+  } else {
+    console.log(pc.yellow('\nSkipped publishing. Run manually with:'));
+    console.log(pc.gray('  pnpm -r publish --access public --no-git-checks'));
+  }
 }
 
 main().catch((err) => {
