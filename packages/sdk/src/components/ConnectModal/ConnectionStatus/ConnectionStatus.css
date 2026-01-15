@@ -95,7 +95,7 @@
 
 .ellipses-success span,
 .status-icon-with-dots.success .dot {
-  color: var(--color-success);
+  color: var(--aurum-primary-color);
 }
 
 .status-icon-with-dots.error .dot {
