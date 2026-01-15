@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useCallback, useState, useMemo, type ReactNode } from 'react';
 import { AurumContext, initialAccountState, type AccountState } from '@src/AurumContext';
-import type { Aurum } from '@aurum/sdk';
+import type { Aurum } from '@aurum-sdk/core';
 
 interface AurumProviderProps {
   aurum: Aurum;

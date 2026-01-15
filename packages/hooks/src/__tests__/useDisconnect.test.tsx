@@ -4,7 +4,7 @@ import { AurumProvider } from '@src/AurumProvider';
 import { useDisconnect } from '@src/hooks/useDisconnect';
 import { createMockAurum, resetMocks } from './setup';
 import type { ReactNode } from 'react';
-import type { Aurum } from '@aurum/sdk';
+import type { Aurum } from '@aurum-sdk/core';
 
 describe('useDisconnect', () => {
   beforeEach(() => {

@@ -1,5 +1,5 @@
 /**
- * @aurum/types
+ * @aurum-sdk/types
  *
  * Shared TypeScript types for the Aurum SDK ecosystem
  */

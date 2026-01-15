@@ -9,7 +9,7 @@ export default defineConfig([
     splitting: true,
     treeshake: true,
     clean: true,
-    external: ['@aurum/types'],
+    external: ['@aurum-sdk/types'],
     loader: {
       '.svg': 'text',
     },
@@ -22,7 +22,7 @@ export default defineConfig([
     dts: true,
     splitting: true,
     treeshake: true,
-    external: ['react', '@aurum/types'],
+    external: ['react', '@aurum-sdk/types'],
     esbuildOptions(options) {
       options.jsx = 'automatic';
     },

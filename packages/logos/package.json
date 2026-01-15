@@ -1,5 +1,5 @@
 {
-  "name": "@aurum/logos",
+  "name": "@aurum-sdk/logos",
   "version": "0.1.0",
   "description": "Wallet logos for Aurum SDK",
   "sideEffects": false,
@@ -51,7 +51,7 @@
     }
   },
   "dependencies": {
-    "@aurum/types": "workspace:^"
+    "@aurum-sdk/types": "workspace:^"
   },
   "devDependencies": {
     "@svgr/cli": "^8.1.0",

@@ -1,4 +1,4 @@
-import { WalletId, WalletName } from '@aurum/types';
+import { WalletId, WalletName } from '@aurum-sdk/types';
 import type { LogoVariant } from './types';
 import { WALLET_NAME_TO_ID } from './constants';
 import { resolveLogoPrefix } from './utils';

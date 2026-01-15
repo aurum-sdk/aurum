@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { BorderRadiusToken, BorderRadiusSizeSlot } from '@aurum/types';
+import type { BorderRadiusToken, BorderRadiusSizeSlot } from '@aurum-sdk/types';
 import type { AurumLogoVariant } from '@src/core/types';
 import { getLogoRadius } from '@src/core/utils';
 

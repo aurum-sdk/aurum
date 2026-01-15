@@ -1,13 +1,13 @@
-# @aurum/hooks
+# @aurum-sdk/hooks
 
 React hooks for Aurum SDK
 
-**Looking for the core SDK? Check out @aurum/sdk on [github](https://github.com/aurum-sdk/aurum/packages/sdk) or [npm](https://www.npmjs.com/package/@aurum/sdk)**
+**Looking for the core SDK? Check out @aurum-sdk/core on [github](https://github.com/aurum-sdk/aurum/packages/core) or [npm](https://www.npmjs.com/package/@aurum-sdk/core)**
 
 ## Installation
 
 ```bash
-pnpm add @aurum/hooks @aurum/sdk
+pnpm add @aurum-sdk/hooks @aurum-sdk/core
 ```
 
 ## Quick Start
@@ -17,8 +17,8 @@ pnpm add @aurum/hooks @aurum/sdk
 Wrap your app with `AurumProvider`
 
 ```tsx
-import { Aurum } from '@aurum/sdk';
-import { AurumProvider } from '@aurum/hooks';
+import { Aurum } from '@aurum-sdk/core';
+import { AurumProvider } from '@aurum-sdk/hooks';
 
 const aurum = new Aurum({
   brand: { appName: 'Your App Name' },
@@ -40,7 +40,7 @@ function App() {
 ### 2. Use Hooks
 
 ```tsx
-import { useAccount, useConnect, useDisconnect } from '@aurum/hooks';
+import { useAccount, useConnect, useDisconnect } from '@aurum-sdk/hooks';
 
 function WalletButton() {
   const { publicAddress, isConnected, isInitializing } = useAccount();
@@ -109,7 +109,7 @@ const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, isPen
 await connect();
 
 // Or connect directly to a specific wallet (skips modal)
-import { WalletId } from '@aurum/types';
+import { WalletId } from '@aurum-sdk/types';
 await connect(WalletId.MetaMask);
 ```
 

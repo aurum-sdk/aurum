@@ -9,7 +9,7 @@ All notable changes to Aurum SDK.
 - Initial release of Aurum SDK
 - Wallet support: MetaMask, Coinbase Wallet, Phantom, Rabby, WalletConnect, AppKit, Brave, Ledger
 - Email wallet integration via Coinbase Embedded Wallets
-- `@aurum/sdk` - Core SDK with connect modal
-- `@aurum/hooks` - React hooks for SDK integration
-- `@aurum/types` - Shared TypeScript types
-- `@aurum/logos` - Wallet and Aurum logos
+- `@aurum-sdk/core` - Core SDK with connect modal
+- `@aurum-sdk/hooks` - React hooks for SDK integration
+- `@aurum-sdk/types` - Shared TypeScript types
+- `@aurum-sdk/logos` - Wallet and Aurum logos

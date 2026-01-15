@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useAurumContext } from '@src/AurumContext';
-import type { WalletId, WalletConnectSessionResult } from '@aurum/types';
+import type { WalletId, WalletConnectSessionResult } from '@aurum-sdk/types';
 
 /**
  * Connect to a wallet.

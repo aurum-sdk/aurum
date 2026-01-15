@@ -1,11 +1,11 @@
-# @aurum/types
+# @aurum-sdk/types
 
 Shared TypeScript type definitions for the Aurum SDK ecosystem.
 
 ## Installation
 
 ```bash
-pnpm add @aurum/types
+pnpm add @aurum-sdk/types
 ```
 
 ## Exports
@@ -40,7 +40,7 @@ import {
   type EmailAuthStartResult,
   type EmailAuthVerifyResult,
   type WalletConnectSessionResult,
-} from '@aurum/types';
+} from '@aurum-sdk/types';
 ```
 
 ## License

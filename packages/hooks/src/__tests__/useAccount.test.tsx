@@ -3,9 +3,9 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { AurumProvider } from '@src/AurumProvider';
 import { useAccount } from '@src/hooks/useAccount';
 import { createMockAurum, resetMocks } from './setup';
-import { WalletId, WalletName } from '@aurum/types';
+import { WalletId, WalletName } from '@aurum-sdk/types';
 import type { ReactNode } from 'react';
-import type { Aurum } from '@aurum/sdk';
+import type { Aurum } from '@aurum-sdk/core';
 
 describe('useAccount', () => {
   beforeEach(() => {

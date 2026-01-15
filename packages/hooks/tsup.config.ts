@@ -9,7 +9,7 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  external: ['react', 'react/jsx-runtime', '@aurum/sdk'],
+  external: ['react', 'react/jsx-runtime', '@aurum-sdk/core'],
   esbuildOptions(options) {
     options.jsx = 'automatic';
     options.alias = {

@@ -11,7 +11,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
-    "build": "node packages/sdk/scripts/bundle-css.js && pnpm -r --filter=./packages/* build",
+    "build": "node packages/core/scripts/bundle-css.js && pnpm -r --filter=./packages/* build",
     "release": "node scripts/release.mjs",
     "clean": "pnpm -r --filter=./packages/* clean",
     "test": "pnpm -r --filter=./packages/* test",

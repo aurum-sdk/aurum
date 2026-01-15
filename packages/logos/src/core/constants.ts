@@ -1,4 +1,4 @@
-import { WalletId, WalletName } from '@aurum/types';
+import { WalletId, WalletName } from '@aurum-sdk/types';
 
 export const WALLET_NAME_TO_ID: Record<WalletName, WalletId> = {
   [WalletName.MetaMask]: WalletId.MetaMask,

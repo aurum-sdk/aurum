@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WalletId, BORDER_RADIUS_SCALES } from '@aurum/types';
+import { WalletId, BORDER_RADIUS_SCALES } from '@aurum-sdk/types';
 import { resolveLogoPrefix, getLogoRadius } from '@src/core/utils';
 
 describe('resolveLogoPrefix', () => {

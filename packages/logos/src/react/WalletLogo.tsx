@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { WalletId, WalletName, BorderRadiusToken, BorderRadiusSizeSlot } from '@aurum/types';
+import type { WalletId, WalletName, BorderRadiusToken, BorderRadiusSizeSlot } from '@aurum-sdk/types';
 import type { LogoVariant } from '@src/core/types';
 import { WALLET_NAME_TO_ID } from '@src/core/constants';
 import { resolveLogoPrefix, getLogoRadius } from '@src/core/utils';

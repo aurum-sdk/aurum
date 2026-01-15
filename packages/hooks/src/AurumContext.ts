@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import type { Aurum } from '@aurum/sdk';
-import type { WalletId, WalletName } from '@aurum/types';
+import type { Aurum } from '@aurum-sdk/core';
+import type { WalletId, WalletName } from '@aurum-sdk/types';
 
 export interface AccountState {
   publicAddress: string | undefined;

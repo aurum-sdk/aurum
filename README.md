@@ -11,12 +11,12 @@ Supported Wallets includes: Coinbase Embedded Wallet (email), MetaMask, Phantom,
 
 ### Packages
 
-| Package                         | npm                                               | Description                  |
-| ------------------------------- | ------------------------------------------------- | ---------------------------- |
-| [@aurum/sdk](/packages/sdk)     | [npm](https://www.npmjs.com/package/@aurum/sdk)   | Core SDK with UI components  |
-| [@aurum/hooks](/packages/hooks) | [npm](https://www.npmjs.com/package/@aurum/hooks) | React hooks                  |
-| [@aurum/types](/packages/types) | [npm](https://www.npmjs.com/package/@aurum/types) | Shared TypeScript types      |
-| [@aurum/logos](/packages/logos) | [npm](https://www.npmjs.com/package/@aurum/logos) | Wallet and Aurum logo assets |
+| Package                             | npm                                                   | Description                  |
+| ----------------------------------- | ----------------------------------------------------- | ---------------------------- |
+| [@aurum-sdk/core](/packages/core)   | [npm](https://www.npmjs.com/package/@aurum-sdk/core)  | Core SDK with UI components  |
+| [@aurum-sdk/hooks](/packages/hooks) | [npm](https://www.npmjs.com/package/@aurum-sdk/hooks) | React hooks                  |
+| [@aurum-sdk/types](/packages/types) | [npm](https://www.npmjs.com/package/@aurum-sdk/types) | Shared TypeScript types      |
+| [@aurum-sdk/logos](/packages/logos) | [npm](https://www.npmjs.com/package/@aurum-sdk/logos) | Wallet and Aurum logo assets |
 
 ---
 

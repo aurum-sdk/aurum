@@ -1,5 +1,5 @@
 {
-  "name": "@aurum/types",
+  "name": "@aurum-sdk/types",
   "version": "0.1.0",
   "description": "TypeScript types for Aurum SDK",
   "main": "./dist/index.js",

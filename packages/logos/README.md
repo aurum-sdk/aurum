@@ -1,11 +1,11 @@
-# @aurum/logos
+# @aurum-sdk/logos
 
 Tree-shakable wallet logos for Aurum SDK. Framework-agnostic + optional React components.
 
 ## Installation
 
 ```bash
-pnpm add @aurum/logos
+pnpm add @aurum-sdk/logos
 ```
 
 ## Supported Logos
@@ -21,8 +21,8 @@ Each has 4 variants: `icon`, `brand`, `black`, `white`.
 ### Core (Vanilla JS)
 
 ```typescript
-import { getLogoSvg, getLogoDataUri } from '@aurum/logos';
-import { WalletId } from '@aurum/types';
+import { getLogoSvg, getLogoDataUri } from '@aurum-sdk/logos';
+import { WalletId } from '@aurum-sdk/types';
 
 // Raw SVG string
 const svg = getLogoSvg(WalletId.MetaMask, 'brand');
@@ -31,15 +31,15 @@ const svg = getLogoSvg(WalletId.MetaMask, 'brand');
 const dataUri = getLogoDataUri(WalletId.Phantom, 'icon');
 
 // Aurum logo
-import { getAurumLogoSvg } from '@aurum/logos';
+import { getAurumLogoSvg } from '@aurum-sdk/logos';
 const aurumSvg = getAurumLogoSvg('brand');
 ```
 
 ### React
 
 ```tsx
-import { WalletLogo, AurumLogo } from '@aurum/logos/react';
-import { WalletId } from '@aurum/types';
+import { WalletLogo, AurumLogo } from '@aurum-sdk/logos/react';
+import { WalletId } from '@aurum-sdk/types';
 
 <WalletLogo id={WalletId.MetaMask} variant="brand" size={48} />
 <WalletLogo id={WalletId.Rabby} size={80} radius="lg" sizeSlot="md" />
@@ -51,7 +51,7 @@ import { WalletId } from '@aurum/types';
 ### Direct Imports (Smallest Bundle)
 
 ```tsx
-import { MetamaskIcon, PhantomBrand, AurumBrand } from '@aurum/logos/react';
+import { MetamaskIcon, PhantomBrand, AurumBrand } from '@aurum-sdk/logos/react';
 
 <MetamaskIcon width={24} height={24} />;
 ```

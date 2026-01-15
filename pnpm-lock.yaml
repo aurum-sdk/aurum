@@ -70,10 +70,10 @@ importers:
 
   packages/hooks:
     dependencies:
-      '@aurum/sdk':
+      '@aurum-sdk/core':
         specifier: workspace:^
         version: link:../sdk
-      '@aurum/types':
+      '@aurum-sdk/types':
         specifier: workspace:^
         version: link:../types
     devDependencies:
@@ -107,7 +107,7 @@ importers:
 
   packages/logos:
     dependencies:
-      '@aurum/types':
+      '@aurum-sdk/types':
         specifier: workspace:^
         version: link:../types
       react:
@@ -135,10 +135,10 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@aurum/logos':
+      '@aurum-sdk/logos':
         specifier: workspace:^
         version: link:../logos
-      '@aurum/types':
+      '@aurum-sdk/types':
         specifier: workspace:^
         version: link:../types
       '@coinbase/cdp-core':

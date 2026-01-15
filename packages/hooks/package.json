@@ -1,5 +1,5 @@
 {
-  "name": "@aurum/hooks",
+  "name": "@aurum-sdk/hooks",
   "version": "0.1.0",
   "description": "React hooks for Aurum SDK",
   "main": "./dist/index.js",
@@ -39,8 +39,8 @@
     }
   },
   "dependencies": {
-    "@aurum/sdk": "workspace:^",
-    "@aurum/types": "workspace:^"
+    "@aurum-sdk/core": "workspace:^",
+    "@aurum-sdk/types": "workspace:^"
   },
   "devDependencies": {
     "@testing-library/react": "^16.0.0",

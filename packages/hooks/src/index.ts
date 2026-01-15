@@ -1,5 +1,5 @@
 /**
- * @aurum/hooks
+ * @aurum-sdk/hooks
  *
  * React hooks for the Aurum SDK
  */

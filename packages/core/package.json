@@ -1,0 +1,113 @@
+{
+  "name": "@aurum-sdk/core",
+  "version": "0.1.0",
+  "description": "Aurum wallet connection SDK",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./widgets": {
+      "types": "./dist/widgets.d.ts",
+      "import": "./dist/widgets.mjs",
+      "require": "./dist/widgets.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "widgets": [
+        "./dist/widgets.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "playground": "vite --config vite.config.playground.ts",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "viem": ">=2.0.0",
+    "wagmi": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "viem": {
+      "optional": true
+    },
+    "wagmi": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.0",
+    "jsdom": "^25.0.0",
+    "react": "^19.2.2",
+    "react-dom": "^19.2.2",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "viem": "^2.42.1",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.0",
+    "wagmi": "^3.1.0"
+  },
+  "keywords": [
+    "wallet",
+    "ethereum",
+    "web3",
+    "react",
+    "typescript"
+  ],
+  "author": "Hunter Cote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aurum-sdk/aurum.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://github.com/aurum-sdk/aurum#readme",
+  "dependencies": {
+    "@aurum-sdk/logos": "workspace:^",
+    "@aurum-sdk/types": "workspace:^",
+    "@coinbase/cdp-core": "^0.0.74",
+    "@coinbase/wallet-sdk": "^4.3.7",
+    "@gemini-wallet/core": "^0.3.2",
+    "@ledgerhq/connect-kit-loader": "^1.1.8",
+    "@metamask/sdk": "~0.33.1",
+    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@reown/appkit": "^1.8.15",
+    "@reown/appkit-adapter-wagmi": "^1.8.15",
+    "@sentry/browser": "^10.29.0",
+    "@walletconnect/ethereum-provider": "~2.21.1",
+    "buffer": "^6.0.3",
+    "lucide-react": "^0.460.0",
+    "mobile-detect": "^1.4.5",
+    "porto": "^0.2.37",
+    "react-qrcode-logo": "^3.0.0",
+    "x402-fetch": "^0.7.0",
+    "zustand": "^5.0.9"
+  }
+}

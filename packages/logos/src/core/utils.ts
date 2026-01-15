@@ -1,4 +1,4 @@
-import { WalletId, BorderRadiusToken, BorderRadiusSizeSlot, BORDER_RADIUS_SCALES } from '@aurum/types';
+import { WalletId, BorderRadiusToken, BorderRadiusSizeSlot, BORDER_RADIUS_SCALES } from '@aurum-sdk/types';
 import { WALLET_LOGO_PREFIX_OVERRIDES } from './constants';
 
 /**

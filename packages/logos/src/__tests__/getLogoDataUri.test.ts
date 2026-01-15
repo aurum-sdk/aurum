@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WalletId, WalletName } from '@aurum/types';
+import { WalletId, WalletName } from '@aurum-sdk/types';
 import { getLogoDataUri } from '@src/core/getLogoDataUri';
 
 describe('getLogoDataUri', () => {

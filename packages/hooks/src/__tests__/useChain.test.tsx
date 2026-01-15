@@ -4,7 +4,7 @@ import { AurumProvider } from '@src/AurumProvider';
 import { useChain } from '@src/hooks/useChain';
 import { createMockAurum, resetMocks } from './setup';
 import type { ReactNode } from 'react';
-import type { Aurum } from '@aurum/sdk';
+import type { Aurum } from '@aurum-sdk/core';
 
 describe('useChain', () => {
   beforeEach(() => {
