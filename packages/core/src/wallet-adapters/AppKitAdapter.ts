@@ -180,7 +180,7 @@ export class AppKitAdapter implements WalletAdapter {
       await this.disconnect();
     }
 
-    this.modal.open({ view: 'Connect' });
+    this.modal.open({ view: 'AllWallets' });
 
     return await this.waitForConnection();
   }
