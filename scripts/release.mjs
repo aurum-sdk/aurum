@@ -213,6 +213,25 @@ async function main() {
     }
 
     console.log(pc.bold(pc.green('\n🎉 All packages published successfully!')));
+
+    // 12. Create and push git tag (only for production releases)
+    if (releaseType === 'production') {
+      const tagName = `v${newVersion}`;
+      console.log(pc.gray(`\nCreating git tag ${tagName}...`));
+
+      try {
+        // Create the tag
+        execSync(`git tag ${tagName}`, { stdio: 'inherit' });
+        console.log(`  ${pc.green('✓')} Created tag ${tagName}`);
+
+        // Push the tag
+        execSync(`git push origin ${tagName}`, { stdio: 'inherit' });
+        console.log(`  ${pc.green('✓')} Pushed tag ${tagName} to origin`);
+      } catch (error) {
+        console.error(pc.yellow(`\n⚠️ Failed to create/push git tag. You can do it manually:`));
+        console.log(pc.gray(`  git tag ${tagName} && git push origin ${tagName}`));
+      }
+    }
   } else {
     console.log(pc.yellow('\nSkipped publishing. Run manually with:'));
     console.log(pc.gray('  pnpm -r publish --access public --no-git-checks'));
