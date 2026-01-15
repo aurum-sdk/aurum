@@ -1,0 +1,11 @@
+.aurum-badge-recent {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--aurum-border-radius-xs);
+
+  font-size: 0.65rem;
+  line-height: 1;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+
+  color: var(--color-foreground-muted);
+}

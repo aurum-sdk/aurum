@@ -1,0 +1,149 @@
+/* ============================================
+   AURUM SDK - DESIGN TOKEN SYSTEM
+   ============================================
+
+   Google Fonts:
+   - Noto Sans: 400, 500, 600, 700
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   External variables (injected by createShadowRoot.ts):
+   - --aurum-primary-color: Brand color from dapp
+   - --aurum-border-radius-*: Radius scale tokens
+   - --aurum-modal-z-index: Modal z-index
+   - --aurum-font-family: Font family from dapp
+   ============================================ */
+
+/* Base reset styles for Shadow DOM */
+:host {
+  all: initial;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Ensure form elements inherit font from parent */
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+}
+
+.aurum-sdk {
+  /* ==========================================
+     TYPOGRAPHY
+     ========================================== */
+  font-family: var(--aurum-font-family);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* ==========================================
+     TRANSITIONS
+     ========================================== */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* ==========================================
+     LIGHT THEME COLORS (Default)
+     ========================================== */
+
+  /* Foreground / Text */
+  --color-foreground: #0c0c0c;
+  --color-foreground-muted: #787878;
+  --color-foreground-subtle: #979797;
+
+  /* Card surfaces */
+  --color-card: #ffffff;
+
+  /* Borders */
+  --color-border: #d9d9d9;
+  --color-border-muted: #c0c0c0;
+  --color-border-focus: var(--aurum-primary-color);
+
+  /* Brand / Primary (from integrator) */
+  --color-primary: var(--aurum-primary-color);
+  --color-primary-foreground: #ffffff;
+  --color-primary-hover: color-mix(in srgb, var(--aurum-primary-color) 85%, #000);
+  --color-primary-muted: color-mix(in srgb, var(--aurum-primary-color) 15%, transparent);
+
+  /* Interactive elements */
+  --color-accent: #f1f1f1;
+  --color-accent-foreground: #0d0d0d;
+  --color-accent-hover: #e6e6e6;
+
+  /* Semantic colors */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+
+  /* Overlay / Modal */
+  --color-overlay: rgb(0 0 0 / 0.5);
+
+  /* Ring (focus indicator) */
+  --color-ring: var(--aurum-primary-color);
+  --ring-offset: 0.125rem;
+
+  /* Shadows */
+  --shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* ==========================================
+   DARK THEME COLORS
+   ========================================== */
+
+.aurum-sdk[data-theme='dark'] {
+  /* Foreground / Text */
+  --color-foreground: #fafafa;
+  --color-foreground-muted: #a9a9a9;
+  --color-foreground-subtle: #777777;
+
+  /* Card surfaces */
+  --color-card: #151515;
+
+  /* Borders */
+  --color-border: #282828;
+  --color-border-muted: #424242;
+  --color-border-focus: var(--aurum-primary-color);
+
+  /* Brand / Primary (from integrator) */
+  --color-primary: var(--aurum-primary-color);
+  --color-primary-foreground: #0a0a0a;
+  --color-primary-hover: color-mix(in srgb, var(--aurum-primary-color) 85%, #fff);
+  --color-primary-muted: color-mix(in srgb, var(--aurum-primary-color) 20%, transparent);
+
+  /* Interactive elements */
+  --color-accent: #272727;
+  --color-accent-foreground: #fafafa;
+  --color-accent-hover: #404040;
+
+  /* Semantic colors */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+
+  /* Overlay / Modal */
+  --color-overlay: rgb(0 0 0 / 0.7);
+
+  /* Ring (focus indicator) */
+  --color-ring: var(--aurum-primary-color);
+  --ring-offset: 0.125rem;
+
+  /* Shadows */
+  --shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+}

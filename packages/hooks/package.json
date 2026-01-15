@@ -1,0 +1,72 @@
+{
+  "name": "@aurum/hooks",
+  "version": "0.1.0",
+  "description": "React hooks for Aurum SDK",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "viem": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "viem": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aurum/sdk": "workspace:^",
+    "@aurum/types": "workspace:^"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^18.0.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "jsdom": "^25.0.0",
+    "react": "^19.2.2",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "viem": "^2.42.1",
+    "vitest": "^2.1.0"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "wallet",
+    "ethereum",
+    "web3",
+    "aurum"
+  ],
+  "author": "Hunter Cote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aurum-sdk/aurum.git",
+    "directory": "packages/hooks"
+  },
+  "homepage": "https://github.com/aurum-sdk/aurum#readme"
+}

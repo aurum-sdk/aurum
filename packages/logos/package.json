@@ -1,0 +1,79 @@
+{
+  "name": "@aurum/logos",
+  "version": "0.1.0",
+  "description": "Wallet logos for Aurum SDK",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js"
+    },
+    "./react/*": {
+      "types": "./dist/react/*.d.ts",
+      "import": "./dist/react/*.mjs",
+      "require": "./dist/react/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "generate:icons": "svgr --config-file svgr.config.js --out-dir src/react/icons src/assets",
+    "prebuild": "pnpm generate:icons",
+    "build": "tsup",
+    "clean": "rm -rf dist src/react/icons/*.tsx",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aurum/types": "workspace:^"
+  },
+  "devDependencies": {
+    "@svgr/cli": "^8.1.0",
+    "@types/react": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^2.1.0",
+    "@vitest/coverage-v8": "^2.1.0"
+  },
+  "keywords": [
+    "wallet",
+    "logos",
+    "svg",
+    "react",
+    "aurum"
+  ],
+  "author": "Hunter Cote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aurum-sdk/aurum.git",
+    "directory": "packages/logos"
+  },
+  "homepage": "https://github.com/aurum-sdk/aurum#readme"
+}

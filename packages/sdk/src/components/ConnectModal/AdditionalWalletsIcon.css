@@ -1,0 +1,41 @@
+.additional-wallets-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.additional-wallets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.125rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.additional-wallets-grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.additional-wallets-placeholder {
+  background-color: var(--aurum-color-bg-tertiary);
+  border-radius: var(--aurum-border-radius-xs);
+  opacity: 0.4;
+}
+
+.circular-icon-wrapper {
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--aurum-color-bg-secondary);
+}
+
+.circular-icon-wrapper--front {
+  z-index: 2;
+}
+
+.circular-icon-wrapper--back {
+  margin-left: -0.5rem;
+  z-index: 1;
+}

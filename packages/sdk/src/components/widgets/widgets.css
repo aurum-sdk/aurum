@@ -1,0 +1,39 @@
+/* Widget-specific styles that match modal-content */
+
+.widget-provider {
+  position: relative;
+  width: 23.75rem;
+  min-width: 17rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-card);
+  border-radius: var(--aurum-border-radius-lg);
+  border: 1px solid var(--color-border-muted);
+  box-sizing: border-box;
+  color: var(--color-card-foreground);
+  box-shadow: var(--shadow);
+  outline: none;
+  overflow-x: auto;
+}
+
+.widget-provider .modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+@media (max-width: 30.25rem) {
+  .widget-provider {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--aurum-border-radius-md);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Ensure page wrapper fills width in flex container on mobile */
+  /* .widget-pages {
+    width: 100%;
+  } */
+}

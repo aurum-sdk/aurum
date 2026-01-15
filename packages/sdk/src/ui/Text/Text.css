@@ -1,0 +1,74 @@
+.aurum-text {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.aurum-text--primary {
+  color: var(--color-foreground);
+}
+
+.aurum-text--secondary {
+  color: var(--color-foreground-muted);
+}
+
+.aurum-text--tertiary {
+  color: var(--color-foreground-subtle);
+}
+
+.aurum-text--error {
+  color: var(--color-error);
+}
+
+.aurum-text--brand {
+  color: var(--color-primary);
+}
+
+.aurum-text--success {
+  color: var(--color-success);
+}
+
+.aurum-text--xs {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.aurum-text--sm {
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.aurum-text--md {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.aurum-text--lg {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.aurum-text--normal {
+  font-weight: var(--font-normal);
+}
+
+.aurum-text--semibold {
+  font-weight: var(--font-semibold);
+}
+
+.aurum-text--bold {
+  font-weight: var(--font-bold);
+}
+
+.aurum-text--align-left {
+  text-align: left;
+}
+
+.aurum-text--align-center {
+  text-align: center;
+}
+
+.aurum-text--align-right {
+  text-align: right;
+}

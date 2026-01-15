@@ -1,0 +1,53 @@
+.email-auth-input {
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  box-sizing: border-box;
+  padding: 0.75rem 3rem 0.75rem 3rem;
+  color: var(--color-foreground);
+  transition:
+    outline 0.2s ease,
+    border-color 0.2s ease;
+  background-color: var(--color-card);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--color-border);
+  border-radius: var(--aurum-border-radius-md);
+}
+
+.email-auth-input:hover:not(:focus):not(.email-auth-input--error) {
+  border-color: var(--color-border-muted);
+}
+
+.email-auth-input:focus {
+  outline: 2px solid var(--color-ring);
+  outline-offset: var(--ring-offset);
+}
+
+.email-auth-input--error {
+  outline: 2px solid var(--color-error);
+  outline-offset: var(--ring-offset);
+}
+
+.email-auth-submit-button.aurum-button {
+  top: 50%;
+  right: 0.75rem;
+  height: auto;
+  padding: 0.5rem;
+  min-width: auto;
+  position: absolute;
+  transform: translateY(-50%);
+  border-radius: var(--aurum-border-radius-sm);
+}
+
+.email-auth-icon {
+  top: 50%;
+  left: 1rem;
+  position: absolute;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}

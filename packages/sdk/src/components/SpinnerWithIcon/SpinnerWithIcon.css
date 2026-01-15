@@ -1,0 +1,7 @@
+.spinner-with-icon {
+  transition: all var(--duration-normal) var(--ease-default);
+}
+
+.spinner-with-icon svg {
+  transition: color var(--duration-normal) var(--ease-default);
+}

@@ -1,0 +1,6 @@
+.aurum-wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns, 3), 1fr);
+  gap: 10px;
+  width: 100%;
+}

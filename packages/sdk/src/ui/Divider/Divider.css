@@ -1,0 +1,18 @@
+.divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+.divider-text {
+  padding: 0 1rem;
+  color: var(--color-foreground-subtle);
+  font-size: 0.875rem;
+  font-weight: var(--font-medium);
+}

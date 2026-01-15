@@ -1,0 +1,147 @@
+.aurum-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-normal) var(--ease-default),
+    color var(--duration-normal) var(--ease-default),
+    transform var(--duration-fast) var(--ease-default),
+    box-shadow var(--duration-normal) var(--ease-default);
+  text-decoration: none;
+  box-sizing: border-box;
+  position: relative;
+  outline: none;
+  font-family: inherit;
+}
+
+.aurum-button:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: var(--ring-offset);
+}
+
+.aurum-button--xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  gap: 0.25rem;
+  border-radius: var(--aurum-border-radius-xs);
+}
+
+.aurum-button--sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  gap: 0.25rem;
+  border-radius: calc(var(--aurum-border-radius-sm) - 2px);
+}
+
+.aurum-button--md {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  gap: 0.5rem;
+  border-radius: calc(var(--aurum-border-radius-md) - 2px);
+}
+
+.aurum-button--lg {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  gap: 0.75rem;
+  border-radius: var(--aurum-border-radius-md);
+}
+
+.aurum-button--full-width {
+  width: 100%;
+}
+
+.aurum-button--primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.aurum-button--primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.aurum-button--secondary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-foreground);
+}
+
+.aurum-button--secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.aurum-button--tertiary {
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+}
+
+.aurum-button--tertiary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.aurum-button--text {
+  background: transparent;
+  color: var(--color-primary);
+  padding: 0.25rem;
+}
+
+.aurum-button--text:not(.aurum-button--full-width) {
+  width: fit-content;
+}
+
+.aurum-button--text:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.aurum-button--close {
+  background: transparent;
+  color: var(--color-foreground-muted);
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--aurum-border-radius-md);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.aurum-button--close:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Hover styles only for devices with hover capability (not touch) */
+@media (hover: hover) {
+  .aurum-button--primary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+
+  .aurum-button--secondary:hover:not(:disabled) {
+    background-color: var(--color-accent-hover);
+  }
+
+  .aurum-button--tertiary:hover:not(:disabled) {
+    background-color: var(--color-accent);
+    border-color: var(--color-border-muted);
+  }
+
+  .aurum-button--text:hover:not(:disabled) {
+    opacity: 0.7;
+  }
+
+  .aurum-button--close:hover:not(:disabled) {
+    background-color: var(--color-accent);
+    color: var(--color-foreground);
+  }
+}
+
+.aurum-button--disabled,
+.aurum-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.aurum-button--loading {
+  pointer-events: none;
+}

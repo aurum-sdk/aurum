@@ -1,0 +1,19 @@
+.qr-skeleton-container {
+  width: 100%;
+  position: relative;
+}
+
+.qr-skeleton-svg {
+  display: block;
+  position: relative;
+  z-index: 2;
+  border-radius: var(--aurum-border-radius-sm);
+}
+
+.qr-skeleton-dot {
+  opacity: 0.7;
+}
+
+.qr-skeleton-eye {
+  opacity: 0.7;
+}

@@ -1,0 +1,20 @@
+import type { SVGProps } from 'react';
+export function LedgerIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="512"
+      height="512"
+      fill="none"
+      viewBox="0 0 512 512"
+      focusable={false}
+      aria-hidden={true}
+      {...props}
+    >
+      <path
+        fill="#000"
+        d="M85 320.65V405h128.592v-18.699h-109.85V320.65zm323.258 0v65.651h-109.85V405H427v-84.35zm-194.392 0h84.542v-16.925h-65.801V192.214h-18.741zM85 108v84.35h18.742v-65.651h109.85V108zm213.408 0v18.699h109.85v65.651H427V108z"
+      />
+    </svg>
+  );
+}

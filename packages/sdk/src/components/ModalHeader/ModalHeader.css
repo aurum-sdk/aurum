@@ -1,0 +1,39 @@
+.modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background-color: var(--color-card);
+  border-radius: var(--aurum-border-radius-lg) var(--aurum-border-radius-lg) 0 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.modal-header > div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.modal-header-left {
+  justify-content: flex-start;
+  min-width: 2.25rem;
+  height: 2.25rem;
+}
+
+.modal-header-center {
+  justify-content: center;
+  max-width: 12.5rem;
+  text-align: center;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.modal-header-right {
+  justify-content: flex-end;
+  min-width: 2.25rem;
+  height: 2.25rem;
+}
