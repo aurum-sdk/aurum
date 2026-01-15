@@ -214,17 +214,31 @@ async function main() {
 
     console.log(pc.bold(pc.green('\n🎉 All packages published successfully!')));
 
-    // 12. Create and push git tag (only for production releases)
+    // 12. Commit version changes and create git tag (only for production releases)
     if (releaseType === 'production') {
       const tagName = `v${newVersion}`;
-      console.log(pc.gray(`\nCreating git tag ${tagName}...`));
 
+      // Commit version changes
+      console.log(pc.gray('\nCommitting version changes...'));
       try {
-        // Create the tag
+        execSync('git add .', { stdio: 'inherit' });
+        execSync(`git commit -m "chore: release ${tagName}"`, { stdio: 'inherit' });
+        console.log(`  ${pc.green('✓')} Committed version changes`);
+
+        // Push the commit
+        execSync('git push origin master', { stdio: 'inherit' });
+        console.log(`  ${pc.green('✓')} Pushed to master`);
+      } catch (error) {
+        console.error(pc.yellow(`\n⚠️ Failed to commit/push. You can do it manually:`));
+        console.log(pc.gray(`  git add . && git commit -m "chore: release ${tagName}" && git push`));
+      }
+
+      // Create and push tag
+      console.log(pc.gray(`\nCreating git tag ${tagName}...`));
+      try {
         execSync(`git tag ${tagName}`, { stdio: 'inherit' });
         console.log(`  ${pc.green('✓')} Created tag ${tagName}`);
 
-        // Push the tag
         execSync(`git push origin ${tagName}`, { stdio: 'inherit' });
         console.log(`  ${pc.green('✓')} Pushed tag ${tagName} to origin`);
       } catch (error) {
