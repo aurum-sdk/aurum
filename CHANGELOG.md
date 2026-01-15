@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2] - 2026-01-15
+
+- fix brave browser detection on mobile, open to appkit AllWallets page
+
 ## [0.1.1] - 2026-01-15
 
 - Fixed workspace dependency resolution for npm installs
