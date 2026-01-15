@@ -68,11 +68,111 @@ importers:
         specifier: ^8.49.0
         version: 8.49.0(eslint@9.38.0)(typescript@5.9.3)
 
+  packages/core:
+    dependencies:
+      '@aurum-sdk/logos':
+        specifier: workspace:^
+        version: link:../logos
+      '@aurum-sdk/types':
+        specifier: workspace:^
+        version: link:../types
+      '@coinbase/cdp-core':
+        specifier: ^0.0.74
+        version: 0.0.74(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)(x402-fetch@0.7.3)
+      '@coinbase/wallet-sdk':
+        specifier: ^4.3.7
+        version: 4.3.7(typescript@5.9.3)
+      '@gemini-wallet/core':
+        specifier: ^0.3.2
+        version: 0.3.2(viem@2.42.1)
+      '@ledgerhq/connect-kit-loader':
+        specifier: ^1.1.8
+        version: 1.1.8
+      '@metamask/sdk':
+        specifier: ~0.33.1
+        version: 0.33.1
+      '@react-native-async-storage/async-storage':
+        specifier: ^2.0.0
+        version: 2.2.0(react-native@0.83.0)
+      '@reown/appkit':
+        specifier: ^1.8.15
+        version: 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      '@reown/appkit-adapter-wagmi':
+        specifier: ^1.8.15
+        version: 1.8.15(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(@wagmi/core@3.0.0)(@walletconnect/ethereum-provider@2.21.10)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)(ws@8.18.3)
+      '@sentry/browser':
+        specifier: ^10.29.0
+        version: 10.29.0
+      '@walletconnect/ethereum-provider':
+        specifier: ~2.21.1
+        version: 2.21.10(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
+      lucide-react:
+        specifier: ^0.460.0
+        version: 0.460.0(react@19.2.3)
+      mobile-detect:
+        specifier: ^1.4.5
+        version: 1.4.5
+      porto:
+        specifier: ^0.2.37
+        version: 0.2.37(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@3.0.0)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)
+      react-qrcode-logo:
+        specifier: ^3.0.0
+        version: 3.0.0(react-dom@19.2.3)(react@19.2.3)
+      x402-fetch:
+        specifier: ^0.7.0
+        version: 0.7.3(@react-native-async-storage/async-storage@2.2.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      zustand:
+        specifier: ^5.0.9
+        version: 5.0.9(@types/react@18.3.26)(react@19.2.3)(use-sync-external-store@1.4.0)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.26
+      '@types/react-dom':
+        specifier: ^18.0.0
+        version: 18.3.7(@types/react@18.3.26)
+      '@vitejs/plugin-react':
+        specifier: ^4.3.4
+        version: 4.7.0(vite@6.4.1)
+      '@vitest/coverage-v8':
+        specifier: ^2.1.0
+        version: 2.1.9(vitest@2.1.9)
+      jsdom:
+        specifier: ^25.0.0
+        version: 25.0.1
+      react:
+        specifier: ^19.2.2
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.2.2
+        version: 19.2.3(react@19.2.3)
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.0(typescript@5.9.3)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+      viem:
+        specifier: ^2.42.1
+        version: 2.42.1(typescript@5.9.3)
+      vite:
+        specifier: ^6.0.0
+        version: 6.4.1(@types/node@20.19.22)
+      vitest:
+        specifier: ^2.1.0
+        version: 2.1.9(@types/node@20.19.22)(jsdom@25.0.1)
+      wagmi:
+        specifier: ^3.1.0
+        version: 3.1.0(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@walletconnect/ethereum-provider@2.21.10)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)
+
   packages/hooks:
     dependencies:
       '@aurum-sdk/core':
         specifier: workspace:^
-        version: link:../sdk
+        version: link:../core
       '@aurum-sdk/types':
         specifier: workspace:^
         version: link:../types
@@ -132,106 +232,6 @@ importers:
       vitest:
         specifier: ^2.1.0
         version: 2.1.9(@types/node@20.19.22)(jsdom@25.0.1)
-
-  packages/sdk:
-    dependencies:
-      '@aurum-sdk/logos':
-        specifier: workspace:^
-        version: link:../logos
-      '@aurum-sdk/types':
-        specifier: workspace:^
-        version: link:../types
-      '@coinbase/cdp-core':
-        specifier: ^0.0.74
-        version: 0.0.74(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)(x402-fetch@0.7.3)
-      '@coinbase/wallet-sdk':
-        specifier: ^4.3.7
-        version: 4.3.7(typescript@5.9.3)
-      '@gemini-wallet/core':
-        specifier: ^0.3.2
-        version: 0.3.2(viem@2.42.1)
-      '@ledgerhq/connect-kit-loader':
-        specifier: ^1.1.8
-        version: 1.1.8
-      '@metamask/sdk':
-        specifier: ~0.33.1
-        version: 0.33.1
-      '@react-native-async-storage/async-storage':
-        specifier: ^1.24.0
-        version: 1.24.0(react-native@0.83.0)
-      '@reown/appkit':
-        specifier: ^1.8.15
-        version: 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
-      '@reown/appkit-adapter-wagmi':
-        specifier: ^1.8.15
-        version: 1.8.15(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(@wagmi/core@3.0.0)(@walletconnect/ethereum-provider@2.21.10)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)(ws@8.18.3)
-      '@sentry/browser':
-        specifier: ^10.29.0
-        version: 10.29.0
-      '@walletconnect/ethereum-provider':
-        specifier: ~2.21.1
-        version: 2.21.10(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      buffer:
-        specifier: ^6.0.3
-        version: 6.0.3
-      lucide-react:
-        specifier: ^0.460.0
-        version: 0.460.0(react@19.2.3)
-      mobile-detect:
-        specifier: ^1.4.5
-        version: 1.4.5
-      porto:
-        specifier: ^0.2.37
-        version: 0.2.37(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@3.0.0)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)
-      react-qrcode-logo:
-        specifier: ^3.0.0
-        version: 3.0.0(react-dom@19.2.3)(react@19.2.3)
-      x402-fetch:
-        specifier: ^0.7.0
-        version: 0.7.3(@react-native-async-storage/async-storage@1.24.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
-      zustand:
-        specifier: ^5.0.9
-        version: 5.0.9(@types/react@18.3.26)(react@19.2.3)(use-sync-external-store@1.4.0)
-    devDependencies:
-      '@types/react':
-        specifier: ^18.0.0
-        version: 18.3.26
-      '@types/react-dom':
-        specifier: ^18.0.0
-        version: 18.3.7(@types/react@18.3.26)
-      '@vitejs/plugin-react':
-        specifier: ^4.3.4
-        version: 4.7.0(vite@6.4.1)
-      '@vitest/coverage-v8':
-        specifier: ^2.1.0
-        version: 2.1.9(vitest@2.1.9)
-      jsdom:
-        specifier: ^25.0.0
-        version: 25.0.1
-      react:
-        specifier: ^19.2.2
-        version: 19.2.3
-      react-dom:
-        specifier: ^19.2.2
-        version: 19.2.3(react@19.2.3)
-      tsup:
-        specifier: ^8.0.0
-        version: 8.5.0(typescript@5.9.3)
-      typescript:
-        specifier: ^5.0.0
-        version: 5.9.3
-      viem:
-        specifier: ^2.42.1
-        version: 2.42.1(typescript@5.9.3)
-      vite:
-        specifier: ^6.0.0
-        version: 6.4.1(@types/node@20.19.22)
-      vitest:
-        specifier: ^2.1.0
-        version: 2.1.9(@types/node@20.19.22)(jsdom@25.0.1)
-      wagmi:
-        specifier: ^3.1.0
-        version: 3.1.0(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@walletconnect/ethereum-provider@2.21.10)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)
 
   packages/types:
     devDependencies:
@@ -663,7 +663,7 @@ packages:
       - debug
     dev: false
 
-  /@coinbase/cdp-core@0.0.74(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)(x402-fetch@0.7.3):
+  /@coinbase/cdp-core@0.0.74(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)(x402-fetch@0.7.3):
     resolution: {integrity: sha512-Wp4af5lA7hzywkFdpZORvXR8zRoY8AhAv3fzBzbWOQLrpPl9sJ/wey1guyDcoPcAT/FfkLVGe0hLGDgsSkoI+A==}
     peerDependencies:
       '@react-native-async-storage/async-storage': ^2.0.0 || 1
@@ -681,14 +681,14 @@ packages:
         optional: true
     dependencies:
       '@coinbase/cdp-api-client': 0.0.74
-      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.83.0)
+      '@react-native-async-storage/async-storage': 2.2.0(react-native@0.83.0)
       '@solana/kit': 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3)
       '@solana/web3.js': 1.98.4(typescript@5.9.3)
       bs58: 6.0.0
       jose: 6.1.0
       ox: 0.9.6(typescript@5.9.3)(zod@4.1.13)
       viem: 2.42.1(typescript@5.9.3)
-      x402-fetch: 0.7.3(@react-native-async-storage/async-storage@1.24.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      x402-fetch: 0.7.3(@react-native-async-storage/async-storage@2.2.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
       zustand: 5.0.9(@types/react@18.3.26)(react@19.2.3)(use-sync-external-store@1.4.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1939,10 +1939,10 @@ packages:
     dev: true
     optional: true
 
-  /@react-native-async-storage/async-storage@1.24.0(react-native@0.83.0):
-    resolution: {integrity: sha512-W4/vbwUOYOjco0x3toB8QCr7EjIP6nE9G7o8PMguvvjYT5Awg09lyV4enACRx4s++PPulBiBSjL0KTFx2u0Z/g==}
+  /@react-native-async-storage/async-storage@2.2.0(react-native@0.83.0):
+    resolution: {integrity: sha512-gvRvjR5JAaUZF8tv2Kcq/Gbt3JHwbKFYfmb445rhOj6NUMx3qPLixmDx5pZAyb9at1bYvJ4/eTUipU5aki45xw==}
     peerDependencies:
-      react-native: ^0.0.0-0 || >=0.60 <1.0
+      react-native: ^0.0.0-0 || >=0.65 <1.0
     dependencies:
       merge-options: 3.0.4
       react-native: 0.83.0(@babel/core@7.28.5)(@types/react@18.3.26)(react@19.2.3)
@@ -2051,22 +2051,22 @@ packages:
       react: 19.2.3
       react-native: 0.83.0(@babel/core@7.28.5)(@types/react@18.3.26)(react@19.2.3)
 
-  /@reown/appkit-adapter-wagmi@1.8.15(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(@wagmi/core@3.0.0)(@walletconnect/ethereum-provider@2.21.10)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)(ws@8.18.3):
+  /@reown/appkit-adapter-wagmi@1.8.15(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(@wagmi/core@3.0.0)(@walletconnect/ethereum-provider@2.21.10)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)(ws@8.18.3):
     resolution: {integrity: sha512-WTMffoHqiDUMRhWmKcuyzxEegiJMvl19ET2+l0XrAEWRyzj2rUM68f1JBZQB3zWV1pFHc8SxOC9Kbk5pa8lGXA==}
     peerDependencies:
       '@wagmi/core': '>=2.21.2'
       viem: '>=2.37.9'
       wagmi: '>=2.17.5'
     dependencies:
-      '@reown/appkit': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      '@reown/appkit': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-polyfills': 1.8.15
-      '@reown/appkit-scaffold-ui': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
-      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-scaffold-ui': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
       '@wagmi/core': 3.0.0(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)
-      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       valtio: 2.1.7(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)
       wagmi: 3.1.0(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@walletconnect/ethereum-provider@2.21.10)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)
@@ -2190,12 +2190,12 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-controllers@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
+  /@reown/appkit-controllers@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-IdXlJlivrlj6m63VsGLsjtPHHsTWvKGVzWIP1fXZHVqmK+rZCBDjCi9j267Rb9/nYRGHWBtlFQhO8dK35WfeDA==}
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-wallet': 1.7.8(typescript@5.9.3)
-      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       valtio: 1.13.2(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
@@ -2227,12 +2227,12 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-controllers@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit-controllers@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-k720RMJbXhTFrSsAZrvgu+WAF3Sk8d5iHXo1wKmfNXxzpXeF7f5DlWijye/r7nMVXQGbtZFkjTm54ti7+5UfjQ==}
     dependencies:
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
       '@reown/appkit-wallet': 1.8.1(typescript@5.9.3)
-      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       valtio: 2.1.5(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)
     transitivePeerDependencies:
@@ -2263,12 +2263,12 @@ packages:
       - utf-8-validate
       - zod
 
-  /@reown/appkit-controllers@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit-controllers@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-aCzA8yGQbicLRjU62is+viuVFl2dvpZVnLPG0/2eQbFkCZsawCldbFPfviiTuDsBx7o1pG90Q5rC6LgYoVWA0w==}
     dependencies:
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
-      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       valtio: 2.1.7(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)
     transitivePeerDependencies:
@@ -2300,13 +2300,13 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-pay@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
+  /@reown/appkit-pay@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-OSGQ+QJkXx0FEEjlpQqIhT8zGJKOoHzVnyy/0QFrl3WrQTjCzg0L6+i91Ad5Iy1zb6V5JjqtfIFpRVRWN4M3pw==}
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
       lit: 3.3.0
       valtio: 1.13.2(@types/react@18.3.26)(react@19.2.3)
     transitivePeerDependencies:
@@ -2338,13 +2338,13 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-pay@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit-pay@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-5NM01g0ygtiGsPUR9N/GaBwyAtZir1Bg+iHZLUNrWOOS36dycEv2bOY1YvrCNgC9sWkQIMr4wiyukiybk3BANQ==}
     dependencies:
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
+      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
       lit: 3.3.0
       valtio: 2.1.5(@types/react@18.3.26)(react@19.2.3)
     transitivePeerDependencies:
@@ -2375,13 +2375,13 @@ packages:
       - utf-8-validate
       - zod
 
-  /@reown/appkit-pay@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
+  /@reown/appkit-pay@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
     resolution: {integrity: sha512-4byUi+/TBLFbwvgtBjT01zyLo5sAmn8bcOvOp+NpI0UMTWgl2oNbRLVSzPGak3YXBLxiDCdxhnbbA0wqWFPM0A==}
     dependencies:
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
       lit: 3.3.0
       valtio: 2.1.7(@types/react@18.3.26)(react@19.2.3)
     transitivePeerDependencies:
@@ -2435,13 +2435,13 @@ packages:
       buffer: 6.0.3
     dev: false
 
-  /@reown/appkit-scaffold-ui@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76):
+  /@reown/appkit-scaffold-ui@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76):
     resolution: {integrity: sha512-RCeHhAwOrIgcvHwYlNWMcIDibdI91waaoEYBGw71inE0kDB8uZbE7tE6DAXJmDkvl0qPh+DqlC4QbJLF1FVYdQ==}
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
       '@reown/appkit-wallet': 1.7.8(typescript@5.9.3)
       lit: 3.3.0
     transitivePeerDependencies:
@@ -2474,13 +2474,13 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-scaffold-ui@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5):
+  /@reown/appkit-scaffold-ui@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5):
     resolution: {integrity: sha512-NrjlEU69+yePbJKrnFl7k7cynl0nthQ4E84POL3TVyuLh894KjSzfHkqmP603R49sYVzuczP3JxMRjsrXXQ2vw==}
     dependencies:
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
+      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
       '@reown/appkit-wallet': 1.8.1(typescript@5.9.3)
       lit: 3.3.0
     transitivePeerDependencies:
@@ -2512,13 +2512,13 @@ packages:
       - valtio
       - zod
 
-  /@reown/appkit-scaffold-ui@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3):
+  /@reown/appkit-scaffold-ui@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3):
     resolution: {integrity: sha512-fqsVbeoJfiTAAGYOkYzm3T//5HKgtX4gSa3GgYdw7nlJeEYEWtw59z3tZV2Wc0+ym+MhLQNsOBO+pllF6oBFgw==}
     dependencies:
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
       lit: 3.3.0
     transitivePeerDependencies:
@@ -2556,11 +2556,11 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-ui@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
+  /@reown/appkit-ui@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-1hjCKjf6FLMFzrulhl0Y9Vb9Fu4royE+SXCPSWh4VhZhWqlzUFc7kutnZKx8XZFVQH4pbBvY62SpRC93gqoHow==}
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-wallet': 1.7.8(typescript@5.9.3)
       lit: 3.3.0
       qrcode: 1.5.3
@@ -2593,12 +2593,12 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-ui@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit-ui@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-iWY1zufKj+gDjQ7zxgnFBj+qJ+9gvN0mJWt5r0P1HYemiIV3VP7HUTxgOqTqTW3ggs4RzQy2sVY0Pli7V6m+1Q==}
     dependencies:
       '@phosphor-icons/webcomponents': 2.1.5
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-wallet': 1.8.1(typescript@5.9.3)
       lit: 3.3.0
       qrcode: 1.5.3
@@ -2630,12 +2630,12 @@ packages:
       - utf-8-validate
       - zod
 
-  /@reown/appkit-ui@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit-ui@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-TDyv3Sn1LMumfbibPjoA8fYs2jeIrgSLQf9aVk6Nc5jc3gYFWW7wrtU5l1SLSlDJR/w8/13GUQuVQNfaGSfj4A==}
     dependencies:
       '@phosphor-icons/webcomponents': 2.1.5
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
       lit: 3.3.0
       qrcode: 1.5.3
@@ -2668,17 +2668,17 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-utils@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76):
+  /@reown/appkit-utils@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76):
     resolution: {integrity: sha512-8X7UvmE8GiaoitCwNoB86pttHgQtzy4ryHZM9kQpvjQ0ULpiER44t1qpVLXNM4X35O0v18W0Dk60DnYRMH2WRw==}
     peerDependencies:
       valtio: 1.13.2
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.7.8
       '@reown/appkit-wallet': 1.7.8(typescript@5.9.3)
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       valtio: 1.13.2(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
     transitivePeerDependencies:
@@ -2710,18 +2710,18 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit-utils@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5):
+  /@reown/appkit-utils@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5):
     resolution: {integrity: sha512-WK+Fy17Qv4Vdx/L9gvCoBd3oikONIcrfkGmstk83+lQcM0krNHLPEA2gWytBOtetW+1bt+IwTaF2m4PKCrgIDw==}
     peerDependencies:
       valtio: 2.1.5
     dependencies:
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-polyfills': 1.8.1
       '@reown/appkit-wallet': 1.8.1(typescript@5.9.3)
       '@wallet-standard/wallet': 1.1.0
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       valtio: 2.1.5(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)
     transitivePeerDependencies:
@@ -2752,18 +2752,18 @@ packages:
       - utf-8-validate
       - zod
 
-  /@reown/appkit-utils@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3):
+  /@reown/appkit-utils@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3):
     resolution: {integrity: sha512-T5MEg7aZ4rOFsKfIQKe83dRPalLtQr6AlsWokZmJpN/bq/sOB8kUvNlOju7drsMAcoWRYSVnXFMYNBqNVymMBg==}
     peerDependencies:
       valtio: 2.1.7
     dependencies:
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-polyfills': 1.8.15
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
       '@wallet-standard/wallet': 1.1.0
       '@walletconnect/logger': 3.0.0
-      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       valtio: 2.1.7(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)
     optionalDependencies:
@@ -2842,19 +2842,19 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@reown/appkit@1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
+  /@reown/appkit@1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-51kTleozhA618T1UvMghkhKfaPcc9JlKwLJ5uV+riHyvSoWPKPRIa5A6M1Wano5puNyW0s3fwywhyqTHSilkaA==}
     dependencies:
       '@reown/appkit-common': 1.7.8(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-pay': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-controllers': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-pay': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
       '@reown/appkit-polyfills': 1.7.8
-      '@reown/appkit-scaffold-ui': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
-      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
-      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
+      '@reown/appkit-scaffold-ui': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
+      '@reown/appkit-ui': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit-utils': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@1.13.2)(zod@3.25.76)
       '@reown/appkit-wallet': 1.7.8(typescript@5.9.3)
-      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/universal-provider': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       bs58: 6.0.0
       valtio: 1.13.2(@types/react@18.3.26)(react@19.2.3)
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
@@ -2887,19 +2887,19 @@ packages:
       - zod
     dev: false
 
-  /@reown/appkit@1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@reown/appkit@1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-6asyPS7uHWNgTlMH2P4IqQVZKSW9NGb7XNA+nMLpHV2dMmXn0D+tpY0j4477DC/ekNCFK2bieVk4WsYgyd6jHg==}
     requiresBuild: true
     dependencies:
       '@reown/appkit-common': 1.8.1(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-pay': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-controllers': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-pay': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@reown/appkit-polyfills': 1.8.1
-      '@reown/appkit-scaffold-ui': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
-      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
+      '@reown/appkit-scaffold-ui': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
+      '@reown/appkit-ui': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.5)
       '@reown/appkit-wallet': 1.8.1(typescript@5.9.3)
-      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       bs58: 6.0.0
       semver: 7.7.2
       valtio: 2.1.5(@types/react@18.3.26)(react@19.2.3)
@@ -2934,19 +2934,19 @@ packages:
       - utf-8-validate
       - zod
 
-  /@reown/appkit@1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
+  /@reown/appkit@1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
     resolution: {integrity: sha512-eO3lcZvXwkcBZqpV+7InlzbLddP/wIJjaqbzlyCJAb0PfQ6fY40etiVpK38eFEDX1WGEYOvhKVO6aMgZtaO2lg==}
     requiresBuild: true
     dependencies:
       '@reown/appkit-common': 1.8.15(typescript@5.9.3)
-      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-pay': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      '@reown/appkit-controllers': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-pay': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
       '@reown/appkit-polyfills': 1.8.15
-      '@reown/appkit-scaffold-ui': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
-      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
-      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-scaffold-ui': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
+      '@reown/appkit-ui': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit-utils': 1.8.15(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(valtio@2.1.7)(ws@8.18.3)
       '@reown/appkit-wallet': 1.8.15(typescript@5.9.3)
-      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/universal-provider': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       bs58: 6.0.0
       semver: 7.7.2
       valtio: 2.1.7(@types/react@18.3.26)(react@19.2.3)
@@ -5349,8 +5349,8 @@ packages:
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
     dependencies:
-      '@babel/parser': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/parser': 7.28.5
+      '@babel/types': 7.28.5
       '@types/babel__generator': 7.27.0
       '@types/babel__template': 7.4.4
       '@types/babel__traverse': 7.28.0
@@ -5358,18 +5358,18 @@ packages:
   /@types/babel__generator@7.27.0:
     resolution: {integrity: sha512-ufFd2Xi92OAVPYsy+P4n7/U7e68fex0+Ee8gSG9KX7eo084CWiQ4sdxktvdl0bOPupXtVJPY19zk6EwWqUQ8lg==}
     dependencies:
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   /@types/babel__template@7.4.4:
     resolution: {integrity: sha512-h/NUaSyG5EyxBIp8YRxo4RMe2/qQgvyowRwVMzhYhBCONbW8PUsg4lkFMrhgZhUe5z3L3MiLDuvyJ/CaPa2A8A==}
     dependencies:
-      '@babel/parser': 7.28.4
-      '@babel/types': 7.28.4
+      '@babel/parser': 7.28.5
+      '@babel/types': 7.28.5
 
   /@types/babel__traverse@7.28.0:
     resolution: {integrity: sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==}
     dependencies:
-      '@babel/types': 7.28.4
+      '@babel/types': 7.28.5
 
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
@@ -6017,7 +6017,7 @@ packages:
       tinyrainbow: 1.2.0
     dev: true
 
-  /@wagmi/connectors@6.2.0(@react-native-async-storage/async-storage@1.24.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@2.22.1)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)(wagmi@2.19.5)(ws@8.18.3)(zod@3.25.76):
+  /@wagmi/connectors@6.2.0(@react-native-async-storage/async-storage@2.2.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@2.22.1)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)(wagmi@2.19.5)(ws@8.18.3)(zod@3.25.76):
     resolution: {integrity: sha512-2NfkbqhNWdjfibb4abRMrn7u6rPjEGolMfApXss6HCDVt9AW2oVC6k8Q5FouzpJezElxLJSagWz9FW1zaRlanA==}
     peerDependencies:
       '@wagmi/core': 2.22.1
@@ -6034,7 +6034,7 @@ packages:
       '@safe-global/safe-apps-provider': 0.18.6(typescript@5.9.3)(zod@3.25.76)
       '@safe-global/safe-apps-sdk': 9.1.0(typescript@5.9.3)(zod@3.25.76)
       '@wagmi/core': 2.22.1(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)
-      '@walletconnect/ethereum-provider': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/ethereum-provider': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
       cbw-sdk: /@coinbase/wallet-sdk@3.9.3
       porto: 0.2.35(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@2.22.1)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)(wagmi@2.19.5)
       typescript: 5.9.3
@@ -6117,7 +6117,7 @@ packages:
       '@gemini-wallet/core': 0.3.2(viem@2.42.1)
       '@metamask/sdk': 0.33.1
       '@wagmi/core': 3.0.0(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)
-      '@walletconnect/ethereum-provider': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@walletconnect/ethereum-provider': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       porto: 0.2.37(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@3.0.0)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(wagmi@3.1.0)
       typescript: 5.9.3
       viem: 2.42.1(typescript@5.9.3)
@@ -6193,7 +6193,7 @@ packages:
     dependencies:
       '@wallet-standard/base': 1.1.0
 
-  /@walletconnect/core@2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/core@2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-o6R7Ua4myxR8aRUAJ1z3gT9nM+jd2B2mfamu6arzy1Cc6vi10fIwFWb6vg3bC8xJ6o9H3n/cN5TOW3aA9Y1XVw==}
     engines: {node: '>=18'}
     dependencies:
@@ -6202,14 +6202,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.16
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       '@walletconnect/window-getters': 1.0.1
       es-toolkit: 1.33.0
       events: 3.3.0
@@ -6240,7 +6240,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/core@2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/core@2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-Tp4MHJYcdWD846PH//2r+Mu4wz1/ZU/fr9av1UWFiaYQ2t2TPLDiZxjLw54AAEpMqlEHemwCgiRiAmjR1NDdTQ==}
     engines: {node: '>=18'}
     dependencies:
@@ -6249,14 +6249,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.16
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       '@walletconnect/window-getters': 1.0.1
       es-toolkit: 1.33.0
       events: 3.3.0
@@ -6287,7 +6287,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/core@2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/core@2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-azWSsDeUZupqK0E8V85w7toNYVm/uzLtxhNv28dvNMtUf8aKlww3DilQxP9T2HZ3z+3n0ocuRzi0nfktjsaHyw==}
     engines: {node: '>=18.20.8'}
     dependencies:
@@ -6296,14 +6296,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.16
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/window-getters': 1.0.1
       es-toolkit: 1.39.3
       events: 3.3.0
@@ -6333,7 +6333,7 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/core@2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/core@2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-q/Au5Ne3g4R+q4GvHR5cvRd3+ha00QZCZiCs058lmy+eDbiZd0YsautvTPJ5a2guD6UaS1k/w5e1JHgixdcgLA==}
     engines: {node: '>=18'}
     dependencies:
@@ -6342,14 +6342,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.16
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/window-getters': 1.0.1
       es-toolkit: 1.39.3
       events: 3.3.0
@@ -6379,7 +6379,7 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/core@2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/core@2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-W++xuXf+AsMPrBWn1It8GheIbCTp1ynTQP+aoFB86eUwyCtSiK7UQsn/+vJZdwElrn+Ptp2A0RqQx2onTMVHjQ==}
     engines: {node: '>=18.20.8'}
     dependencies:
@@ -6388,14 +6388,14 @@ packages:
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/jsonrpc-ws-connection': 1.0.16
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 3.0.0
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/window-getters': 1.0.1
       es-toolkit: 1.39.3
       events: 3.3.0
@@ -6431,20 +6431,20 @@ packages:
     dependencies:
       tslib: 1.14.1
 
-  /@walletconnect/ethereum-provider@2.21.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/ethereum-provider@2.21.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-SSlIG6QEVxClgl1s0LMk4xr2wg4eT3Zn/Hb81IocyqNSGfXpjtawWxKxiC5/9Z95f1INyBD6MctJbL/R1oBwIw==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
-      '@reown/appkit': 1.7.8(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
+      '@reown/appkit': 1.7.8(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(zod@3.25.76)
       '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/sign-client': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
-      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/universal-provider': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
-      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/sign-client': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/universal-provider': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6475,19 +6475,19 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/ethereum-provider@2.21.10(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
+  /@walletconnect/ethereum-provider@2.21.10(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3):
     resolution: {integrity: sha512-QhsZmrMKReR7YW6QB8O3c0YTQgeK/U8I+/nbbp6W37HVx2OcWMfdcGuXd06fgtP3YzEnVr0l6T9CAtAPKSU4cg==}
     dependencies:
-      '@reown/appkit': 1.8.1(@react-native-async-storage/async-storage@1.24.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
+      '@reown/appkit': 1.8.1(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)
       '@walletconnect/jsonrpc-http-connection': 1.0.8
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/sign-client': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
-      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/universal-provider': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
-      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/sign-client': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/universal-provider': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
+      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6571,7 +6571,7 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /@walletconnect/keyvaluestorage@1.1.1(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/keyvaluestorage@1.1.1(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-V7ZQq2+mSxAq7MrRqDxanTzu2RcElfK1PfNYiaVnJgJ7Q7G7hTVwF8voIBx92qsRyGHZihrwNPHuZd1aKkd0rA==}
     peerDependencies:
       '@react-native-async-storage/async-storage': 1.x || 1
@@ -6579,7 +6579,7 @@ packages:
       '@react-native-async-storage/async-storage':
         optional: true
     dependencies:
-      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.83.0)
+      '@react-native-async-storage/async-storage': 2.2.0(react-native@0.83.0)
       '@walletconnect/safe-json': 1.0.2
       idb-keyval: 6.2.2
       unstorage: 1.17.1(idb-keyval@6.2.2)
@@ -6635,18 +6635,18 @@ packages:
     dependencies:
       tslib: 1.14.1
 
-  /@walletconnect/sign-client@2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/sign-client@2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-z7h+PeLa5Au2R591d/8ZlziE0stJvdzP9jNFzFolf2RG/OiXulgFKum8PrIyXy+Rg2q95U9nRVUF9fWcn78yBA==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
-      '@walletconnect/core': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/core': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6674,18 +6674,18 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/sign-client@2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/sign-client@2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-QaXzmPsMnKGV6tc4UcdnQVNOz4zyXgarvdIQibJ4L3EmLat73r5ZVl4c0cCOcoaV7rgM9Wbphgu5E/7jNcd3Zg==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
-      '@walletconnect/core': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/core': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6713,17 +6713,17 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/sign-client@2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/sign-client@2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-ZXpMhgxWehPXyL9Lfzg61Q+89rSoG4XQgAqA90UEB94BHuG9SSOjnmPCK3TZeil70E66ekwAOvO7kphnhQGd5A==}
     dependencies:
-      '@walletconnect/core': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/core': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6750,18 +6750,18 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/sign-client@2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/sign-client@2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-9k/JEl9copR6nXRhqnmzWz2Zk1hiWysH+o6bp6Cqo8TgDUrZoMLBZMZ6qbo+2HLI54V02kKf0Vg8M81nNFOpjQ==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
-      '@walletconnect/core': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/core': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.1.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6788,17 +6788,17 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/sign-client@2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/sign-client@2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-Nzf5x/LnQgC0Yjk0NmkT8kdrIMcScpALiFm9gP0n3CulL+dkf3HumqWzdoTmQSqGPxwHu/TNhGOaRKZLGQXSqw==}
     dependencies:
-      '@walletconnect/core': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/core': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 3.0.0
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       events: 3.3.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -6831,13 +6831,13 @@ packages:
     dependencies:
       tslib: 1.14.1
 
-  /@walletconnect/types@2.21.0(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/types@2.21.0(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-ll+9upzqt95ZBWcfkOszXZkfnpbJJ2CmxMfGgE5GmhdxxxCcO5bGhXkI+x8OpiS555RJ/v/sXJYMSOLkmu4fFw==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.4
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       events: 3.3.0
     transitivePeerDependencies:
@@ -6862,13 +6862,13 @@ packages:
       - uploadthing
     dev: false
 
-  /@walletconnect/types@2.21.1(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/types@2.21.1(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-UeefNadqP6IyfwWC1Yi7ux+ljbP2R66PLfDrDm8izmvlPmYlqRerJWJvYO4t0Vvr9wrG4Ko7E0c4M7FaPKT/sQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.4
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       events: 3.3.0
     transitivePeerDependencies:
@@ -6893,13 +6893,13 @@ packages:
       - uploadthing
     dev: false
 
-  /@walletconnect/types@2.21.10(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/types@2.21.10(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-9oSvgxv1hE5aS+j4aHS9YgKeq50BP4iMh49tjubTW5574cBWqmt1bXfQhZddSTbq9OirwLSegl6W36itkzryBQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.4
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       events: 3.3.0
     transitivePeerDependencies:
@@ -6923,13 +6923,13 @@ packages:
       - ioredis
       - uploadthing
 
-  /@walletconnect/types@2.21.7(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/types@2.21.7(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-kyGnFje4Iq+XGkZZcSoAIrJWBE4BeghVW4O7n9e1MhUyeOOtO55M/kcqceNGYrvwjHvdN+Kf+aoLnKC0zKlpbQ==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.4
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
       events: 3.3.0
     transitivePeerDependencies:
@@ -6953,13 +6953,13 @@ packages:
       - ioredis
       - uploadthing
 
-  /@walletconnect/types@2.23.0(@react-native-async-storage/async-storage@1.24.0):
+  /@walletconnect/types@2.23.0(@react-native-async-storage/async-storage@2.2.0):
     resolution: {integrity: sha512-9ZEOJyx/kNVCRncDHh3Qr9eH7Ih1dXBFB4k1J8iEudkv3t4GhYpXhqIt2kNdQWluPb1BBB4wEuckAT96yKuA8g==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.2
       '@walletconnect/jsonrpc-types': 1.0.4
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 3.0.0
       events: 3.3.0
     transitivePeerDependencies:
@@ -6984,7 +6984,7 @@ packages:
       - uploadthing
     dev: false
 
-  /@walletconnect/universal-provider@2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/universal-provider@2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-mtUQvewt+X0VBQay/xOJBvxsB3Xsm1lTwFjZ6WUwSOTR1X+FNb71hSApnV5kbsdDIpYPXeQUbGt2se1n5E5UBg==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
@@ -6993,11 +6993,11 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/sign-client': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
-      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/sign-client': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       es-toolkit: 1.33.0
       events: 3.3.0
     transitivePeerDependencies:
@@ -7027,7 +7027,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/universal-provider@2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/universal-provider@2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-Wjx9G8gUHVMnYfxtasC9poGm8QMiPCpXpbbLFT+iPoQskDDly8BwueWnqKs4Mx2SdIAWAwuXeZ5ojk5qQOxJJg==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
@@ -7036,11 +7036,11 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/sign-client': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
-      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/sign-client': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
+      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76)
       es-toolkit: 1.33.0
       events: 3.3.0
     transitivePeerDependencies:
@@ -7070,7 +7070,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/universal-provider@2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/universal-provider@2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-YKNFSlpoFMvTBnm9jfMNHkgliAUGT7wqW1gb2MF5+VTlxgCHek2bTbfVk/ZLFPJyMMN2PaQ2Gao0ajMfNDyWHA==}
     dependencies:
       '@walletconnect/events': 1.0.1
@@ -7078,11 +7078,11 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/sign-client': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
-      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/sign-client': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       es-toolkit: 1.39.3
       events: 3.3.0
     transitivePeerDependencies:
@@ -7111,7 +7111,7 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/universal-provider@2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/universal-provider@2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-8PB+vA5VuR9PBqt5Y0xj4JC2doYNPlXLGQt3wJORVF9QC227Mm/8R1CAKpmneeLrUH02LkSRwx+wnN/pPnDiQA==}
     deprecated: 'Reliability and performance improvements. See: https://github.com/WalletConnect/walletconnect-monorepo/releases'
     dependencies:
@@ -7120,11 +7120,11 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 2.1.2
-      '@walletconnect/sign-client': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
-      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/sign-client': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       es-toolkit: 1.39.3
       events: 3.3.0
     transitivePeerDependencies:
@@ -7153,7 +7153,7 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/universal-provider@2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/universal-provider@2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-3ZEqAsbtCbk+CV0ZLpy7Qzc04KXEnrW4zCboZ+gkkC0ey4H62x9h23kBOIrU9qew6orjA7D5gg0ikRC2Up1lbw==}
     dependencies:
       '@walletconnect/events': 1.0.1
@@ -7161,11 +7161,11 @@ packages:
       '@walletconnect/jsonrpc-provider': 1.0.14
       '@walletconnect/jsonrpc-types': 1.0.4
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 3.0.0
-      '@walletconnect/sign-client': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
-      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@1.24.0)
-      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)
+      '@walletconnect/sign-client': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
+      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@2.2.0)
+      '@walletconnect/utils': 2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)
       es-toolkit: 1.39.3
       events: 3.3.0
     transitivePeerDependencies:
@@ -7195,19 +7195,19 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/utils@2.21.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/utils@2.21.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-zfHLiUoBrQ8rP57HTPXW7rQMnYxYI4gT9yTACxVW6LhIFROTF6/ytm5SKNoIvi4a5nX5dfXG4D9XwQUCu8Ilig==}
     dependencies:
       '@noble/ciphers': 1.2.1
       '@noble/curves': 1.8.1
       '@noble/hashes': 1.7.1
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/types': 2.21.0(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       bs58: 6.0.0
@@ -7241,19 +7241,19 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/utils@2.21.1(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3)(zod@3.25.76):
+  /@walletconnect/utils@2.21.1(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3)(zod@3.25.76):
     resolution: {integrity: sha512-VPZvTcrNQCkbGOjFRbC24mm/pzbRMUq2DSQoiHlhh0X1U7ZhuIrzVtAoKsrzu6rqjz0EEtGxCr3K1TGRqDG4NA==}
     dependencies:
       '@noble/ciphers': 1.2.1
       '@noble/curves': 1.8.1
       '@noble/hashes': 1.7.1
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/types': 2.21.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       bs58: 6.0.0
@@ -7287,7 +7287,7 @@ packages:
       - zod
     dev: false
 
-  /@walletconnect/utils@2.21.10(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/utils@2.21.10(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-LC5hmP3uxVoMyw7Ibea1JQdE98FTb7jZie60qiaybmaIsg/ApEUosU5uCLTFRJwEWUip2p3sJTb0n/3pU+yR/Q==}
     dependencies:
       '@msgpack/msgpack': 3.1.2
@@ -7296,12 +7296,12 @@ packages:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/types': 2.21.10(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       blakejs: 1.2.1
@@ -7332,7 +7332,7 @@ packages:
       - uploadthing
       - zod
 
-  /@walletconnect/utils@2.21.7(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/utils@2.21.7(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-qyaclTgcFf9AwVuoV8CLLg8wfH3nX7yZdpylNkDqCpS7wawQL9zmFFTaGgma8sQrCsd3Sd9jUIymcpRvCJnSTw==}
     dependencies:
       '@msgpack/msgpack': 3.1.2
@@ -7341,12 +7341,12 @@ packages:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/types': 2.21.7(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       blakejs: 1.2.1
@@ -7380,7 +7380,7 @@ packages:
       - utf-8-validate
       - zod
 
-  /@walletconnect/utils@2.23.0(@react-native-async-storage/async-storage@1.24.0)(typescript@5.9.3):
+  /@walletconnect/utils@2.23.0(@react-native-async-storage/async-storage@2.2.0)(typescript@5.9.3):
     resolution: {integrity: sha512-bVyv4Hl+/wVGueZ6rEO0eYgDy5deSBA4JjpJHAMOdaNoYs05NTE1HymV2lfPQQHuqc7suYexo9jwuW7i3JLuAA==}
     dependencies:
       '@msgpack/msgpack': 3.1.2
@@ -7389,13 +7389,13 @@ packages:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/keyvaluestorage': 1.1.1(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/logger': 3.0.0
       '@walletconnect/relay-api': 1.0.11
       '@walletconnect/relay-auth': 1.1.0
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@1.24.0)
+      '@walletconnect/types': 2.23.0(@react-native-async-storage/async-storage@2.2.0)
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       blakejs: 1.2.1
@@ -11380,7 +11380,7 @@ packages:
       react-native: 0.83.0(@babel/core@7.28.5)(@types/react@18.3.26)(react@19.2.3)
       typescript: 5.9.3
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
-      wagmi: 2.19.5(@react-native-async-storage/async-storage@1.24.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76)
+      wagmi: 2.19.5(@react-native-async-storage/async-storage@2.2.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76)
       zod: 4.1.13
       zustand: 5.0.9(@types/react@18.3.26)(react@19.2.3)(use-sync-external-store@1.4.0)
     transitivePeerDependencies:
@@ -13275,7 +13275,7 @@ packages:
       xml-name-validator: 5.0.0
     dev: true
 
-  /wagmi@2.19.5(@react-native-async-storage/async-storage@1.24.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76):
+  /wagmi@2.19.5(@react-native-async-storage/async-storage@2.2.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76):
     resolution: {integrity: sha512-RQUfKMv6U+EcSNNGiPbdkDtJwtuFxZWLmvDiQmjjBgkuPulUwDJsKhi7gjynzJdsx2yDqhHCXkKsbbfbIsHfcQ==}
     peerDependencies:
       '@tanstack/react-query': '>=5.0.0'
@@ -13289,7 +13289,7 @@ packages:
         optional: true
     dependencies:
       '@tanstack/react-query': 5.90.12(react@19.2.3)
-      '@wagmi/connectors': 6.2.0(@react-native-async-storage/async-storage@1.24.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@2.22.1)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)(wagmi@2.19.5)(ws@8.18.3)(zod@3.25.76)
+      '@wagmi/connectors': 6.2.0(@react-native-async-storage/async-storage@2.2.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(@wagmi/core@2.22.1)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)(wagmi@2.19.5)(ws@8.18.3)(zod@3.25.76)
       '@wagmi/core': 2.22.1(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.42.1)
       react: 19.2.3
       typescript: 5.9.3
@@ -13606,11 +13606,11 @@ packages:
       bufferutil: 4.0.9
       utf-8-validate: 5.0.10
 
-  /x402-fetch@0.7.3(@react-native-async-storage/async-storage@1.24.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
+  /x402-fetch@0.7.3(@react-native-async-storage/async-storage@2.2.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
     resolution: {integrity: sha512-LuMRN/cdWwWXvRTJq8PJkX5JOPyEKLPzehUsR3/VcZuINEYg/Nzd8Dhbcy64cmmLaIY9vDnx+J0/k4P+Zkz+Nw==}
     dependencies:
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
-      x402: 0.7.3(@react-native-async-storage/async-storage@1.24.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
+      x402: 0.7.3(@react-native-async-storage/async-storage@2.2.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3)
       zod: 3.25.76
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -13652,7 +13652,7 @@ packages:
       - ws
     dev: false
 
-  /x402@0.7.3(@react-native-async-storage/async-storage@1.24.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
+  /x402@0.7.3(@react-native-async-storage/async-storage@2.2.0)(@solana/sysvars@5.0.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(ws@8.18.3):
     resolution: {integrity: sha512-8CIZsdMTOn52PjMH/ErVke9ebeZ7ErwiZ5FL3tN3Wny7Ynxs3LkuB/0q7IoccRLdVXA7f2lueYBJ2iDrElhXnA==}
     dependencies:
       '@scure/base': 1.2.6
@@ -13666,7 +13666,7 @@ packages:
       '@wallet-standard/base': 1.1.0
       '@wallet-standard/features': 1.1.0
       viem: 2.42.1(typescript@5.9.3)(zod@3.25.76)
-      wagmi: 2.19.5(@react-native-async-storage/async-storage@1.24.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76)
+      wagmi: 2.19.5(@react-native-async-storage/async-storage@2.2.0)(@tanstack/react-query@5.90.12)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react-native@0.83.0)(react@19.2.3)(typescript@5.9.3)(viem@2.42.1)(ws@8.18.3)(zod@3.25.76)
       zod: 3.25.76
     transitivePeerDependencies:
       - '@azure/app-configuration'

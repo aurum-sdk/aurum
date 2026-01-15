@@ -2,6 +2,7 @@ import { WalletAdapter, WalletConnectionResult, EIP6963AnnounceProviderEvent } f
 import { getLogoDataUri } from '@aurum-sdk/logos';
 import { AurumRpcProvider, WalletId, WalletName } from '@aurum-sdk/types';
 import { sentryLogger } from '@src/services/sentry';
+import { isBraveBrowser } from '@src/utils/platform/isBraveBrowser';
 
 const BRAVE_RDNS = 'com.brave.wallet';
 
@@ -9,19 +10,10 @@ interface BraveProvider extends AurumRpcProvider {
   isBraveWallet: boolean;
 }
 
-/**
- * Detects if the user is on Brave browser
- */
-function isBraveBrowser(): boolean {
-  if (typeof navigator === 'undefined') return false;
-  return (navigator as unknown as { brave?: unknown }).brave !== undefined;
-}
-
 export class BraveAdapter implements WalletAdapter {
   readonly id = WalletId.Brave;
   readonly name = WalletName.Brave;
   readonly icon = getLogoDataUri(WalletId.Brave, 'brand') ?? '';
-  readonly hide: boolean;
   readonly downloadUrl = 'https://brave.com/download';
   readonly wcDeepLinkUrl = null;
 
@@ -30,10 +22,14 @@ export class BraveAdapter implements WalletAdapter {
   private providerPromise: Promise<BraveProvider | null> | null = null;
 
   constructor() {
-    // Hide if not on Brave browser
-    this.hide = !isBraveBrowser();
     // Start EIP-6963 discovery immediately
     this.providerPromise = this.discoverProvider();
+  }
+
+  get hide(): boolean {
+    if (this.provider) return false;
+    if (isBraveBrowser()) return false;
+    return true;
   }
 
   /**
