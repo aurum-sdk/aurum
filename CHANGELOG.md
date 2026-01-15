@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.1] - 2026-01-15
+
+- Fixed workspace dependency resolution for npm installs
+
 All notable changes to Aurum SDK.
 
 ## [0.1.0] - 2025-01-15

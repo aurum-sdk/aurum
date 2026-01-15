@@ -9,7 +9,7 @@ dist/
 *.tsbuildinfo
 
 # Auto-generated files
-packages/sdk/src/styles/bundledStyles.ts
+packages/core/src/styles/bundledStyles.ts
 
 # Environment variables
 .env*
