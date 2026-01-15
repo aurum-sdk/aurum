@@ -31,7 +31,6 @@ export function renderConnectModal({
     const { root, cleanup } = createModalContainer(CONTAINER_ID, brandConfig);
 
     const onConnect = (result: WalletConnectionResult) => {
-      sentryLogger.info(`Wallet connected: ${result.walletId}`);
       cleanup();
       resolve(result);
     };

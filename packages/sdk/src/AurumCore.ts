@@ -172,6 +172,8 @@ export class AurumCore {
     this.emitConnect(chainId);
     this.emitAccountsChanged([checksumAdr]);
 
+    sentryLogger.info(`Wallet connected: ${adapter.id} (${walletId ? 'headless' : 'modal'})`);
+
     return checksumAdr;
   }
 
@@ -233,6 +235,8 @@ export class AurumCore {
     const chainId = await provider.request<string>({ method: 'eth_chainId' });
     this.emitConnect(chainId);
     this.emitAccountsChanged([checksumAdr]);
+
+    sentryLogger.info(`Wallet connected: ${adapter.id} (widget)`);
   }
 
   public async getChainId(): Promise<number> {
@@ -363,6 +367,8 @@ export class AurumCore {
     this.emitConnect(chainId);
     this.emitAccountsChanged([checksumAdr]);
 
+    sentryLogger.info(`Wallet connected: ${emailAdapter.id} (headless)`);
+
     return { address: checksumAdr, email: email ?? '', isNewUser: verifyResult.isNewUser ?? false };
   }
 
@@ -407,6 +413,8 @@ export class AurumCore {
         const chainId = await provider.request<string>({ method: 'eth_chainId' });
         this.emitConnect(chainId);
         this.emitAccountsChanged([checksumAdr]);
+
+        sentryLogger.info(`Wallet connected: ${wcAdapter.id} (headless)`);
 
         return checksumAdr;
       },
