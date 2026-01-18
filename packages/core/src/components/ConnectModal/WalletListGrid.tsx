@@ -8,23 +8,37 @@ interface WalletListGridProps {
   wallets: WalletAdapter[];
 }
 
-const getGridColumns = (walletCount: number): number => {
-  if (walletCount <= 2) return 2;
-  if (walletCount === 3) return 3;
-  if (walletCount === 5) return 3;
-  if (walletCount === 6) return 3;
-  return 4;
-};
+const MAX_PER_ROW = 4;
+
+function splitIntoRows<T>(items: T[]): T[][] {
+  if (items.length === 0) return [];
+
+  const numRows = Math.ceil(items.length / MAX_PER_ROW);
+  const basePerRow = Math.floor(items.length / numRows);
+  const remainder = items.length % numRows;
+
+  const rows: T[][] = [];
+  let index = 0;
+  for (let i = 0; i < numRows; i++) {
+    const rowSize = basePerRow + (i < remainder ? 1 : 0);
+    rows.push(items.slice(index, index + rowSize));
+    index += rowSize;
+  }
+  return rows;
+}
 
 export const WalletListGrid: React.FC<WalletListGridProps> = ({ wallets }) => {
   const { connectWallet } = useConnectModal();
-
-  const columns = getGridColumns(wallets.length);
+  const rows = splitIntoRows(wallets);
 
   return (
-    <div className="aurum-wallet-grid" style={{ '--grid-columns': columns } as React.CSSProperties}>
-      {wallets.map((wallet) => (
-        <GridWalletButton key={wallet.id} wallet={wallet} connectWallet={connectWallet} />
+    <div className="aurum-wallet-grid">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="aurum-wallet-grid-row">
+          {row.map((wallet) => (
+            <GridWalletButton key={wallet.id} wallet={wallet} connectWallet={connectWallet} />
+          ))}
+        </div>
       ))}
     </div>
   );

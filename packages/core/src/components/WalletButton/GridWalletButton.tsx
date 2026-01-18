@@ -15,6 +15,8 @@ export const GridWalletButton = ({
       onClick={() => connectWallet(wallet)}
       aria-label={`Connect with ${wallet.name}`}
       title={wallet.name}
+      size="xs"
+      style={{ borderRadius: 'var(--aurum-border-radius-md)' }}
     >
       <WalletLogoWrapper id={wallet.id} size={44} variant="icon" />
     </Button>
