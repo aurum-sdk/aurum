@@ -57,7 +57,7 @@ export interface NonNullableBrandConfig
   walletLayout: WalletLayout;
 }
 
-export interface EmailConfig {
+export interface EmbeddedWalletsConfig {
   projectId: string;
 }
 
@@ -69,7 +69,7 @@ export interface WalletConnectConfig {
  * walletConnect projectId is used for WalletConnect, AppKit, and Ledger wallets
  */
 export interface WalletsConfig {
-  email?: EmailConfig;
+  embedded?: EmbeddedWalletsConfig;
   walletConnect?: WalletConnectConfig;
   exclude?: WalletId[] | `${WalletId}`[];
 }
