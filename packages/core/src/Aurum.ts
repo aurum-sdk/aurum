@@ -30,7 +30,7 @@ export class Aurum {
    * const aurum = new Aurum({
    *   brand: { appName: 'Your App Name' },
    *   wallets: {
-   *     email: { projectId: 'cdp-project-id' },
+   *     embedded: { projectId: 'cdp-project-id' },
    *     walletConnect: { projectId: 'reown-project-id' },
    *   },
    * });

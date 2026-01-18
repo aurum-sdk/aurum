@@ -85,7 +85,7 @@ describe('createWalletAdapters', () => {
   it('passes email projectId to EmailAdapter', () => {
     createWalletAdapters({
       walletsConfig: {
-        email: { projectId: 'test-cdp-project-id' },
+        embedded: { projectId: 'test-cdp-project-id' },
       },
       appName: 'Test App',
       modalZIndex: 1000,
@@ -238,7 +238,7 @@ describe('createWalletAdapters', () => {
     it('passes all config options correctly', () => {
       createWalletAdapters({
         walletsConfig: {
-          email: { projectId: 'cdp-id' },
+          embedded: { projectId: 'cdp-id' },
           walletConnect: { projectId: 'reown-id' },
         },
         appName: 'Full Config App',

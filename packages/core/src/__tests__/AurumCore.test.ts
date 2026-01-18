@@ -199,7 +199,7 @@ describe('AurumCore', () => {
       const AurumCore = await getAurumCore();
       const config: AurumConfig = {
         wallets: {
-          email: { projectId: 'test-cdp-project-id' },
+          embedded: { projectId: 'test-cdp-project-id' },
         },
       };
       new AurumCore(config);
@@ -207,7 +207,7 @@ describe('AurumCore', () => {
       expect(createWalletAdapters).toHaveBeenCalledWith(
         expect.objectContaining({
           walletsConfig: expect.objectContaining({
-            email: { projectId: 'test-cdp-project-id' },
+            embedded: { projectId: 'test-cdp-project-id' },
           }),
         }),
       );

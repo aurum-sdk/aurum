@@ -32,7 +32,7 @@ export function createWalletAdapters({
   theme,
 }: CreateWalletAdaptersParams): WalletAdapter[] {
   return [
-    new EmailAdapter({ projectId: walletsConfig?.email?.projectId }),
+    new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId }),
     new MetaMaskAdapter(),
     new WalletConnectAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName }),
     new CoinbaseWalletAdapter({ appName, appLogoUrl }),
