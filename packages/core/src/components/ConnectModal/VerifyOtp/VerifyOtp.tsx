@@ -1,37 +1,40 @@
 import { useConnectModal } from '@src/contexts/ConnectModalContext';
-import { useEmailAuth } from '@src/contexts/EmailAuthContext';
+import { useEmbeddedAuth } from '@src/contexts/EmbeddedAuthContext';
 import { useWidgetContext } from '@src/contexts/WidgetContext';
 import { ModalHeader } from '@src/components/ModalHeader/ModalHeader';
 import { Button, Column, Row, Text, Spinner } from '@src/ui';
 import { X, ChevronLeft, Check, CircleCheck } from 'lucide-react';
-import { OTP_LENGTH, RESEND_COUNTDOWN_SECONDS } from '@src/components/ConnectModal/EmailVerifyOtp/constants';
-import { getOtpInputStyles, emailHighlightStyles } from '@src/components/ConnectModal/EmailVerifyOtp/styles';
-import { useCountdown } from '@src/components/ConnectModal/EmailVerifyOtp/useCountdown';
-import { useOtpInputs } from '@src/components/ConnectModal/EmailVerifyOtp/useOtpInputs';
+import { OTP_LENGTH, RESEND_COUNTDOWN_SECONDS } from '@src/components/ConnectModal/VerifyOtp/constants';
+import { getOtpInputStyles, emailHighlightStyles } from '@src/components/ConnectModal/VerifyOtp/styles';
+import { useCountdown } from '@src/components/ConnectModal/VerifyOtp/useCountdown';
+import { useOtpInputs } from '@src/components/ConnectModal/VerifyOtp/useOtpInputs';
+import { formatPhoneNumber } from '@src/utils/formatPhoneNumber';
 
-export const EmailVerifyOTP = () => {
+export const VerifyOTP = () => {
   const { onDismiss } = useWidgetContext();
   const { goBackToHome } = useConnectModal();
-  const { emailAuthState, sendEmailOTP, verifyEmailOTPAndConnect, error, clearError } = useEmailAuth();
+  const { authState, sendEmailOTP, sendSmsOTP, verifyOTPAndConnect, error, clearError } = useEmbeddedAuth();
 
-  const isVerifying = emailAuthState.step === 'connecting' && !error;
+  const isEmail = authState.authMethod === 'email';
+  const identifier = isEmail ? authState.email : formatPhoneNumber(authState.phoneNumber);
+  const isVerifying = authState.step === 'connecting' && !error;
 
   const { otp, setOtp, focusedIndex, setFocusedIndex, inputRefs, handleInputChange, handleKeyDown, handlePaste } =
     useOtpInputs({
-      emailAuthState,
+      authState,
       error,
       clearError,
-      onComplete: verifyEmailOTPAndConnect,
+      onComplete: verifyOTPAndConnect,
       isVerifying,
     });
   const { canResend, startCountdown } = useCountdown();
 
-  const isSuccess = emailAuthState.step === 'success';
+  const isSuccess = authState.step === 'success';
   const showOtpInputs = !isVerifying && !isSuccess;
-  const canResendOtp = canResend && emailAuthState.step !== 'success';
+  const canResendOtp = canResend && authState.step !== 'success';
 
   const handleBackToHome = () => {
-    if (emailAuthState.step !== 'otp') return;
+    if (authState.step !== 'otp') return;
     clearError();
     goBackToHome();
   };
@@ -42,10 +45,17 @@ export const EmailVerifyOTP = () => {
     if (error) clearError();
 
     startCountdown(RESEND_COUNTDOWN_SECONDS);
-    await sendEmailOTP(emailAuthState.email);
+    if (isEmail) {
+      await sendEmailOTP(authState.email);
+    } else {
+      await sendSmsOTP(authState.phoneNumber);
+    }
     setOtp(Array(OTP_LENGTH).fill(''));
     inputRefs.current[0]?.focus();
   };
+
+  const title = isEmail ? 'Verify Email' : 'Verify Phone';
+  const resendLabel = isEmail ? 'Email re-sent' : 'Code re-sent';
 
   return (
     <div>
@@ -64,12 +74,12 @@ export const EmailVerifyOTP = () => {
             </Button>
           )
         }
-        title="Verify Email"
+        title={title}
       />
       <Column gap={24}>
         <Text align="center" variant="secondary">
           Enter the 6-digit code sent to
-          <br /> <span style={emailHighlightStyles}>{emailAuthState.email}</span>
+          <br /> <span style={emailHighlightStyles}>{identifier}</span>
         </Text>
         <Column align="center" gap={12}>
           <div style={{ position: 'relative', height: '3rem' }}>
@@ -144,7 +154,7 @@ export const EmailVerifyOTP = () => {
               ) : (
                 <Row align="center" gap={4}>
                   <Text size="sm" variant="secondary">
-                    Email re-sent
+                    {resendLabel}
                   </Text>
                   <Check size={14} color="var(--color-foreground-muted)" />
                 </Row>

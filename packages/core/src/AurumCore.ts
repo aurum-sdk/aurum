@@ -14,6 +14,8 @@ import type {
   WalletName,
   EmailAuthStartResult,
   EmailAuthVerifyResult,
+  SmsAuthStartResult,
+  SmsAuthVerifyResult,
   WalletConnectSessionResult,
 } from '@aurum-sdk/types';
 import { WalletId } from '@aurum-sdk/types';
@@ -21,6 +23,7 @@ import { RpcProvider } from '@src/providers/RpcProvider';
 import { initSentry, sentryLogger } from '@src/services/sentry';
 import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
 import { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
+import { SmsAdapter } from '@src/wallet-adapters/SmsAdapter';
 
 export class AurumCore {
   // Singleton instance
@@ -101,6 +104,9 @@ export class AurumCore {
     if (walletId === 'email') {
       throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
     }
+    if (walletId === 'sms') {
+      throw new Error('Use smsAuthStart() and smsAuthVerify() for SMS wallet connections');
+    }
     if (walletId === 'walletconnect') {
       throw new Error('Use getWalletConnectSession() for WalletConnect connections');
     }
@@ -162,9 +168,10 @@ export class AurumCore {
       walletName: adapter.name,
       walletId: adapter.id,
       email: result.email,
+      phoneNumber: result.phoneNumber,
     };
 
-    this.persistConnectionState(adapter, checksumAdr, result.email);
+    this.persistConnectionState(adapter, checksumAdr, result.email, result.phoneNumber);
     this.setInternalAccountChangeListener(adapter);
 
     // Notify listeners - EIP-1193 events
@@ -226,9 +233,10 @@ export class AurumCore {
       walletName: adapter.name,
       walletId: adapter.id,
       email: result.email,
+      phoneNumber: result.phoneNumber,
     };
 
-    this.persistConnectionState(adapter, checksumAdr, result.email);
+    this.persistConnectionState(adapter, checksumAdr, result.email, result.phoneNumber);
     this.setInternalAccountChangeListener(adapter);
 
     // Notify listeners - EIP-1193 events
@@ -357,9 +365,10 @@ export class AurumCore {
       walletName: emailAdapter.name,
       walletId: emailAdapter.id,
       email,
+      phoneNumber: undefined,
     };
 
-    this.persistConnectionState(emailAdapter, checksumAdr, email);
+    this.persistConnectionState(emailAdapter, checksumAdr, email, undefined);
     this.setInternalAccountChangeListener(emailAdapter);
 
     // Notify listeners - EIP-1193 events
@@ -370,6 +379,67 @@ export class AurumCore {
     sentryLogger.info(`Wallet connected: ${emailAdapter.id} (headless)`);
 
     return { address: checksumAdr, email: email ?? '', isNewUser: verifyResult.isNewUser ?? false };
+  }
+
+  public async smsAuthStart(phoneNumber: string): Promise<SmsAuthStartResult> {
+    await this.whenReady();
+
+    const smsAdapter = this.wallets.find((w) => w.id === WalletId.Sms) as SmsAdapter | undefined;
+    if (!smsAdapter || !smsAdapter.smsAuthStart) {
+      throw new Error('SMS wallet is not configured');
+    }
+
+    const result = await smsAdapter.smsAuthStart(phoneNumber);
+    return { flowId: result.flowId };
+  }
+
+  public async smsAuthVerify(flowId: string, otp: string): Promise<SmsAuthVerifyResult> {
+    await this.whenReady();
+
+    const smsAdapter = this.wallets.find((w) => w.id === WalletId.Sms) as SmsAdapter | undefined;
+    if (!smsAdapter || !smsAdapter.smsAuthVerify) {
+      throw new Error('SMS wallet is not configured');
+    }
+
+    const verifyResult = await smsAdapter.smsAuthVerify(flowId, otp);
+    const provider = smsAdapter.getProvider();
+
+    if (!provider) {
+      sentryLogger.error('Failed to get provider after SMS verification');
+      throw new Error('Failed to get provider after SMS verification');
+    }
+
+    const address = verifyResult.user?.evmAccounts?.[0];
+    const phoneNumber = verifyResult.user?.authenticationMethods?.sms?.phoneNumber;
+
+    if (!address || !phoneNumber) {
+      sentryLogger.error('Address or phone number not found after SMS verification');
+      throw new Error('Address or phone number not found after SMS verification');
+    }
+
+    const checksumAdr = checksumAddress(address as `0x${string}`);
+
+    this.connectedWalletAdapter = smsAdapter;
+    this.updateProvider(provider);
+    this.userInfo = {
+      publicAddress: checksumAdr,
+      walletName: smsAdapter.name,
+      walletId: smsAdapter.id,
+      email: undefined,
+      phoneNumber,
+    };
+
+    this.persistConnectionState(smsAdapter, checksumAdr, undefined, phoneNumber);
+    this.setInternalAccountChangeListener(smsAdapter);
+
+    // Notify listeners - EIP-1193 events
+    const chainId = await provider.request<string>({ method: 'eth_chainId' });
+    this.emitConnect(chainId);
+    this.emitAccountsChanged([checksumAdr]);
+
+    sentryLogger.info(`Wallet connected: ${smsAdapter.id} (headless)`);
+
+    return { address: checksumAdr, phoneNumber: phoneNumber ?? '', isNewUser: verifyResult.isNewUser ?? false };
   }
 
   /**
@@ -404,9 +474,11 @@ export class AurumCore {
           publicAddress: checksumAdr,
           walletName: wcAdapter.name,
           walletId: wcAdapter.id,
+          email: undefined,
+          phoneNumber: undefined,
         };
 
-        this.persistConnectionState(wcAdapter, checksumAdr);
+        this.persistConnectionState(wcAdapter, checksumAdr, undefined, undefined);
         this.setInternalAccountChangeListener(wcAdapter);
 
         // Notify listeners - EIP-1193 events
@@ -537,6 +609,7 @@ export class AurumCore {
         walletName: store.walletName,
         walletId: persistedAdapter.id,
         email: store.email ?? undefined,
+        phoneNumber: store.phoneNumber ?? undefined,
       };
 
       this.setInternalAccountChangeListener(persistedAdapter);
@@ -547,8 +620,10 @@ export class AurumCore {
     }
   }
 
-  private persistConnectionState(adapter: WalletAdapter, address: string, email?: string): void {
-    useAurumStore.getState().setConnection(adapter.id, checksumAddress(address as `0x${string}`), adapter.name, email);
+  private persistConnectionState(adapter: WalletAdapter, address: string, email?: string, phoneNumber?: string): void {
+    useAurumStore
+      .getState()
+      .setConnection(adapter.id, checksumAddress(address as `0x${string}`), adapter.name, email, phoneNumber);
   }
 
   /* INTERNAL LISTENER METHODS */
@@ -575,9 +650,15 @@ export class AurumCore {
         walletName: this.userInfo?.walletName as WalletName,
         walletId: this.userInfo?.walletId as WalletId,
         email: this.userInfo?.email,
+        phoneNumber: this.userInfo?.phoneNumber,
       };
       if (this.connectedWalletAdapter) {
-        this.persistConnectionState(this.connectedWalletAdapter, newAccount, this.userInfo.email);
+        this.persistConnectionState(
+          this.connectedWalletAdapter,
+          newAccount,
+          this.userInfo.email,
+          this.userInfo.phoneNumber,
+        );
       }
       // Notify listeners of account change (provider-initiated, e.g. user switched in wallet UI)
       this.emitAccountsChanged([newAccount]);

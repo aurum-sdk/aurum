@@ -1,5 +1,6 @@
 export enum WalletName {
   Email = 'Email',
+  Sms = 'SMS',
   MetaMask = 'MetaMask',
   CoinbaseWallet = 'Coinbase Wallet',
   Phantom = 'Phantom',
@@ -12,6 +13,7 @@ export enum WalletName {
 
 export enum WalletId {
   Email = 'email',
+  Sms = 'sms',
   MetaMask = 'metamask',
   CoinbaseWallet = 'coinbase-wallet',
   Phantom = 'phantom',

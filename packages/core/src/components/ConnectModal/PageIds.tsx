@@ -5,7 +5,7 @@ import { ConnectionStatusPage } from '@src/components/ConnectModal/ConnectionSta
 import { QRCodePage } from '@src/components/ConnectModal/QRCodePage';
 import { AllWalletsPage } from '@src/components/ConnectModal/AllWallets';
 import { DownloadWalletPage } from '@src/components/ConnectModal/DownloadWalletPage';
-import { EmailVerifyOTP } from '@src/components/ConnectModal/EmailVerifyOtp';
+import { VerifyOTP } from '@src/components/ConnectModal/VerifyOtp';
 import { ConnectionStatusMobilePage } from '@src/components/ConnectModal/ConnectionStatus/Mobile';
 import { ConfigErrorPage } from '@src/components/ConnectModal/ConfigErrorPage';
 
@@ -18,7 +18,7 @@ export const PAGE_IDS = {
   MOBILE_DEEP_LINK: 'mobile-deep-link',
   DOWNLOAD_WALLET: 'download-wallet',
   CONNECTING: 'connecting',
-  EMAIL_VERIFY_OTP: 'email-verify-otp',
+  VERIFY_OTP: 'verify-otp',
   CONFIG_ERROR: 'config-error',
 } as const;
 
@@ -29,6 +29,6 @@ export const PAGE_COMPONENTS: Record<PageIdType, React.ReactNode> = {
   [PAGE_IDS.MOBILE_DEEP_LINK]: <ConnectionStatusMobilePage />,
   [PAGE_IDS.DOWNLOAD_WALLET]: <DownloadWalletPage />,
   [PAGE_IDS.CONNECTING]: <ConnectionStatusPage />,
-  [PAGE_IDS.EMAIL_VERIFY_OTP]: <EmailVerifyOTP />,
+  [PAGE_IDS.VERIFY_OTP]: <VerifyOTP />,
   [PAGE_IDS.CONFIG_ERROR]: <ConfigErrorPage />,
 };

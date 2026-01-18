@@ -8,6 +8,16 @@ export interface EmailAuthVerifyResult {
   isNewUser: boolean;
 }
 
+export interface SmsAuthStartResult {
+  flowId: string;
+}
+
+export interface SmsAuthVerifyResult {
+  address: `0x${string}`;
+  phoneNumber: string;
+  isNewUser: boolean;
+}
+
 export interface WalletConnectSessionResult {
   uri: string;
   waitForConnection: () => Promise<`0x${string}`>;

@@ -9,7 +9,7 @@ import type { WalletId, WalletConnectSessionResult } from '@aurum-sdk/types';
  *
  * @example
  * ```tsx
- * const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, isPending, error } = useConnect();
+ * const { connect, emailAuthStart, emailAuthVerify, smsAuthStart, smsAuthVerify, getWalletConnectSession, isPending, error } = useConnect();
  *
  * // Open wallet selection modal
  * await connect();
@@ -20,6 +20,10 @@ import type { WalletId, WalletConnectSessionResult } from '@aurum-sdk/types';
  * // Or use headless email auth
  * const { flowId } = await emailAuthStart('user@example.com');
  * const { address, email } = await emailAuthVerify(flowId, '123456');
+ *
+ * // Or use headless SMS auth
+ * const { flowId } = await smsAuthStart('+15554443333');
+ * const { address, phoneNumber } = await smsAuthVerify(flowId, '123456');
  *
  * // Or use headless WalletConnect
  * const { uri, waitForConnection } = await getWalletConnectSession();
@@ -90,6 +94,44 @@ export function useConnect() {
     [aurum],
   );
 
+  const smsAuthStart = useCallback(
+    async (phoneNumber: string) => {
+      setIsPending(true);
+      setError(null);
+
+      try {
+        const result = await aurum.smsAuthStart(phoneNumber);
+        return result;
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error('Failed to start SMS auth');
+        setError(error);
+        throw error;
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [aurum],
+  );
+
+  const smsAuthVerify = useCallback(
+    async (flowId: string, otp: string) => {
+      setIsPending(true);
+      setError(null);
+
+      try {
+        const result = await aurum.smsAuthVerify(flowId, otp);
+        return result;
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error('Failed to verify SMS');
+        setError(error);
+        throw error;
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [aurum],
+  );
+
   const getWalletConnectSession = useCallback(async (): Promise<WalletConnectSessionResult> => {
     setIsPending(true);
     setError(null);
@@ -110,6 +152,8 @@ export function useConnect() {
     connect,
     emailAuthStart,
     emailAuthVerify,
+    smsAuthStart,
+    smsAuthVerify,
     getWalletConnectSession,
     isPending,
     error,

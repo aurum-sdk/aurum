@@ -7,10 +7,17 @@ interface AurumState {
   address: string | null;
   walletName: WalletName | null;
   email: string | null;
+  phoneNumber: string | null;
   isConnected: boolean;
   lastUsedWalletId: string | null;
 
-  setConnection: (walletId: string, address: string, walletName: WalletName, email?: string) => void;
+  setConnection: (
+    walletId: string,
+    address: string,
+    walletName: WalletName,
+    email?: string,
+    phoneNumber?: string,
+  ) => void;
   clearConnection: () => void;
 }
 
@@ -45,15 +52,17 @@ const storeCreator = persist<AurumState>(
     address: null,
     walletName: null,
     email: null,
+    phoneNumber: null,
     isConnected: false,
     lastUsedWalletId: null,
 
-    setConnection: (walletId, address, walletName, email) =>
+    setConnection: (walletId, address, walletName, email, phoneNumber) =>
       set({
         walletId,
         address,
         walletName,
         email: email ?? null,
+        phoneNumber: phoneNumber ?? null,
         isConnected: true,
         lastUsedWalletId: walletId,
       }),
@@ -64,6 +73,7 @@ const storeCreator = persist<AurumState>(
         address: null,
         walletName: null,
         email: null,
+        phoneNumber: null,
         isConnected: false,
       }),
   }),

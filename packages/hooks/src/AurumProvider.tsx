@@ -30,6 +30,7 @@ export function AurumProvider({ aurum, children }: AurumProviderProps) {
         walletName: userInfo?.walletName,
         walletId: userInfo?.walletId,
         email: userInfo?.email,
+        phoneNumber: userInfo?.phoneNumber,
         isConnected,
         isInitializing: false,
       };

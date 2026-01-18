@@ -27,6 +27,7 @@ export function useAccount() {
     walletName: account.walletName,
     walletId: account.walletId,
     email: account.email,
+    phoneNumber: account.phoneNumber,
     isConnected: account.isConnected,
     isInitializing: account.isInitializing,
   };

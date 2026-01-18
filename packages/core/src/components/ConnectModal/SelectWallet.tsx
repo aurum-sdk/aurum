@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 import { Divider } from '@src/ui';
 import { ModalHeader } from '@src/components/ModalHeader/ModalHeader';
 import { sortWallets } from '@src/utils/sortWallets';
-import { EmailAuth } from '@src/components/ConnectModal/EmailAuth';
+import { AuthInput } from '@src/components/ConnectModal/AuthInput';
 import { WalletListGrid } from '@src/components/ConnectModal/WalletListGrid';
 import { WalletListStacked } from '@src/components/ConnectModal/WalletListStacked';
 import { WalletId } from '@aurum-sdk/types';
@@ -15,7 +15,11 @@ export const SelectWalletPage: React.FC = () => {
   const { displayedWallets } = useConnectModal();
   const { onDismiss, brandConfig } = useWidgetContext();
 
+  // Show auth input if either email or SMS is enabled
   const hasEmailAuth = displayedWallets.some((wallet) => wallet.id === WalletId.Email);
+  const hasSmsAuth = displayedWallets.some((wallet) => wallet.id === WalletId.Sms);
+  const hasEmbeddedAuth = hasEmailAuth || hasSmsAuth;
+
   const sortedWallets = useMemo(() => sortWallets(displayedWallets), [displayedWallets]);
   const isGridLayout = brandConfig.walletLayout === 'grid';
 
@@ -29,10 +33,10 @@ export const SelectWalletPage: React.FC = () => {
           </Button>
         }
       />
-      {hasEmailAuth && (
+      {hasEmbeddedAuth && (
         <>
           <Column align="center" gap={0}>
-            <EmailAuth />
+            <AuthInput />
           </Column>
           {sortedWallets.length > 0 && (
             <>
@@ -47,7 +51,7 @@ export const SelectWalletPage: React.FC = () => {
       {isGridLayout ? (
         <WalletListGrid wallets={sortedWallets} />
       ) : (
-        <WalletListStacked wallets={sortedWallets} hasEmailAuth={hasEmailAuth} />
+        <WalletListStacked wallets={sortedWallets} hasEmailAuth={hasEmailAuth} hasSmsAuth={hasSmsAuth} />
       )}
     </>
   );

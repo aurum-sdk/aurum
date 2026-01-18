@@ -5,4 +5,5 @@ export interface UserInfo {
   walletName: WalletName;
   walletId: WalletId;
   email?: string;
+  phoneNumber?: string;
 }

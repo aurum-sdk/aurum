@@ -9,6 +9,7 @@ export interface AccountState {
   walletName: WalletName | undefined;
   walletId: WalletId | undefined;
   email: string | undefined;
+  phoneNumber: string | undefined;
   isConnected: boolean;
   isInitializing: boolean;
 }
@@ -26,6 +27,7 @@ export const initialAccountState: AccountState = {
   walletName: undefined,
   walletId: undefined,
   email: undefined,
+  phoneNumber: undefined,
   isConnected: false,
   isInitializing: true,
 };

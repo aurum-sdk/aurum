@@ -10,6 +10,8 @@ import type {
   WalletId,
   EmailAuthStartResult,
   EmailAuthVerifyResult,
+  SmsAuthStartResult,
+  SmsAuthVerifyResult,
   WalletConnectSessionResult,
 } from '@aurum-sdk/types';
 
@@ -290,6 +292,45 @@ export class Aurum {
    */
   public async emailAuthVerify(flowId: string, otp: string): Promise<EmailAuthVerifyResult> {
     return this.core.emailAuthVerify(flowId, otp);
+  }
+
+  /**
+   * Starts the SMS authentication flow by sending an OTP to the provided phone number.
+   * Use with `smsAuthVerify()` to complete the connection.
+   *
+   * @param phoneNumber - The phone number in E.164 format (e.g., +15554443333)
+   * @returns Object containing flowId to use with smsAuthVerify
+   * @throws Error if SMS wallet is not configured
+   *
+   * @example
+   * ```typescript
+   * const { flowId } = await aurum.smsAuthStart('+15554443333');
+   * // User receives OTP via SMS, then verify:
+   * const { address, phoneNumber, isNewUser } = await aurum.smsAuthVerify(flowId, '123456');
+   * ```
+   */
+  public async smsAuthStart(phoneNumber: string): Promise<SmsAuthStartResult> {
+    return this.core.smsAuthStart(phoneNumber);
+  }
+
+  /**
+   * Verifies the SMS OTP and completes the wallet connection.
+   *
+   * @param flowId - The flowId returned from smsAuthStart
+   * @param otp - The OTP code the user received via SMS
+   * @returns Object containing the connected address and phone number
+   * @throws Error if verification fails
+   *
+   * @example
+   * ```typescript
+   * const { flowId } = await aurum.smsAuthStart('+15554443333');
+   * // User receives OTP...
+   * const { address, phoneNumber, isNewUser } = await aurum.smsAuthVerify(flowId, '123456');
+   * console.log(`Connected: ${address} (${phoneNumber})`);
+   * ```
+   */
+  public async smsAuthVerify(flowId: string, otp: string): Promise<SmsAuthVerifyResult> {
+    return this.core.smsAuthVerify(flowId, otp);
   }
 
   /**

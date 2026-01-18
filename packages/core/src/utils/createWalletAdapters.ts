@@ -10,6 +10,7 @@ import {
   MetaMaskAdapter,
   WalletConnectAdapter,
   EmailAdapter,
+  SmsAdapter,
 } from '@src/wallet-adapters';
 
 interface CreateWalletAdaptersParams {
@@ -33,6 +34,7 @@ export function createWalletAdapters({
 }: CreateWalletAdaptersParams): WalletAdapter[] {
   return [
     new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId }),
+    new SmsAdapter({ projectId: walletsConfig?.embedded?.projectId }),
     new MetaMaskAdapter(),
     new WalletConnectAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName }),
     new CoinbaseWalletAdapter({ appName, appLogoUrl }),

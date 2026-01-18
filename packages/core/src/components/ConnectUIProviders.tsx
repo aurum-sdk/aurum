@@ -13,7 +13,7 @@ interface ConnectUIProvidersProps {
 /**
  * Shared provider stack for wallet connection UI.
  *
- * Wraps NavigationProvider and ConnectModalProvider (which includes EmailAuthProvider).
+ * Wraps NavigationProvider and ConnectModalProvider (which includes EmbeddedAuthProvider).
  * Used by both renderConnectModal and ConnectWidget for consistent behavior.
  *
  * ## Hierarchy
@@ -21,7 +21,7 @@ interface ConnectUIProvidersProps {
  * ConnectUIProviders
  *   └── NavigationProvider (page routing)
  *       └── ConnectModalProvider (connection logic)
- *           └── EmailAuthProvider (email auth state)
+ *           └── EmbeddedAuthProvider (email/SMS embedded wallet auth state)
  *               └── {children}
  * ```
  */

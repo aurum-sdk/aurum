@@ -1,11 +1,17 @@
 import type { AurumRpcProvider, WalletId, WalletName } from '@aurum-sdk/types';
-import { SignInWithEmailResult, VerifyEmailOTPResult } from '@coinbase/cdp-core';
+import {
+  SignInWithEmailResult,
+  VerifyEmailOTPResult,
+  SignInWithSmsResult,
+  VerifySmsOTPResult,
+} from '@coinbase/cdp-core';
 
 export interface WalletConnectionResult {
   address: string;
   provider: AurumRpcProvider;
   walletId: WalletId;
   email?: string;
+  phoneNumber?: string;
 }
 
 export interface WalletAdapter {
@@ -36,6 +42,10 @@ export interface WalletAdapter {
   // Email adapter only
   emailAuthStart?(email: string): Promise<SignInWithEmailResult>;
   emailAuthVerify?(email: string, otp: string): Promise<VerifyEmailOTPResult>;
+
+  // SMS adapter only
+  smsAuthStart?(phoneNumber: string): Promise<SignInWithSmsResult>;
+  smsAuthVerify?(flowId: string, otp: string): Promise<VerifySmsOTPResult>;
 
   // Listeners
   onAccountsChanged(callback: (accounts: string[]) => void): void;

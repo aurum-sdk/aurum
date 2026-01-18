@@ -86,7 +86,7 @@ const { aurum, isReady } = useAurum();
 Access connected user information.
 
 ```tsx
-const { publicAddress, walletName, walletId, email, isConnected, isInitializing } = useAccount();
+const { publicAddress, walletName, walletId, email, phoneNumber, isConnected, isInitializing } = useAccount();
 ```
 
 | Return           | Type                      | Description                            |
@@ -95,6 +95,7 @@ const { publicAddress, walletName, walletId, email, isConnected, isInitializing 
 | `walletName`     | `WalletName \| undefined` | Name of the connected wallet           |
 | `walletId`       | `WalletId \| undefined`   | ID of the connected wallet             |
 | `email`          | `string \| undefined`     | Email address when logged in via email |
+| `phoneNumber`    | `string \| undefined`     | Phone number when logged in via SMS    |
 | `isConnected`    | `boolean`                 | Whether a wallet is connected          |
 | `isInitializing` | `boolean`                 | Whether the SDK is initializing        |
 
@@ -103,7 +104,16 @@ const { publicAddress, walletName, walletId, email, isConnected, isInitializing 
 Connect to a wallet via modal, direct connection, or headless flows.
 
 ```tsx
-const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, isPending, error } = useConnect();
+const {
+  connect,
+  emailAuthStart,
+  emailAuthVerify,
+  smsAuthStart,
+  smsAuthVerify,
+  getWalletConnectSession,
+  isPending,
+  error,
+} = useConnect();
 
 // Open wallet selection modal
 await connect();
@@ -113,16 +123,18 @@ import { WalletId } from '@aurum-sdk/types';
 await connect(WalletId.MetaMask);
 ```
 
-| Return                    | Type                                                                                               | Description                                                   |
-| ------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `connect`                 | `(walletId?: WalletId) => Promise<string>`                                                         | Opens wallet modal, or connects directly if walletId provided |
-| `emailAuthStart`          | `(email: string) => Promise<{ flowId: string }>`                                                   | Sends OTP to email for Coinbase Embedded Wallet               |
-| `emailAuthVerify`         | `(flowId: string, otp: string) => Promise<{ address: string, email: string, isNewUser: boolean }>` | Verifies OTP and completes connection                         |
-| `getWalletConnectSession` | `() => Promise<{ uri: string, waitForConnection: () => Promise<string> }>`                         | Gets WalletConnect URI for custom QR display                  |
-| `isPending`               | `boolean`                                                                                          | Whether connection is in progress                             |
-| `error`                   | `Error \| null`                                                                                    | Error from last connection attempt                            |
+| Return                    | Type                                                                                                     | Description                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `connect`                 | `(walletId?: WalletId) => Promise<string>`                                                               | Opens wallet modal, or connects directly if walletId provided |
+| `emailAuthStart`          | `(email: string) => Promise<{ flowId: string }>`                                                         | Sends OTP to email for Coinbase Embedded Wallet               |
+| `emailAuthVerify`         | `(flowId: string, otp: string) => Promise<{ address: string, email: string, isNewUser: boolean }>`       | Verifies email OTP and completes connection                   |
+| `smsAuthStart`            | `(phoneNumber: string) => Promise<{ flowId: string }>`                                                   | Sends OTP via SMS for Coinbase Embedded Wallet                |
+| `smsAuthVerify`           | `(flowId: string, otp: string) => Promise<{ address: string, phoneNumber: string, isNewUser: boolean }>` | Verifies SMS OTP and completes connection                     |
+| `getWalletConnectSession` | `() => Promise<{ uri: string, waitForConnection: () => Promise<string> }>`                               | Gets WalletConnect URI for custom QR display                  |
+| `isPending`               | `boolean`                                                                                                | Whether connection is in progress                             |
+| `error`                   | `Error \| null`                                                                                          | Error from last connection attempt                            |
 
-**Note:** `WalletId.Email` and `WalletId.WalletConnect` cannot be used with `connect(walletId)` — use the headless methods below instead.
+**Note:** `WalletId.Email`, `WalletId.Sms`, and `WalletId.WalletConnect` cannot be used with `connect(walletId)` — use the headless methods instead.
 
 > **ConnectWidget Compatibility:** Do not use `useConnect()` with `<ConnectWidget>`. Use `useAccount()` to react to connection state changes instead.
 
@@ -141,6 +153,23 @@ const otp = await promptUserForOTP();
 
 // Step 3: Verify and connect
 const { address, email } = await emailAuthVerify(flowId, otp);
+```
+
+#### Headless SMS Authentication
+
+Two-step flow for Coinbase Embedded Wallet using phone number:
+
+```tsx
+const { smsAuthStart, smsAuthVerify, isPending, error } = useConnect();
+
+// Step 1: Send OTP (phone number in E.164 format)
+const { flowId } = await smsAuthStart('+15554443333');
+
+// Step 2: User enters OTP from their phone
+const otp = await promptUserForOTP();
+
+// Step 3: Verify and connect
+const { address, phoneNumber } = await smsAuthVerify(flowId, otp);
 ```
 
 #### Headless WalletConnect

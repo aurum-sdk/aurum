@@ -5,7 +5,7 @@ import { PAGE_IDS } from '@src/components/ConnectModal/PageIds';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { useConnectSelectedWallet } from '@src/hooks/useConnectSelectedWallet';
 import { useNavigation } from '@src/contexts/NavigationContext';
-import { EmailAuthProvider } from '@src/contexts/EmailAuthContext';
+import { EmbeddedAuthProvider } from '@src/contexts/EmbeddedAuthContext';
 import { WalletId } from '@aurum-sdk/types';
 import { isConfigError } from '@src/utils/isConfigError';
 import { sentryLogger } from '@src/services/sentry';
@@ -144,14 +144,14 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
 
   return (
     <ConnectModalContext.Provider value={contextValue}>
-      <EmailAuthProvider
+      <EmbeddedAuthProvider
         onConnect={onConnect}
         navigateTo={navigateTo}
         displayedWallets={displayedWallets}
         setSelectedWallet={setSelectedWallet}
       >
         {children}
-      </EmailAuthProvider>
+      </EmbeddedAuthProvider>
     </ConnectModalContext.Provider>
   );
 };
