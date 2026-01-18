@@ -22,6 +22,7 @@ Aurum is a frontend JavaScript SDK that makes it easy to add wallets to your dap
 - [Headless API](#headless-api)
   - [Direct Wallet Connection](#direct-wallet-connection)
   - [Email Authentication](#email-authentication)
+  - [OAuth Sign-In (Google, Apple, X)](#oauth-sign-in)
   - [WalletConnect URI Flow](#walletconnect-uri-flow)
 - [Web3 Library Integrations](#web3-library-integrations)
   - [Viem](#viem)
@@ -89,8 +90,8 @@ Customize the look and feel of the connect modal.
 
 ```typescript
 interface WalletsConfig {
-  email?: {
-    projectId: string; // Coinbase CDP project ID for email wallet
+  embedded?: {
+    projectId: string; // Coinbase CDP project ID for Email, Google, Apple, and X login
   };
   walletConnect?: {
     projectId: string; // Reown project ID for WalletConnect, AppKit modal, and Ledger
@@ -113,14 +114,15 @@ import { WalletId } from '@aurum-sdk/types';
 
 const aurum = new Aurum({
   brand: { appName: 'Your App Name' },
-  wallets: { ... },
-  exclude: [WalletId.MetaMask], // or ['metamask']
+  wallets: {
+    exclude: [WalletId.MetaMask, WalletId.Google], // or ['metamask', 'google']
+  },
 });
 ```
 
 **Notes:**
 
-- If you exclude `WalletId.Email`, you don't need `wallets.email.projectId`
+- If you exclude `WalletId.Email`, `WalletId.Google`, `WalletId.Apple`, and `WalletId.X`, you don't need `wallets.embedded.projectId`
 - If you exclude `WalletId.WalletConnect`, `WalletId.AppKit`, and `WalletId.Ledger`, you don't need `wallets.walletConnect.projectId`
 
 ---
@@ -179,6 +181,9 @@ const address = await aurum.connect(WalletId.MetaMask);
 | WalletId                  | Description                    |
 | ------------------------- | ------------------------------ |
 | `WalletId.Email`          | Coinbase Embedded email wallet |
+| `WalletId.Google`         | Google OAuth (CDP Embedded)    |
+| `WalletId.Apple`          | Apple OAuth (CDP Embedded)     |
+| `WalletId.X`              | X OAuth (CDP Embedded)         |
 | `WalletId.MetaMask`       | MetaMask                       |
 | `WalletId.Phantom`        | Phantom wallet                 |
 | `WalletId.CoinbaseWallet` | Coinbase Wallet                |
@@ -316,6 +321,23 @@ const otp = await promptUserForOTP();
 // Step 3: Verify and connect
 const { address, email, isNewUser } = await aurum.emailAuthVerify(flowId, otp);
 ```
+
+---
+
+### OAuth Sign-in
+
+For social login via Google, Apple, or X using Coinbase Embedded Wallet:
+
+#### `oauthSignIn(provider): Promise<void>`
+
+Initiates OAuth sign-in flow. The user will be redirected to the OAuth provider to complete login. After returning to your app, the connection is restored automatically.
+
+```typescript
+// Sign in with Google
+await aurum.oauthSignIn('google');
+```
+
+**Note:** This method redirects the user. After successful login, the user returns to your app and the connection is automatically restored on page load.
 
 ---
 

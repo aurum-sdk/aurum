@@ -37,6 +37,18 @@ import { LedgerIcon } from '@src/react/icons/LedgerIcon';
 import { LedgerBrand } from '@src/react/icons/LedgerBrand';
 import { LedgerBlack } from '@src/react/icons/LedgerBlack';
 import { LedgerWhite } from '@src/react/icons/LedgerWhite';
+import { GoogleIcon } from '@src/react/icons/GoogleIcon';
+import { GoogleBrand } from '@src/react/icons/GoogleBrand';
+import { GoogleBlack } from '@src/react/icons/GoogleBlack';
+import { GoogleWhite } from '@src/react/icons/GoogleWhite';
+import { AppleIcon } from '@src/react/icons/AppleIcon';
+import { AppleBrand } from '@src/react/icons/AppleBrand';
+import { AppleBlack } from '@src/react/icons/AppleBlack';
+import { AppleWhite } from '@src/react/icons/AppleWhite';
+import { XIcon } from '@src/react/icons/XIcon';
+import { XBrand } from '@src/react/icons/XBrand';
+import { XBlack } from '@src/react/icons/XBlack';
+import { XWhite } from '@src/react/icons/XWhite';
 
 // Explicit map — avoids namespace import which defeats tree-shaking
 const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -72,6 +84,18 @@ const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>
   'ledger.brand': LedgerBrand,
   'ledger.black': LedgerBlack,
   'ledger.white': LedgerWhite,
+  'google.icon': GoogleIcon,
+  'google.brand': GoogleBrand,
+  'google.black': GoogleBlack,
+  'google.white': GoogleWhite,
+  'apple.icon': AppleIcon,
+  'apple.brand': AppleBrand,
+  'apple.black': AppleBlack,
+  'apple.white': AppleWhite,
+  'x.icon': XIcon,
+  'x.brand': XBrand,
+  'x.black': XBlack,
+  'x.white': XWhite,
 };
 
 export interface WalletLogoProps extends Omit<React.SVGProps<SVGSVGElement>, 'ref'> {

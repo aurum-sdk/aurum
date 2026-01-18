@@ -37,6 +37,9 @@ export interface WalletAdapter {
   emailAuthStart?(email: string): Promise<SignInWithEmailResult>;
   emailAuthVerify?(email: string, otp: string): Promise<VerifyEmailOTPResult>;
 
+  // OAuth adapter only
+  signInWithOAuth?(): Promise<void>;
+
   // Listeners
   onAccountsChanged(callback: (accounts: string[]) => void): void;
   removeListeners(): void;

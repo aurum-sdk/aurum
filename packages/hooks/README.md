@@ -103,7 +103,8 @@ const { publicAddress, walletName, walletId, email, isConnected, isInitializing 
 Connect to a wallet via modal, direct connection, or headless flows.
 
 ```tsx
-const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, isPending, error } = useConnect();
+const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, signInWithOAuth, isPending, error } =
+  useConnect();
 
 // Open wallet selection modal
 await connect();
@@ -119,10 +120,11 @@ await connect(WalletId.MetaMask);
 | `emailAuthStart`          | `(email: string) => Promise<{ flowId: string }>`                                                   | Sends OTP to email for Coinbase Embedded Wallet               |
 | `emailAuthVerify`         | `(flowId: string, otp: string) => Promise<{ address: string, email: string, isNewUser: boolean }>` | Verifies OTP and completes connection                         |
 | `getWalletConnectSession` | `() => Promise<{ uri: string, waitForConnection: () => Promise<string> }>`                         | Gets WalletConnect URI for custom QR display                  |
+| `signInWithOAuth`         | `(provider: 'google' \| 'apple') => Promise<void>`                                                 | Initiates OAuth sign-in (redirects user)                      |
 | `isPending`               | `boolean`                                                                                          | Whether connection is in progress                             |
 | `error`                   | `Error \| null`                                                                                    | Error from last connection attempt                            |
 
-**Note:** `WalletId.Email` and `WalletId.WalletConnect` cannot be used with `connect(walletId)` — use the headless methods below instead.
+**Note:** `WalletId.Email`, `WalletId.Google`, `WalletId.Apple`, `WalletId.X`, and `WalletId.WalletConnect` have their own headless methods (see below) and cannot be used with `connect(walletId)`.
 
 > **ConnectWidget Compatibility:** Do not use `useConnect()` with `<ConnectWidget>`. Use `useAccount()` to react to connection state changes instead.
 
@@ -158,6 +160,19 @@ renderQRCode(uri);
 // Wait for user to scan and approve
 const address = await waitForConnection();
 ```
+
+#### Headless OAuth (Google, Apple)
+
+For social login via Google, Apple, or X:
+
+```tsx
+const { signInWithOAuth, isPending, error } = useConnect();
+
+// Sign in with Google
+await signInWithOAuth('google');
+```
+
+**Note:** This method redirects the user to the OAuth provider. After successful login, the user returns to your app and the connection is automatically restored on page load.
 
 ### `useDisconnect`
 

@@ -15,12 +15,14 @@ import type {
   EmailAuthStartResult,
   EmailAuthVerifyResult,
   WalletConnectSessionResult,
+  OAuthProvider,
 } from '@aurum-sdk/types';
 import { WalletId } from '@aurum-sdk/types';
 import { RpcProvider } from '@src/providers/RpcProvider';
 import { initSentry, sentryLogger } from '@src/services/sentry';
 import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
 import { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
+import { OAuthAdapter } from '@src/wallet-adapters/OAuthAdapter';
 
 export class AurumCore {
   // Singleton instance
@@ -98,11 +100,14 @@ export class AurumCore {
   public async connect(walletId?: WalletId): Promise<`0x${string}`> {
     await this.whenReady();
 
-    if (walletId === 'email') {
+    if (walletId === WalletId.Email) {
       throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
     }
-    if (walletId === 'walletconnect') {
+    if (walletId === WalletId.WalletConnect) {
       throw new Error('Use getWalletConnectSession() for WalletConnect connections');
+    }
+    if (walletId === WalletId.Google || walletId === WalletId.Apple || walletId === WalletId.X) {
+      throw new Error('Use oauthSignIn() for OAuth connections');
     }
 
     // If already connected, return existing address (unless requesting a different wallet)
@@ -421,6 +426,23 @@ export class AurumCore {
     };
   }
 
+  public async oauthSignIn(provider: OAuthProvider): Promise<void> {
+    await this.whenReady();
+
+    const walletId = provider as WalletId;
+
+    if (this.excludedWallets.has(walletId as WalletId)) {
+      throw new Error(`${provider} OAuth is excluded from wallet options`);
+    }
+
+    const oauthAdapter = this.wallets.find((w) => w.id === walletId) as OAuthAdapter | undefined;
+    if (!oauthAdapter || !oauthAdapter.signInWithOAuth) {
+      throw new Error(`${provider} OAuth is not configured`);
+    }
+
+    await oauthAdapter.signInWithOAuth();
+  }
+
   /* PROVIDER METHODS */
 
   private createProviderProxy(): AurumRpcProvider {
@@ -514,36 +536,81 @@ export class AurumCore {
       await waitForStoreHydration();
 
       const store = useAurumStore.getState();
-      if (!store.isConnected || !store.walletId || !store.address || !store.walletName) {
-        return;
-      }
 
-      const persistedAdapter = this.wallets.find((w) => w.id === store.walletId) || null;
-      if (!persistedAdapter || !persistedAdapter.isInstalled()) {
+      // Try to restore from persisted state first
+      if (store.isConnected && store.walletId && store.address && store.walletName) {
+        const persistedAdapter = this.wallets.find((w) => w.id === store.walletId) || null;
+        if (persistedAdapter && persistedAdapter.isInstalled()) {
+          const connectionResult = await persistedAdapter.tryRestoreConnection();
+          if (connectionResult && connectionResult.address.toLowerCase() === store.address.toLowerCase()) {
+            this.connectedWalletAdapter = persistedAdapter;
+            this.updateProvider(connectionResult.provider);
+            this.userInfo = {
+              publicAddress: checksumAddress(connectionResult.address as `0x${string}`),
+              walletName: store.walletName,
+              walletId: persistedAdapter.id,
+              email: store.email ?? undefined,
+            };
+            this.setInternalAccountChangeListener(persistedAdapter);
+            return;
+          }
+        }
+        // Persisted state is stale, clear it
         store.clearConnection();
-        return;
       }
 
-      const connectionResult = await persistedAdapter.tryRestoreConnection();
-      if (!connectionResult || connectionResult.address.toLowerCase() !== store.address.toLowerCase()) {
-        store.clearConnection();
-        return;
-      }
-
-      this.connectedWalletAdapter = persistedAdapter;
-      this.updateProvider(connectionResult.provider);
-      this.userInfo = {
-        publicAddress: checksumAddress(connectionResult.address as `0x${string}`),
-        walletName: store.walletName,
-        walletId: persistedAdapter.id,
-        email: store.email ?? undefined,
-      };
-
-      this.setInternalAccountChangeListener(persistedAdapter);
+      // No persisted connection - check if user has an active OAuth session
+      await this.tryRestoreOauthConnection();
     } catch {
       this.resetConnectionState();
     } finally {
       this.ready = true;
+    }
+  }
+
+  /**
+   * Checks for an active OAuth session and restores it.
+   * Uses getCurrentUser() to determine which provider was used, then delegates to that adapter.
+   */
+  private async tryRestoreOauthConnection(): Promise<void> {
+    try {
+      const { initialize, isSignedIn, getCurrentUser } = await import('@coinbase/cdp-core');
+
+      // Need projectId to initialize - get from any OAuth adapter
+      const anyAdapter = this.wallets.find(
+        (w) => w.id === WalletId.Google || w.id === WalletId.Apple || w.id === WalletId.X,
+      ) as OAuthAdapter | undefined;
+      if (!anyAdapter) return;
+
+      await initialize({ projectId: anyAdapter.getProjectId() });
+      if (!(await isSignedIn())) return;
+
+      const user = await getCurrentUser();
+      if (!user?.evmAccounts?.[0]) return;
+
+      // Determine which OAuth provider from authenticationMethods
+      const auth = user.authenticationMethods as Record<string, { email?: string }> | undefined;
+      const walletId = auth?.google ? WalletId.Google : auth?.apple ? WalletId.Apple : auth?.x ? WalletId.X : null;
+      if (!walletId || this.excludedWallets.has(walletId)) return;
+
+      // Delegate to that adapter's tryRestoreConnection
+      const adapter = this.wallets.find((w) => w.id === walletId);
+      if (!adapter) return;
+
+      const result = await adapter.tryRestoreConnection();
+      if (!result?.address) return;
+
+      const checksumAdr = checksumAddress(result.address as `0x${string}`);
+      const email =
+        auth?.[walletId === WalletId.Google ? 'google' : walletId === WalletId.Apple ? 'apple' : 'x']?.email;
+
+      this.connectedWalletAdapter = adapter;
+      this.updateProvider(result.provider);
+      this.userInfo = { publicAddress: checksumAdr, walletName: adapter.name, walletId: adapter.id, email };
+      this.persistConnectionState(adapter, checksumAdr, email);
+      this.setInternalAccountChangeListener(adapter);
+    } catch {
+      // no-op
     }
   }
 
