@@ -30,15 +30,22 @@ export function initSentry(enabled: boolean = true) {
   });
 }
 
+function getUrl(): string | undefined {
+  if (typeof window !== 'undefined') {
+    return window.location.href;
+  }
+  return undefined;
+}
+
 // Wrapper that no-ops when telemetry is disabled
 export const sentryLogger = {
   info: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.info(message, attributes);
+    if (telemetryEnabled) Sentry.logger.info(message, { url: getUrl(), ...attributes });
   },
   warn: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.warn(message, attributes);
+    if (telemetryEnabled) Sentry.logger.warn(message, { url: getUrl(), ...attributes });
   },
   error: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.error(message, attributes);
+    if (telemetryEnabled) Sentry.logger.error(message, { url: getUrl(), ...attributes });
   },
 };
