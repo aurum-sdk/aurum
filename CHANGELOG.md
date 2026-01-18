@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.3] - 2026-01-18
+
+- update wallet grid ui, update wallet config, update logger
+
 ## [0.1.2] - 2026-01-15
 
 - fix brave browser detection on mobile, open to appkit AllWallets page
