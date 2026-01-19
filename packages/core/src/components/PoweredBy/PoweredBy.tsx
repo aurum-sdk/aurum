@@ -12,7 +12,7 @@ export const PoweredBy = () => {
         <Button
           variant="text"
           size="xs"
-          onClick={() => window.open('https://npmjs.com/package/@aurum-sdk/core', '_blank')}
+          onClick={() => window.open('https://aurumsdk.com', '_blank')}
           style={{ gap: '0.15rem' }}
         >
           <Text variant="secondary" size="xs">

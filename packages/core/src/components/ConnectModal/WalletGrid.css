@@ -1,17 +1,5 @@
 .aurum-wallet-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 10px;
   width: 100%;
-}
-
-.aurum-wallet-grid-row {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
-
-.aurum-wallet-grid-row > * {
-  flex: 1;
-  min-width: 0;
 }

@@ -1,7 +1,7 @@
 # @aurum-sdk/core
 
-<!-- [Live Demo](https://demo.aurumsdk.com/)
-[Aurum Website](https://aurumsdk.com/) -->
+[Live Demo](https://demo.aurumsdk.com/)
+[Website](https://aurumsdk.com/)
 
 Aurum is a frontend JavaScript SDK that makes it easy to add wallets to your dapp.
 
