@@ -1,6 +1,6 @@
 {
   "name": "@aurum-sdk/logos",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Wallet logos for Aurum SDK",
   "sideEffects": false,
   "engines": {
