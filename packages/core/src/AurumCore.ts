@@ -205,7 +205,7 @@ export class AurumCore {
     );
   }
 
-  public async handleWidgetConnection(result: WalletConnectionResult): Promise<void> {
+  public async handleWidgetConnection(result: WalletConnectionResult): Promise<UserInfo> {
     await this.whenReady();
 
     const adapter = this.wallets.find((w) => w.id === result.walletId) || null;
@@ -237,6 +237,8 @@ export class AurumCore {
     this.emitAccountsChanged([checksumAdr]);
 
     sentryLogger.info(`Wallet connected: ${adapter.id} (widget)`);
+
+    return this.userInfo;
   }
 
   public async getChainId(): Promise<number> {
