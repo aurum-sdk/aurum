@@ -1,8 +1,8 @@
 # @aurum-sdk/core
 
-[Docs](https://docs.aurumsdk.com/)
-[Live Demo](https://demo.aurumsdk.com/)
-[Website](https://aurumsdk.com/)
+- [Docs](https://docs.aurumsdk.com/)
+- [Live Demo](https://demo.aurumsdk.com/)
+- [Website](https://aurumsdk.com/)
 
 Aurum is an open-source JavaScript SDK that makes it easy to add wallets to your web app.
 
