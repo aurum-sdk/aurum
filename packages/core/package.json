@@ -1,6 +1,6 @@
 {
   "name": "@aurum-sdk/core",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Aurum wallet connection SDK",
   "sideEffects": [
     "*.css"
