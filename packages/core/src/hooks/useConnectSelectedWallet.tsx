@@ -7,9 +7,9 @@ import {
   setupEventListeners,
   registerGlobalCleanup,
 } from '@src/utils/walletConnectDeepLink';
+import { WalletId } from '@aurum-sdk/types';
 import { isConfigError } from '@src/utils/isConfigError';
 import { sentryLogger } from '@src/services/sentry';
-import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
 
 interface ResolvePayloadProps {
   adapter: WalletAdapter;
@@ -43,7 +43,7 @@ export const useConnectSelectedWallet = () => {
   };
 
   const connectUninstalledWalletQRCode = async ({ displayedWallets, onConnect, setSuccess }: ResolvePayloadProps) => {
-    const walletConnectAdapter = displayedWallets?.find((w) => w instanceof WalletConnectAdapter);
+    const walletConnectAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
     if (!walletConnectAdapter) {
       sentryLogger.error('connectUninstalledWalletQRCode: WalletConnect adapter not found');
       throw new Error('WalletConnect adapter not found');
@@ -74,7 +74,7 @@ export const useConnectSelectedWallet = () => {
     onConnect,
     setSuccess,
   }: ResolvePayloadProps) => {
-    const walletConnectAdapter = displayedWallets?.find((w) => w instanceof WalletConnectAdapter);
+    const walletConnectAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
     if (!walletConnectAdapter) {
       sentryLogger.error('connectWithMobileDeepLink: WalletConnect adapter not found');
       throw new Error('WalletConnect adapter not found');

@@ -26,7 +26,7 @@ describe('getLogoSvg', () => {
         WalletId.Phantom,
         WalletId.WalletConnect,
         WalletId.Rabby,
-        WalletId.Ledger,
+        WalletId.AppKit,
       ];
 
       walletIds.forEach((id) => {
@@ -34,13 +34,6 @@ describe('getLogoSvg', () => {
         expect(svg, `Missing logo for ${id}`).toBeTruthy();
         expect(svg).toContain('<svg');
       });
-    });
-
-    it('returns SVG for appkit via string prefix', () => {
-      // AppKit logos are still accessible via string prefix
-      const svg = getLogoSvg('appkit' as WalletId, 'brand');
-      expect(svg).toBeTruthy();
-      expect(svg).toContain('<svg');
     });
   });
 

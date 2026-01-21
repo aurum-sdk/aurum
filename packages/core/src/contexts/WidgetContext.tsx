@@ -35,6 +35,9 @@ interface WidgetProviderProps {
   headerPortalRef?: RefObject<HTMLDivElement | null> | null;
 }
 
+/**
+ * Unified provider for both modal and widget contexts.
+ */
 export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   children,
   mode,

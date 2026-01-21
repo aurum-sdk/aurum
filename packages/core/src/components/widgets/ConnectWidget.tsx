@@ -6,7 +6,6 @@ import { WalletConnectionResult } from '@src/types/internal';
 import { sortWallets } from '@src/utils/sortWallets';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { Aurum } from '@src/Aurum';
-import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 import { UserInfo, WalletId } from '@aurum-sdk/types';
 
 export interface ConnectWidgetProps {
@@ -23,8 +22,8 @@ export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }
     let filtered = walletAdapters.filter((w) => !excludedWalletIds.has(w.id));
     filtered = sortWallets(filtered, { filterHidden: false });
 
-    // On mobile, WalletConnect requires AppKit modal
-    const hasAppKit = filtered.some((w) => w instanceof AppKitAdapter);
+    // On mobile, WalletConnect requires AppKit
+    const hasAppKit = filtered.some((w) => w.id === WalletId.AppKit);
     if (isMobile() && !hasAppKit) {
       filtered = filtered.filter((w) => w.id !== WalletId.WalletConnect);
     }

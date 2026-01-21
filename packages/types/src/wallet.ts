@@ -7,6 +7,7 @@ export enum WalletName {
   Rabby = 'Rabby',
   Brave = 'Brave Wallet',
   Ledger = 'Ledger',
+  AppKit = 'AppKit',
 }
 
 export enum WalletId {
@@ -18,4 +19,5 @@ export enum WalletId {
   Rabby = 'rabby',
   Brave = 'brave',
   Ledger = 'ledger',
+  AppKit = 'appkit',
 }
