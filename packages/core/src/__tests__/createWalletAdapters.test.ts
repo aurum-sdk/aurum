@@ -59,7 +59,7 @@ describe('createWalletAdapters', () => {
       (config) => ({ id: WalletId.Ledger, name: WalletName.Ledger, config }) as unknown as LedgerAdapter,
     );
     vi.mocked(AppKitAdapter).mockImplementation(
-      (config) => ({ id: WalletId.AppKit, name: WalletName.AppKit, config }) as unknown as AppKitAdapter,
+      (config) => ({ id: WalletId.WalletConnect, name: WalletName.WalletConnect, config }) as unknown as AppKitAdapter,
     );
   });
 
@@ -224,13 +224,13 @@ describe('createWalletAdapters', () => {
       // Verify order matches createWalletAdapters implementation
       expect(adapters[0].id).toBe(WalletId.Email);
       expect(adapters[1].id).toBe(WalletId.MetaMask);
-      expect(adapters[2].id).toBe(WalletId.WalletConnect);
+      expect(adapters[2].id).toBe(WalletId.WalletConnect); // WalletConnectAdapter
       expect(adapters[3].id).toBe(WalletId.CoinbaseWallet);
       expect(adapters[4].id).toBe(WalletId.Phantom);
       expect(adapters[5].id).toBe(WalletId.Rabby);
       expect(adapters[6].id).toBe(WalletId.Brave);
       expect(adapters[7].id).toBe(WalletId.Ledger);
-      expect(adapters[8].id).toBe(WalletId.AppKit);
+      expect(adapters[8].id).toBe(WalletId.WalletConnect); // AppKitAdapter also uses WalletConnect id
     });
   });
 

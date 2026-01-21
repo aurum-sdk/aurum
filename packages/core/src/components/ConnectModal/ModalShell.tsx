@@ -9,24 +9,6 @@ interface ModalShellProps {
   brandConfig: NonNullableBrandConfig;
 }
 
-/**
- * Shell component for the connect modal.
- *
- * Wraps the Modal UI component and renders ConnectPages inside.
- * Provider hierarchy is handled by renderConnectModal.
- *
- * ## Hierarchy
- * ```
- * renderConnectModal
- *   └── ThemeContainer
- *       └── ConnectUIProviders (NavigationProvider + ConnectModalProvider)
- *           └── ModalShell ← you are here
- *               └── Modal
- *                   └── WidgetProvider (mode='modal')
- *                       └── PageTransitionContainer
- *                           └── ConnectPages
- * ```
- */
 export const ModalShell: React.FC<ModalShellProps> = ({ onClose, brandConfig }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { currentPage } = useNavigation();
