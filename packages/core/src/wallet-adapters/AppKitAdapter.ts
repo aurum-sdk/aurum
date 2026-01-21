@@ -14,9 +14,12 @@ interface AppKitConfig {
 }
 
 export class AppKitAdapter implements WalletAdapter {
-  readonly id = WalletId.AppKit;
-  readonly name = WalletName.AppKit;
-  readonly icon = getLogoDataUri(WalletId.AppKit, 'brand') ?? '';
+  /** Internal identifier for distinguishing from WalletConnectAdapter */
+  static readonly INTERNAL_ID = 'appkit-modal';
+
+  readonly id = WalletId.WalletConnect;
+  readonly name = WalletName.WalletConnect;
+  readonly icon = getLogoDataUri(WalletId.WalletConnect, 'brand') ?? '';
   readonly hide = true;
   readonly downloadUrl = null;
   readonly wcDeepLinkUrl = null;
@@ -144,7 +147,7 @@ export class AppKitAdapter implements WalletAdapter {
         }
       }
     } catch (error) {
-      sentryLogger.warn('Failed to get provider from AppKit', { error });
+      sentryLogger.warn('Failed to get provider from WalletConnect modal', { error });
     }
   }
 
@@ -154,14 +157,14 @@ export class AppKitAdapter implements WalletAdapter {
 
   async connect(): Promise<WalletConnectionResult> {
     if (!this.config.projectId) {
-      throw createConfigError('AppKit');
+      throw createConfigError('WalletConnect');
     }
 
     await this.ensureInitialized();
 
     if (!this.modal) {
-      sentryLogger.error('AppKit is not available');
-      throw new Error('AppKit is not available');
+      sentryLogger.error('WalletConnect modal is not available');
+      throw new Error('WalletConnect modal is not available');
     }
 
     // Check if AppKit already has a wallet connected

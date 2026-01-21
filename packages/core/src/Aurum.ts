@@ -108,7 +108,8 @@ export class Aurum {
    * Opens the wallet connection modal or connects directly to a specific wallet.
    *
    * @param walletId - Optional wallet ID for direct connection (bypasses modal).
-   *                   Cannot be 'email' or 'walletconnect' (use their dedicated methods).
+   *                   Cannot be 'email' (use emailAuthStart/emailAuthVerify).
+   *                   For 'walletconnect', opens the WalletConnect modal directly.
    * @returns The connected wallet address
    * @throws Error if user closes the modal without connecting a wallet
    *
@@ -120,6 +121,9 @@ export class Aurum {
    * // Or connect directly to a specific wallet
    * import { WalletId } from '@aurum-sdk/types';
    * const address = await aurum.connect(WalletId.MetaMask);
+   *
+   * // Open WalletConnect modal directly
+   * const address = await aurum.connect(WalletId.WalletConnect);
    * ```
    */
   public async connect(walletId?: WalletId): Promise<`0x${string}`> {
@@ -234,7 +238,7 @@ export class Aurum {
    * import { WalletId } from '@aurum-sdk/types';
    *
    * aurum.updateWalletsConfig({
-   *   exclude: [WalletId.Email, WalletId.AppKit],
+   *   exclude: [WalletId.Email, WalletId.WalletConnect],
    * });
    * ```
    */
@@ -259,7 +263,7 @@ export class Aurum {
    *
    * @param email - The email address to send the OTP to
    * @returns Object containing flowId to use with emailAuthVerify
-   * @throws Error if email wallet is not configured
+   * @throws Error if email wallet is not enabled
    *
    * @example
    * ```typescript
@@ -297,7 +301,7 @@ export class Aurum {
    * Use this for building custom QR code UIs instead of using the built-in modal.
    *
    * @returns Object containing the URI and a function to wait for the connection
-   * @throws Error if WalletConnect is not configured
+   * @throws Error if WalletConnect is not enabled
    *
    * @example
    * ```typescript

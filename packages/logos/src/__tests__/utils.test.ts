@@ -9,11 +9,16 @@ describe('resolveLogoPrefix', () => {
     expect(resolveLogoPrefix(WalletId.CoinbaseWallet)).toBe('coinbase-wallet');
     expect(resolveLogoPrefix(WalletId.WalletConnect)).toBe('walletconnect');
     expect(resolveLogoPrefix(WalletId.Rabby)).toBe('rabby');
-    expect(resolveLogoPrefix(WalletId.AppKit)).toBe('appkit');
+    expect(resolveLogoPrefix(WalletId.Ledger)).toBe('ledger');
   });
 
   it('returns coinbase-wallet prefix for Email wallet', () => {
     expect(resolveLogoPrefix(WalletId.Email)).toBe('coinbase-wallet');
+  });
+
+  it('returns string prefix directly when passed as string', () => {
+    // AppKit logos are still accessible via string prefix
+    expect(resolveLogoPrefix('appkit' as WalletId)).toBe('appkit');
   });
 });
 

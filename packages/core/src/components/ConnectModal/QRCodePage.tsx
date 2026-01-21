@@ -7,8 +7,9 @@ import { Spacer, Column, Button, Text } from '@src/ui';
 import { ChevronLeft, X, SquareArrowOutUpRight, CircleCheck } from 'lucide-react';
 import { ModalHeader } from '@src/components/ModalHeader/ModalHeader';
 import { PAGE_IDS } from '@src/components/ConnectModal/PageIds';
-import { WalletId, WalletName } from '@aurum-sdk/types';
+import { WalletName } from '@aurum-sdk/types';
 import { WalletAdapter } from '@src/types/internal';
+import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 
 export const QRCodePage: React.FC = () => {
   const { onDismiss } = useWidgetContext();
@@ -17,12 +18,12 @@ export const QRCodePage: React.FC = () => {
 
   const [connectionUri, setConnectionUri] = useState<string | null>(null);
 
-  // Preserve the original wallet that brought user to this page (don't let AppKit override it)
+  // Preserve the original wallet that brought user to this page (don't let AppKit modal override it)
   const originalWalletRef = useRef<WalletAdapter | null>(null);
 
   useEffect(() => {
-    // Only update the original wallet if selectedWallet is not AppKit
-    if (selectedWallet && selectedWallet.id !== WalletId.AppKit) {
+    // Only update the original wallet if selectedWallet is not AppKit modal
+    if (selectedWallet && !(selectedWallet instanceof AppKitAdapter)) {
       originalWalletRef.current = selectedWallet;
     }
   }, [selectedWallet]);
@@ -35,9 +36,7 @@ export const QRCodePage: React.FC = () => {
   };
 
   const title =
-    displayWallet?.name === WalletName.WalletConnect || displayWallet?.name === WalletName.AppKit
-      ? 'Scan QR code'
-      : `Scan with ${displayWallet?.name} app`;
+    displayWallet?.name === WalletName.WalletConnect ? 'Scan QR code' : `Scan with ${displayWallet?.name} app`;
 
   useEffect(() => {
     const handleWalletConnectURI = (event: CustomEvent<{ uri: string }>) => {

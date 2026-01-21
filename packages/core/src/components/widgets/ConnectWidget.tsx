@@ -7,39 +7,13 @@ import { sortWallets } from '@src/utils/sortWallets';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { Aurum } from '@src/Aurum';
 import { WalletId } from '@aurum-sdk/types';
+import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 
 export interface ConnectWidgetProps {
   aurum: Aurum;
   onConnect: (result: { address: string; walletId: string; email?: string }) => void;
 }
 
-/**
- * Embedded connect widget for embedded wallet connection.
- *
- * ## Hierarchy (mirrors renderConnectModal)
- * ```
- * ConnectWidget ← you are here
- *   └── WidgetStyleContainer (style injection + ThemeContainer)
- *       └── ConnectUIProviders (NavigationProvider + ConnectModalProvider)
- *           └── WidgetShell
- *               └── WidgetProvider (mode='widget')
- *                   └── PageTransitionContainer
- *                       └── ConnectPages (shared with modal)
- * ```
- *
- * @see renderConnectModal - Modal equivalent entry point
- * @see WidgetShell - Shell component (parallel to ModalShell)
- *
- * @example
- * ```tsx
- * <ConnectWidget
- *   aurum={aurum}
- *   onConnect={({ address, walletId }) => {
- *     console.log('Connected:', address, walletId);
- *   }}
- * />
- * ```
- */
 export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }) => {
   const brandConfig = aurum.brandConfig;
   const walletAdapters = aurum.walletAdapters;
@@ -49,8 +23,8 @@ export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }
     let filtered = walletAdapters.filter((w) => !excludedWalletIds.has(w.id));
     filtered = sortWallets(filtered, { filterHidden: false });
 
-    // On mobile, WalletConnect requires AppKit
-    const hasAppKit = filtered.some((w) => w.id === WalletId.AppKit);
+    // On mobile, WalletConnect requires AppKit modal
+    const hasAppKit = filtered.some((w) => w instanceof AppKitAdapter);
     if (isMobile() && !hasAppKit) {
       filtered = filtered.filter((w) => w.id !== WalletId.WalletConnect);
     }
