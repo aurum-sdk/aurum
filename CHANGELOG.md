@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] - 2026-01-21
+
+- undo walletconnect and appkit consolidation, needs further testing
+
 ## [0.2.0] - 2026-01-21
 
 - consolidate walletconnect and appkit
