@@ -1,8 +1,8 @@
 # @aurum-sdk/hooks
 
-[Docs](https://docs.aurumsdk.com/)
-[Live Demo](https://demo.aurumsdk.com/)
-[Website](https://aurumsdk.com/)
+- [Docs](https://docs.aurumsdk.com/)
+- [Live Demo](https://demo.aurumsdk.com/)
+- [Website](https://aurumsdk.com/)
 
 React hooks for Aurum SDK.
 

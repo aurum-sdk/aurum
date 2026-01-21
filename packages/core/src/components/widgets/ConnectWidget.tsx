@@ -6,12 +6,12 @@ import { WalletConnectionResult } from '@src/types/internal';
 import { sortWallets } from '@src/utils/sortWallets';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { Aurum } from '@src/Aurum';
-import { WalletId } from '@aurum-sdk/types';
 import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
+import { UserInfo, WalletId } from '@aurum-sdk/types';
 
 export interface ConnectWidgetProps {
   aurum: Aurum;
-  onConnect: (result: { address: string; walletId: string; email?: string }) => void;
+  onConnect?: (result: UserInfo) => void;
 }
 
 export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }) => {
@@ -35,14 +35,8 @@ export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }
   const handleConnect = useCallback(
     async (result: WalletConnectionResult) => {
       // Sync connection state with AurumCore (updates userInfo, provider, store, etc.)
-      await aurum.handleWidgetConnection(result);
-
-      // Fire user callback
-      onConnect({
-        address: result.address,
-        walletId: result.walletId,
-        email: result.email,
-      });
+      const userInfo = await aurum.handleWidgetConnection(result);
+      onConnect?.(userInfo);
     },
     [aurum, onConnect],
   );

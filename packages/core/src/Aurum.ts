@@ -251,7 +251,7 @@ export class Aurum {
    * Updates internal state so getUserInfo(), isConnected(), etc. work correctly.
    * @internal Used by ConnectWidget - not intended for direct use
    */
-  public async handleWidgetConnection(result: WalletConnectionResult): Promise<void> {
+  public async handleWidgetConnection(result: WalletConnectionResult): Promise<UserInfo> {
     return this.core.handleWidgetConnection(result);
   }
 
