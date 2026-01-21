@@ -18,6 +18,7 @@ const WALLET_IDS: { value: WalletId; label: string }[] = [
   { value: WalletId.Phantom, label: 'Phantom' },
   { value: WalletId.WalletConnect, label: 'WalletConnect' },
   { value: WalletId.Rabby, label: 'Rabby' },
+  { value: WalletId.AppKit, label: 'AppKit (Reown)' },
   { value: WalletId.Ledger, label: 'Ledger' },
   { value: WalletId.Brave, label: 'Brave' },
 ];

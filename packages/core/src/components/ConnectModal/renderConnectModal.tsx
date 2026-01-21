@@ -6,7 +6,6 @@ import { sortWallets } from '@src/utils/sortWallets';
 import { createModalContainer } from '@src/utils/createModalContainer';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { NonNullableBrandConfig, WalletId } from '@aurum-sdk/types';
-import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 
 const CONTAINER_ID = 'aurum-modal-container';
 
@@ -22,8 +21,8 @@ export function renderConnectModal({
   return new Promise((resolve, reject) => {
     let sortedWallets = sortWallets(displayedWallets, { filterHidden: false });
 
-    // On mobile, WalletConnect requires AppKit modal. Hide WalletConnect if AppKit is not available.
-    const hasAppKit = sortedWallets.some((w) => w instanceof AppKitAdapter);
+    // On mobile, WalletConnect requires AppKit. Hide WalletConnect if AppKit is not available.
+    const hasAppKit = sortedWallets.some((w) => w.id === WalletId.AppKit);
     if (isMobile() && !hasAppKit) {
       sortedWallets = sortedWallets.filter((w) => w.id !== WalletId.WalletConnect);
     }

@@ -5,9 +5,9 @@ import { generateQrCodeWalletLogo } from '@src/utils/generateQrCodeWalletLogo';
 import { QRCodeSkeleton } from '@src/components/QRCodeDisplay/QRCodeSkeleton';
 import { useConnectModal } from '@src/contexts/ConnectModalContext';
 import { useWidgetContext } from '@src/contexts/WidgetContext';
+import { WalletId } from '@aurum-sdk/types';
 import { getBorderRadiusScale } from '@src/constants/theme';
 import { WalletAdapter } from '@src/types/internal';
-import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 import './QRCodeDisplay.css';
 
 interface QRCodeDisplayProps {
@@ -24,19 +24,19 @@ export const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ uri, size = 256 })
   const qrCodeDisplayColor = brandConfig.theme === 'light' ? '#000000' : '#6b7280';
   const bgColor = brandConfig.theme === 'light' ? '#ffffff' : '#121212';
 
-  // Preserve the wallet logo when switching to AppKit modal
+  // Preserve the wallet logo when switching to AppKit
   const logoWalletRef = useRef<WalletAdapter | null>(null);
 
   useEffect(() => {
-    // Only update the logo wallet if selectedWallet is not AppKit modal
-    if (selectedWallet && !(selectedWallet instanceof AppKitAdapter)) {
+    // Only update the logo wallet if selectedWallet is not AppKit
+    if (selectedWallet && selectedWallet.id !== WalletId.AppKit) {
       logoWalletRef.current = selectedWallet;
     }
   }, [selectedWallet]);
 
   const logoWallet = logoWalletRef.current || selectedWallet;
 
-  const appKitAdapter = displayedWallets.find((w) => w instanceof AppKitAdapter);
+  const appKitAdapter = displayedWallets.find(({ id }) => id === WalletId.AppKit);
 
   const handleAppKitConnect = async () => {
     if (appKitAdapter) {

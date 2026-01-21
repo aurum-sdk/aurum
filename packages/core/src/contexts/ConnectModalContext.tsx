@@ -9,7 +9,6 @@ import { EmailAuthProvider } from '@src/contexts/EmailAuthContext';
 import { WalletId } from '@aurum-sdk/types';
 import { isConfigError } from '@src/utils/isConfigError';
 import { sentryLogger } from '@src/services/sentry';
-import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 
 interface ConnectModalProviderProps {
   children: React.ReactNode;
@@ -71,8 +70,8 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
       const hasDeepLink = Boolean(wallet.wcDeepLinkUrl);
 
       if (isDesktop) {
-        // User clicks "Open Modal"
-        if (wallet instanceof AppKitAdapter)
+        // User clicks `Open AppKit` button
+        if (wallet.id === WalletId.AppKit)
           return await connectAppKit({ adapter: wallet, onConnect, setSuccess: setQrSuccess });
 
         if (!wallet.isInstalled() && !hasDeepLink) {
@@ -93,11 +92,11 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
       }
 
       if (isOnMobile) {
-        if (wallet.id === WalletId.WalletConnect) {
-          const appkitAdapter = displayedWallets?.find((w) => w instanceof AppKitAdapter);
+        if (wallet.id === WalletId.WalletConnect || wallet.id === WalletId.AppKit) {
+          const appkitAdapter = displayedWallets?.find(({ id }) => id === WalletId.AppKit);
           if (!appkitAdapter) {
-            sentryLogger.error('WalletConnect modal adapter not found');
-            throw new Error('WalletConnect modal adapter not found');
+            sentryLogger.error('AppKit adapter not found');
+            throw new Error('AppKit adapter not found');
           }
           return await connectAppKit({ adapter: appkitAdapter, onConnect, setSuccess: setQrSuccess });
         }

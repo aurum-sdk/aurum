@@ -35,6 +35,27 @@ interface WidgetProviderProps {
   headerPortalRef?: RefObject<HTMLDivElement | null> | null;
 }
 
+/**
+ * Unified provider for both modal and widget contexts.
+ *
+ * ## Provider Hierarchy
+ *
+ * For Modals:
+ * ```
+ * ModalShell
+ *   └── Modal
+ *       └── WidgetProvider (mode='modal', onDismiss=closeModal)
+ *           └── ConnectPages
+ * ```
+ *
+ * For Widgets:
+ * ```
+ * ConnectWidget
+ *   └── WidgetShell
+ *       └── WidgetProvider (mode='widget', onDismiss=noop)
+ *           └── ConnectPages
+ * ```
+ */
 export const WidgetProvider: React.FC<WidgetProviderProps> = ({
   children,
   mode,

@@ -17,6 +17,27 @@ export interface WidgetShellProps {
 // Noop for widget mode - close buttons are hidden via ModalHeader
 const noop = () => {};
 
+/**
+ * Shell component for embedded widgets.
+ *
+ * Mirrors the Modal component structure but without overlay.
+ * Provider hierarchy is handled by ConnectWidget.
+ *
+ * ## Hierarchy
+ * ```
+ * ConnectWidget
+ *   └── StyleContainer (inline styles)
+ *       └── ThemeContainer
+ *           └── NavigationProvider
+ *               └── ConnectModalProvider
+ *                   └── WidgetShell ← you are here
+ *                       └── WidgetProvider (mode='widget')
+ *                           └── PageTransitionContainer
+ *                               └── ConnectPages
+ * ```
+ *
+ * @see ModalShell - Modal equivalent of this component
+ */
 export const WidgetShell: React.FC<WidgetShellProps> = ({ brandConfig, children }) => {
   const headerPortalRef = useRef<HTMLDivElement>(null);
   const { currentPage } = useNavigation();

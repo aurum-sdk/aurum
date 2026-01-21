@@ -20,7 +20,6 @@ import { WalletId } from '@aurum-sdk/types';
 import { RpcProvider } from '@src/providers/RpcProvider';
 import { initSentry, sentryLogger } from '@src/services/sentry';
 import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
-import { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 import { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
 
 export class AurumCore {
@@ -102,6 +101,9 @@ export class AurumCore {
     if (walletId === 'email') {
       throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
     }
+    if (walletId === 'walletconnect') {
+      throw new Error('Use getWalletConnectSession() for WalletConnect connections');
+    }
 
     // If already connected, return existing address (unless requesting a different wallet)
     if (this.userInfo?.publicAddress && this.connectedWalletAdapter?.getProvider()) {
@@ -115,25 +117,14 @@ export class AurumCore {
     let adapter: WalletAdapter | null = null;
     let result: WalletConnectionResult;
 
-    // Handle walletId === 'walletconnect' uniquely - calls different adapter's connect()
-    if (walletId === WalletId.WalletConnect) {
-      // WalletConnect headless mode - open AppKit modal directly
-      if (this.excludedWallets.has(walletId)) {
-        throw new Error(`${walletId} is excluded from wallet options`);
-      }
-      adapter = this.wallets.find((w) => w instanceof AppKitAdapter) || null;
-      if (!adapter) {
-        throw new Error('WalletConnect is not enabled');
-      }
-      result = await adapter.connect();
-    } else if (walletId) {
+    if (walletId) {
       // Direct connection - bypass modal
       if (this.excludedWallets.has(walletId)) {
         throw new Error(`${walletId} is excluded from wallet options`);
       }
       adapter = this.wallets.find((w) => w.id === walletId) || null;
       if (!adapter) {
-        throw new Error(`${walletId} is not enabled`);
+        throw new Error(`${walletId} is not configured`);
       }
       if (!adapter.isInstalled()) {
         throw new Error(`${adapter.name} is not installed`);
@@ -322,7 +313,7 @@ export class AurumCore {
 
     const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
     if (!emailAdapter || !emailAdapter.emailAuthStart) {
-      throw new Error('Email wallet is not enabled');
+      throw new Error('Email wallet is not configured');
     }
 
     const result = await emailAdapter.emailAuthStart(email);
@@ -340,7 +331,7 @@ export class AurumCore {
 
     const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
     if (!emailAdapter || !emailAdapter.emailAuthVerify) {
-      throw new Error('Email wallet is not enabled');
+      throw new Error('Email wallet is not configured');
     }
 
     const verifyResult = await emailAdapter.emailAuthVerify(flowId, otp);
@@ -390,11 +381,7 @@ export class AurumCore {
   public async getWalletConnectSession(): Promise<WalletConnectSessionResult> {
     await this.whenReady();
 
-    if (this.excludedWallets.has(WalletId.WalletConnect)) {
-      throw new Error('WalletConnect is excluded from wallet options');
-    }
-
-    const wcAdapter = this.wallets.find((w) => w instanceof WalletConnectAdapter) as WalletConnectAdapter | undefined;
+    const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
     if (!wcAdapter) {
       throw new Error('WalletConnect is not enabled');
     }
@@ -419,7 +406,6 @@ export class AurumCore {
           publicAddress: checksumAdr,
           walletName: wcAdapter.name,
           walletId: wcAdapter.id,
-          email: undefined,
         };
 
         this.persistConnectionState(wcAdapter, checksumAdr);
