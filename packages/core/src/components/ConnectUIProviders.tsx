@@ -10,21 +10,6 @@ interface ConnectUIProvidersProps {
   displayedWallets: WalletAdapter[];
 }
 
-/**
- * Shared provider stack for wallet connection UI.
- *
- * Wraps NavigationProvider and ConnectModalProvider (which includes EmailAuthProvider).
- * Used by both renderConnectModal and ConnectWidget for consistent behavior.
- *
- * ## Hierarchy
- * ```
- * ConnectUIProviders
- *   └── NavigationProvider (page routing)
- *       └── ConnectModalProvider (connection logic)
- *           └── EmailAuthProvider (email auth state)
- *               └── {children}
- * ```
- */
 export const ConnectUIProviders: React.FC<ConnectUIProvidersProps> = ({ children, onConnect, displayedWallets }) => (
   <NavigationProvider initialPage={PAGE_IDS.SELECT_WALLET}>
     <ConnectModalProvider onConnect={onConnect} displayedWallets={displayedWallets}>

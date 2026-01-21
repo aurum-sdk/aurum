@@ -13,33 +13,6 @@ export interface ConnectWidgetProps {
   onConnect?: (result: UserInfo) => void;
 }
 
-/**
- * Embedded connect widget for embedded wallet connection.
- *
- * ## Hierarchy (mirrors renderConnectModal)
- * ```
- * ConnectWidget ← you are here
- *   └── WidgetStyleContainer (style injection + ThemeContainer)
- *       └── ConnectUIProviders (NavigationProvider + ConnectModalProvider)
- *           └── WidgetShell
- *               └── WidgetProvider (mode='widget')
- *                   └── PageTransitionContainer
- *                       └── ConnectPages (shared with modal)
- * ```
- *
- * @see renderConnectModal - Modal equivalent entry point
- * @see WidgetShell - Shell component (parallel to ModalShell)
- *
- * @example
- * ```tsx
- * <ConnectWidget
- *   aurum={aurum}
- *   onConnect={({ publicAddress, walletId, walletName }) => {
- *     console.log('Connected:', publicAddress, walletId, walletName);
- *   }}
- * />
- * ```
- */
 export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }) => {
   const brandConfig = aurum.brandConfig;
   const walletAdapters = aurum.walletAdapters;
