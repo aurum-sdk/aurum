@@ -10,6 +10,7 @@ import {
 import { WalletId } from '@aurum-sdk/types';
 import { isConfigError } from '@src/utils/isConfigError';
 import { sentryLogger } from '@src/services/sentry';
+import { isMobile } from '@src/utils/platform/isMobile';
 
 interface ResolvePayloadProps {
   adapter: WalletAdapter;
@@ -125,9 +126,16 @@ export const useConnectSelectedWallet = () => {
       }
       const { address, provider } = await adapter.openModal();
       setSuccess?.(true);
-      setTimeout(() => {
+
+      // Immediately resolve on mobile
+      // (no nice UI for appkit modal for flashing a success state like on desktop)
+      if (isMobile()) {
         onConnect({ walletId: adapter.id, address, provider });
-      }, 1000);
+      } else {
+        setTimeout(() => {
+          onConnect({ walletId: adapter.id, address, provider });
+        }, 1000);
+      }
     } catch (error) {
       if (isConfigError(error)) {
         navigateTo(PAGE_IDS.CONFIG_ERROR);
