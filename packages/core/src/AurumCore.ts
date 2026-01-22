@@ -63,6 +63,7 @@ export class AurumCore {
       appLogoUrl: this.brandConfig.logo,
       modalZIndex: this.brandConfig.modalZIndex,
       theme: this.brandConfig.theme,
+      telemetry: telemetryEnabled,
     });
 
     this.skeletonProvider = new RpcProvider(() => this.connect());
@@ -297,6 +298,12 @@ export class AurumCore {
           ? (newConfig.walletLayout ?? defaultTheme.walletLayout)
           : this.brandConfig.walletLayout,
     };
+
+    // If theme changed, update WalletConnect adapter's AppKit modal
+    if ('theme' in newConfig && this.brandConfig.theme) {
+      const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
+      wcAdapter?.updateTheme(this.brandConfig.theme);
+    }
   }
 
   public updateWalletsConfig(newConfig: Partial<Pick<WalletsConfig, 'exclude'>>): void {

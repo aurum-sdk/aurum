@@ -15,6 +15,7 @@ interface WalletConnectConfig {
   appName: string;
   modalZIndex: number;
   theme: 'light' | 'dark';
+  telemetry?: boolean;
 }
 
 export interface WalletConnectSession {
@@ -96,6 +97,9 @@ export class WalletConnectAdapter implements WalletAdapter {
       themeMode: this.config.theme,
       themeVariables: {
         '--apkt-z-index': this.config.modalZIndex + 1,
+      },
+      features: {
+        analytics: this.config.telemetry ?? false,
       },
     });
 
@@ -510,6 +514,18 @@ export class WalletConnectAdapter implements WalletAdapter {
   /** Called when remote wallet disconnects (user disconnects from mobile app) */
   onDisconnect(callback: () => void): void {
     this.disconnectCallback = callback;
+  }
+
+  /** Updates the AppKit modal theme */
+  updateTheme(theme: 'light' | 'dark'): void {
+    this.config.theme = theme;
+    // AppKit exposes setThemeMode to update theme after initialization
+    if (
+      this.modal &&
+      typeof (this.modal as unknown as { setThemeMode?: (t: string) => void }).setThemeMode === 'function'
+    ) {
+      (this.modal as unknown as { setThemeMode: (t: string) => void }).setThemeMode(theme);
+    }
   }
 
   private extractAccountsFromNamespaces(namespaces: SessionNamespaces | undefined): string[] {
