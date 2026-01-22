@@ -101,9 +101,6 @@ export class AurumCore {
     if (walletId === 'email') {
       throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
     }
-    if (walletId === 'walletconnect') {
-      throw new Error('Use getWalletConnectSession() for WalletConnect connections');
-    }
 
     // If already connected, return existing address (unless requesting a different wallet)
     if (this.userInfo?.publicAddress && this.connectedWalletAdapter?.getProvider()) {
@@ -126,10 +123,16 @@ export class AurumCore {
       if (!adapter) {
         throw new Error(`${walletId} is not configured`);
       }
-      if (!adapter.isInstalled()) {
-        throw new Error(`${adapter.name} is not installed`);
+
+      // WalletConnect opens the AppKit modal for wallet selection
+      if (walletId === WalletId.WalletConnect && adapter.openModal) {
+        result = await adapter.openModal();
+      } else {
+        if (!adapter.isInstalled()) {
+          throw new Error(`${adapter.name} is not installed`);
+        }
+        result = await adapter.connect();
       }
-      result = await adapter.connect();
     } else {
       // Open modal to let user choose
       const displayedWallets = this.wallets.filter((w) => !this.excludedWallets.has(w.id));

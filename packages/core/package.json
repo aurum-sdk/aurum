@@ -101,7 +101,6 @@
     "@reown/appkit": "^1.8.15",
     "@reown/appkit-adapter-wagmi": "^1.8.15",
     "@sentry/browser": "^10.29.0",
-    "@walletconnect/ethereum-provider": "~2.21.1",
     "buffer": "^6.0.3",
     "lucide-react": "^0.460.0",
     "mobile-detect": "^1.4.5",

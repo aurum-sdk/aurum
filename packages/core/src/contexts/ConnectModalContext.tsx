@@ -25,6 +25,7 @@ interface ConnectModalContextValue {
   displayedWallets: WalletAdapter[];
   goBackToHome: () => void;
   connectWallet: (wallet: WalletAdapter) => void;
+  openWalletConnectModal: () => void;
   retryConnection: () => void;
   setSelectedWallet: (wallet: WalletAdapter | null) => void;
   setSuccess: (success: boolean) => void;
@@ -48,7 +49,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
     connectInstalledWallet,
     connectWithMobileDeepLink,
     connectUninstalledWalletQRCode,
-    connectAppKit,
+    connectWalletConnectModal,
   } = useConnectSelectedWallet();
 
   const [error, setError] = useState<boolean>(false);
@@ -70,10 +71,6 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
       const hasDeepLink = Boolean(wallet.wcDeepLinkUrl);
 
       if (isDesktop) {
-        // User clicks `Open AppKit` button
-        if (wallet.id === WalletId.AppKit)
-          return await connectAppKit({ adapter: wallet, onConnect, setSuccess: setQrSuccess });
-
         if (!wallet.isInstalled() && !hasDeepLink) {
           return await redirectToDownloadPage();
         }
@@ -92,13 +89,14 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
       }
 
       if (isOnMobile) {
-        if (wallet.id === WalletId.WalletConnect || wallet.id === WalletId.AppKit) {
-          const appkitAdapter = displayedWallets?.find(({ id }) => id === WalletId.AppKit);
-          if (!appkitAdapter) {
-            sentryLogger.error('AppKit adapter not found');
-            throw new Error('AppKit adapter not found');
+        // On mobile, WalletConnect opens the AppKit modal
+        if (wallet.id === WalletId.WalletConnect) {
+          const wcAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
+          if (!wcAdapter) {
+            sentryLogger.error('WalletConnect adapter not found');
+            throw new Error('WalletConnect adapter not found');
           }
-          return await connectAppKit({ adapter: appkitAdapter, onConnect, setSuccess: setQrSuccess });
+          return await connectWalletConnectModal({ adapter: wcAdapter, onConnect, setSuccess: setQrSuccess });
         }
         if (wallet.isInstalled()) return await connectInstalledWallet({ adapter: wallet, onConnect, setSuccess });
         if (hasDeepLink) {
@@ -116,6 +114,19 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
 
   const retryConnection = () => {
     if (selectedWallet) connectWallet(selectedWallet);
+  };
+
+  const openWalletConnectModal = async () => {
+    const wcAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
+    if (!wcAdapter) {
+      sentryLogger.error('WalletConnect adapter not found');
+      return;
+    }
+    try {
+      await connectWalletConnectModal({ adapter: wcAdapter, onConnect, setSuccess: setQrSuccess });
+    } catch {
+      // User closed modal - ignore
+    }
   };
 
   const goBackToHome = () => {
@@ -136,6 +147,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
     displayedWallets,
     goBackToHome,
     connectWallet,
+    openWalletConnectModal,
     retryConnection,
     setSelectedWallet,
     setSuccess,

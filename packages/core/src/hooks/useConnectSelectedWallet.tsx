@@ -117,9 +117,13 @@ export const useConnectSelectedWallet = () => {
     }
   };
 
-  const connectAppKit = async ({ adapter, onConnect, setSuccess }: ResolvePayloadProps) => {
+  const connectWalletConnectModal = async ({ adapter, onConnect, setSuccess }: ResolvePayloadProps) => {
     try {
-      const { address, provider } = await adapter.connect();
+      // Use openModal() for AppKit modal flow
+      if (!adapter.openModal) {
+        throw new Error('Adapter does not support openModal');
+      }
+      const { address, provider } = await adapter.openModal();
       setSuccess?.(true);
       setTimeout(() => {
         onConnect({ walletId: adapter.id, address, provider });
@@ -140,7 +144,7 @@ export const useConnectSelectedWallet = () => {
   return {
     // Both mobile and desktop
     connectInstalledWallet,
-    connectAppKit,
+    connectWalletConnectModal,
     redirectToDownloadPage,
 
     // Desktop only

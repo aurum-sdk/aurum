@@ -234,7 +234,7 @@ export class Aurum {
    * import { WalletId } from '@aurum-sdk/types';
    *
    * aurum.updateWalletsConfig({
-   *   exclude: [WalletId.Email, WalletId.AppKit],
+   *   exclude: [WalletId.Email, WalletId.WalletConnect],
    * });
    * ```
    */

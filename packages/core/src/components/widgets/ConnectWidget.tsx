@@ -4,9 +4,8 @@ import { WidgetShell, WidgetStyleContainer } from '@src/components/widgets/Widge
 import { ConnectPages } from '@src/components/ConnectModal/ConnectPages';
 import { WalletConnectionResult } from '@src/types/internal';
 import { sortWallets } from '@src/utils/sortWallets';
-import { isMobile } from '@src/utils/platform/isMobile';
 import { Aurum } from '@src/Aurum';
-import { UserInfo, WalletId } from '@aurum-sdk/types';
+import { UserInfo } from '@aurum-sdk/types';
 
 export interface ConnectWidgetProps {
   aurum: Aurum;
@@ -19,16 +18,8 @@ export const ConnectWidget: React.FC<ConnectWidgetProps> = ({ aurum, onConnect }
   const excludedWalletIds = aurum.excludedWalletIds;
 
   const displayedWallets = useMemo(() => {
-    let filtered = walletAdapters.filter((w) => !excludedWalletIds.has(w.id));
-    filtered = sortWallets(filtered, { filterHidden: false });
-
-    // On mobile, WalletConnect requires AppKit
-    const hasAppKit = filtered.some((w) => w.id === WalletId.AppKit);
-    if (isMobile() && !hasAppKit) {
-      filtered = filtered.filter((w) => w.id !== WalletId.WalletConnect);
-    }
-
-    return filtered;
+    const filtered = walletAdapters.filter((w) => !excludedWalletIds.has(w.id));
+    return sortWallets(filtered, { filterHidden: false });
   }, [walletAdapters, excludedWalletIds]);
 
   const handleConnect = useCallback(
