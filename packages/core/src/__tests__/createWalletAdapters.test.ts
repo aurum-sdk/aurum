@@ -84,6 +84,7 @@ describe('createWalletAdapters', () => {
 
     expect(EmailAdapter).toHaveBeenCalledWith({
       projectId: 'test-cdp-project-id',
+      telemetry: true,
     });
   });
 
@@ -97,6 +98,7 @@ describe('createWalletAdapters', () => {
 
     expect(EmailAdapter).toHaveBeenCalledWith({
       projectId: undefined,
+      telemetry: true,
     });
   });
 
@@ -116,6 +118,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
   });
 
@@ -132,6 +135,7 @@ describe('createWalletAdapters', () => {
       appName: 'My Custom App',
       modalZIndex: 9999,
       theme: 'light',
+      telemetry: true,
     });
   });
 
@@ -147,6 +151,7 @@ describe('createWalletAdapters', () => {
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
       appName: 'Test App',
       appLogoUrl: 'https://example.com/logo.png',
+      telemetry: true,
     });
   });
 
@@ -161,6 +166,7 @@ describe('createWalletAdapters', () => {
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
       appName: 'Test App',
       appLogoUrl: undefined,
+      telemetry: true,
     });
   });
 
@@ -198,16 +204,18 @@ describe('createWalletAdapters', () => {
         telemetry: true,
       });
 
-      expect(EmailAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id' });
+      expect(EmailAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id', telemetry: true });
       expect(WalletConnectAdapter).toHaveBeenCalledWith({
         projectId: 'reown-id',
         appName: 'Full Config App',
         modalZIndex: 5000,
         theme: 'light',
+        telemetry: true,
       });
       expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
         appName: 'Full Config App',
         appLogoUrl: 'https://example.com/logo.svg',
+        telemetry: true,
       });
     });
   });
