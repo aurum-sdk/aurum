@@ -152,14 +152,14 @@ describe('sortWallets', () => {
 
     it('places wallets not in priority list at the end', () => {
       const wallets = [
-        createMockAdapter(WalletId.Ledger, { installed: true }), // Not in priority list
+        createMockAdapter(WalletId.Brave, { installed: true }), // Not in priority list
         createMockAdapter(WalletId.MetaMask, { installed: true }),
       ];
 
       const sorted = sortWallets(wallets);
 
       expect(sorted[0].id).toBe(WalletId.MetaMask);
-      expect(sorted[1].id).toBe(WalletId.Ledger);
+      expect(sorted[1].id).toBe(WalletId.Brave);
     });
   });
 
@@ -186,7 +186,7 @@ describe('sortWallets', () => {
 
     it('maintains stable sort for wallets with equal criteria', () => {
       const wallets = [
-        createMockAdapter(WalletId.Ledger, { installed: false }),
+        createMockAdapter(WalletId.Brave, { installed: false }),
         createMockAdapter(WalletId.Email, { installed: false, hide: false }), // Not hidden for this test
       ];
 

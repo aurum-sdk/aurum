@@ -33,10 +33,6 @@ import { BraveIcon } from '@src/react/icons/BraveIcon';
 import { BraveBrand } from '@src/react/icons/BraveBrand';
 import { BraveBlack } from '@src/react/icons/BraveBlack';
 import { BraveWhite } from '@src/react/icons/BraveWhite';
-import { LedgerIcon } from '@src/react/icons/LedgerIcon';
-import { LedgerBrand } from '@src/react/icons/LedgerBrand';
-import { LedgerBlack } from '@src/react/icons/LedgerBlack';
-import { LedgerWhite } from '@src/react/icons/LedgerWhite';
 
 // Explicit map — avoids namespace import which defeats tree-shaking
 const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -68,10 +64,6 @@ const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>
   'brave.brand': BraveBrand,
   'brave.black': BraveBlack,
   'brave.white': BraveWhite,
-  'ledger.icon': LedgerIcon,
-  'ledger.brand': LedgerBrand,
-  'ledger.black': LedgerBlack,
-  'ledger.white': LedgerWhite,
 };
 
 export interface WalletLogoProps extends Omit<React.SVGProps<SVGSVGElement>, 'ref'> {

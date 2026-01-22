@@ -10,7 +10,7 @@ pnpm add @aurum-sdk/logos
 
 ## Supported Logos
 
-MetaMask, Coinbase Wallet, Phantom, WalletConnect, Rabby, Brave, Ledger, and Aurum brand logo.
+MetaMask, Coinbase Wallet, Phantom, WalletConnect, Rabby, Brave, and Aurum brand logo.
 
 Each has 4 variants: `icon`, `brand`, `black`, `white`.
 

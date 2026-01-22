@@ -3,7 +3,6 @@ import { WalletsConfig } from '@aurum-sdk/types';
 import {
   RabbyAdapter,
   BraveAdapter,
-  LedgerAdapter,
   PhantomAdapter,
   CoinbaseWalletAdapter,
   MetaMaskAdapter,
@@ -46,6 +45,5 @@ export function createWalletAdapters({
     new PhantomAdapter(),
     new RabbyAdapter(),
     new BraveAdapter(),
-    new LedgerAdapter({ walletConnectProjectId: walletsConfig?.walletConnect?.projectId }),
   ];
 }

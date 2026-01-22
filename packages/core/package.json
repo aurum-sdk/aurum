@@ -95,7 +95,6 @@
     "@coinbase/cdp-core": "^0.0.74",
     "@coinbase/wallet-sdk": "^4.3.7",
     "@gemini-wallet/core": "^0.3.2",
-    "@ledgerhq/connect-kit-loader": "^1.1.8",
     "@metamask/sdk": "~0.33.1",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@reown/appkit": "^1.8.15",

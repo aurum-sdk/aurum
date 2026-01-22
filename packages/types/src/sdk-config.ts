@@ -66,7 +66,7 @@ export interface WalletConnectConfig {
 }
 
 /**
- * walletConnect projectId is used for WalletConnect, AppKit, and Ledger wallets
+ * walletConnect projectId is used for WalletConnect
  */
 export interface WalletsConfig {
   embedded?: EmbeddedWalletsConfig;
