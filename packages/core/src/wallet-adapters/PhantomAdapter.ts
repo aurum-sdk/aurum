@@ -86,7 +86,7 @@ export class PhantomAdapter implements WalletAdapter {
   }
 
   isInstalled(): boolean {
-    return Boolean(this.provider);
+    return Boolean(this.provider ?? this.detectLegacyProvider());
   }
 
   async connect(): Promise<WalletConnectionResult> {
