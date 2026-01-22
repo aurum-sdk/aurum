@@ -14,6 +14,7 @@ interface EmailProvider extends AurumRpcProvider {
 
 interface EmailAdapterConfig {
   projectId?: string;
+  telemetry?: boolean;
 }
 
 export class EmailAdapter implements WalletAdapter {
@@ -28,6 +29,7 @@ export class EmailAdapter implements WalletAdapter {
   private initPromise: Promise<void> | null = null;
   private publicClientCache: Map<number, PublicClient> = new Map();
   private projectId: string;
+  private telemetry: boolean;
 
   // Static variables - computed once across all instances
   private static chainIdMap: Map<number, Chain> | null = null;
@@ -36,6 +38,7 @@ export class EmailAdapter implements WalletAdapter {
 
   constructor(config?: EmailAdapterConfig) {
     this.projectId = config?.projectId || '';
+    this.telemetry = config?.telemetry ?? false;
   }
 
   private async ensureInitialized(): Promise<void> {
@@ -190,6 +193,7 @@ export class EmailAdapter implements WalletAdapter {
       ethereum: {
         createOnLogin: 'eoa',
       },
+      disableAnalytics: !this.telemetry,
     });
 
     this.provider = await this.createProvider();

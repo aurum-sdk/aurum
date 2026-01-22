@@ -23,17 +23,29 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
   private provider: CoinbaseProvider | null = null;
   private accountsChangedCallback: ((accounts: string[]) => void) | null = null;
 
-  constructor({ appName, appLogoUrl }: { appName: string; appLogoUrl?: string }) {
-    this.provider = this.detectProvider({ appName, appLogoUrl });
+  constructor({ appName, appLogoUrl, telemetry }: { appName: string; appLogoUrl?: string; telemetry?: boolean }) {
+    this.provider = this.detectProvider({ appName, appLogoUrl, telemetry: telemetry ?? false });
   }
 
-  private detectProvider({ appName, appLogoUrl }: { appName: string; appLogoUrl?: string }): CoinbaseProvider | null {
+  private detectProvider({
+    appName,
+    appLogoUrl,
+    telemetry,
+  }: {
+    appName: string;
+    appLogoUrl?: string;
+    telemetry: boolean;
+  }): CoinbaseProvider | null {
     if (typeof window === 'undefined') return null;
 
     try {
       const coinbaseSdk = createCoinbaseWalletSDK({
         appName,
         appLogoUrl,
+        preference: {
+          options: 'all',
+          telemetry,
+        },
       });
 
       return coinbaseSdk.getProvider() as CoinbaseProvider;

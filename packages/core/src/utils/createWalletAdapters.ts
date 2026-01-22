@@ -17,6 +17,7 @@ interface CreateWalletAdaptersParams {
   appLogoUrl?: string;
   modalZIndex: number;
   theme: 'light' | 'dark';
+  telemetry: boolean;
 }
 
 /**
@@ -29,17 +30,19 @@ export function createWalletAdapters({
   appLogoUrl,
   modalZIndex,
   theme,
+  telemetry,
 }: CreateWalletAdaptersParams): WalletAdapter[] {
   return [
-    new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId }),
+    new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId, telemetry }),
     new MetaMaskAdapter(),
     new WalletConnectAdapter({
       projectId: walletsConfig?.walletConnect?.projectId,
       appName,
       modalZIndex,
       theme,
+      telemetry,
     }),
-    new CoinbaseWalletAdapter({ appName, appLogoUrl }),
+    new CoinbaseWalletAdapter({ appName, appLogoUrl, telemetry }),
     new PhantomAdapter(),
     new RabbyAdapter(),
     new BraveAdapter(),

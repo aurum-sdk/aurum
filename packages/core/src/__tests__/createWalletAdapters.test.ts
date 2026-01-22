@@ -63,6 +63,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(adapters).toHaveLength(8);
@@ -84,6 +85,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(EmailAdapter).toHaveBeenCalledWith({
@@ -96,6 +98,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(EmailAdapter).toHaveBeenCalledWith({
@@ -111,6 +114,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
@@ -126,6 +130,7 @@ describe('createWalletAdapters', () => {
       appName: 'My Custom App',
       modalZIndex: 9999,
       theme: 'light',
+      telemetry: true,
     });
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
@@ -142,6 +147,7 @@ describe('createWalletAdapters', () => {
       appLogoUrl: 'https://example.com/logo.png',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
@@ -155,6 +161,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
@@ -171,6 +178,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(LedgerAdapter).toHaveBeenCalledWith({
@@ -184,6 +192,7 @@ describe('createWalletAdapters', () => {
         appName: 'Test App',
         modalZIndex: 1000,
         theme: 'dark',
+        telemetry: true,
       });
 
       // Verify order matches createWalletAdapters implementation
@@ -209,6 +218,7 @@ describe('createWalletAdapters', () => {
         appLogoUrl: 'https://example.com/logo.svg',
         modalZIndex: 5000,
         theme: 'light',
+        telemetry: true,
       });
 
       expect(EmailAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id' });
