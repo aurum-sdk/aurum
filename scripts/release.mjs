@@ -48,23 +48,41 @@ async function main() {
   });
 
   // 4. Prompt for Bump Type
+  const isCurrentCanary = currentVersion.includes('-canary');
+
+  // Build choices based on release type and current version
+  const bumpChoices = [
+    { name: 'patch', message: 'Patch' },
+    { name: 'minor', message: 'Minor' },
+    { name: 'major', message: 'Major' },
+  ];
+
+  // Add prerelease option for canary releases when already on a canary version
+  if (releaseType === 'canary' && isCurrentCanary) {
+    const nextPrerelease = semver.inc(currentVersion, 'prerelease', 'canary');
+    bumpChoices.unshift({
+      name: 'prerelease',
+      message: `Prerelease (${currentVersion} → ${nextPrerelease})`,
+    });
+  }
+
   const { bumpType } = await prompt({
     type: 'select',
     name: 'bumpType',
     message: 'Select version bump:',
-    choices: [
-      { name: 'patch', message: 'Patch' },
-      { name: 'minor', message: 'Minor' },
-      { name: 'major', message: 'Major' },
-    ],
+    choices: bumpChoices,
   });
 
   // 5. Calculate New Version
   let newVersion;
   if (releaseType === 'canary') {
-    // If current is already a canary of the same bump, increment the prerelease
-    // Otherwise, bump the version and add -canary.0
-    newVersion = semver.inc(currentVersion, `pre${bumpType}`, 'canary');
+    if (bumpType === 'prerelease') {
+      // Just increment the canary number (e.g., 0.2.2-canary.0 → 0.2.2-canary.1)
+      newVersion = semver.inc(currentVersion, 'prerelease', 'canary');
+    } else {
+      // Bump the base version and start new canary (e.g., 0.2.2-canary.1 → 0.2.3-canary.0)
+      newVersion = semver.inc(currentVersion, `pre${bumpType}`, 'canary');
+    }
   } else {
     newVersion = semver.inc(currentVersion, bumpType);
   }
