@@ -10,7 +10,6 @@ const WALLET_PRIORITY = [
   WalletId.Brave,
   WalletId.Rabby,
   WalletId.CoinbaseWallet,
-  WalletId.Ledger,
 ];
 
 export interface SortWalletsOptions {

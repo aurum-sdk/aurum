@@ -36,11 +36,6 @@ import braveBrand from '@src/assets/brave.brand.svg';
 import braveBlack from '@src/assets/brave.black.svg';
 import braveWhite from '@src/assets/brave.white.svg';
 
-import ledgerIcon from '@src/assets/ledger.icon.svg';
-import ledgerBrand from '@src/assets/ledger.brand.svg';
-import ledgerBlack from '@src/assets/ledger.black.svg';
-import ledgerWhite from '@src/assets/ledger.white.svg';
-
 import aurumIcon from '@src/assets/aurum.icon.svg';
 import aurumBrand from '@src/assets/aurum.brand.svg';
 import aurumBlack from '@src/assets/aurum.black.svg';
@@ -81,11 +76,6 @@ export const SVG_REGISTRY: Record<string, string> = {
   'brave.brand': braveBrand,
   'brave.black': braveBlack,
   'brave.white': braveWhite,
-
-  'ledger.icon': ledgerIcon,
-  'ledger.brand': ledgerBrand,
-  'ledger.black': ledgerBlack,
-  'ledger.white': ledgerWhite,
 
   'aurum.icon': aurumIcon,
   'aurum.brand': aurumBrand,

@@ -26,7 +26,6 @@ describe('getLogoSvg', () => {
         WalletId.Phantom,
         WalletId.WalletConnect,
         WalletId.Rabby,
-        WalletId.Ledger,
         WalletId.Brave,
       ];
 

@@ -10,7 +10,6 @@ vi.mock('@src/wallet-adapters', () => ({
   PhantomAdapter: vi.fn(),
   RabbyAdapter: vi.fn(),
   BraveAdapter: vi.fn(),
-  LedgerAdapter: vi.fn(),
 }));
 
 import { createWalletAdapters } from '@src/utils/createWalletAdapters';
@@ -22,7 +21,6 @@ import {
   PhantomAdapter,
   RabbyAdapter,
   BraveAdapter,
-  LedgerAdapter,
 } from '@src/wallet-adapters';
 
 describe('createWalletAdapters', () => {
@@ -53,12 +51,9 @@ describe('createWalletAdapters', () => {
     vi.mocked(BraveAdapter).mockImplementation(
       () => ({ id: WalletId.Brave, name: WalletName.Brave }) as unknown as BraveAdapter,
     );
-    vi.mocked(LedgerAdapter).mockImplementation(
-      (config) => ({ id: WalletId.Ledger, name: WalletName.Ledger, config }) as unknown as LedgerAdapter,
-    );
   });
 
-  it('creates all 8 adapters', () => {
+  it('creates all 7 adapters', () => {
     const adapters = createWalletAdapters({
       appName: 'Test App',
       modalZIndex: 1000,
@@ -66,7 +61,7 @@ describe('createWalletAdapters', () => {
       telemetry: true,
     });
 
-    expect(adapters).toHaveLength(8);
+    expect(adapters).toHaveLength(7);
     expect(EmailAdapter).toHaveBeenCalledTimes(1);
     expect(MetaMaskAdapter).toHaveBeenCalledTimes(1);
     expect(WalletConnectAdapter).toHaveBeenCalledTimes(1);
@@ -74,7 +69,6 @@ describe('createWalletAdapters', () => {
     expect(PhantomAdapter).toHaveBeenCalledTimes(1);
     expect(RabbyAdapter).toHaveBeenCalledTimes(1);
     expect(BraveAdapter).toHaveBeenCalledTimes(1);
-    expect(LedgerAdapter).toHaveBeenCalledTimes(1);
   });
 
   it('passes email projectId to EmailAdapter', () => {
@@ -170,22 +164,6 @@ describe('createWalletAdapters', () => {
     });
   });
 
-  it('passes walletConnect projectId to LedgerAdapter', () => {
-    createWalletAdapters({
-      walletsConfig: {
-        walletConnect: { projectId: 'test-reown-project-id' },
-      },
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-      telemetry: true,
-    });
-
-    expect(LedgerAdapter).toHaveBeenCalledWith({
-      walletConnectProjectId: 'test-reown-project-id',
-    });
-  });
-
   describe('adapter order', () => {
     it('returns adapters in expected order', () => {
       const adapters = createWalletAdapters({
@@ -203,7 +181,6 @@ describe('createWalletAdapters', () => {
       expect(adapters[4].id).toBe(WalletId.Phantom);
       expect(adapters[5].id).toBe(WalletId.Rabby);
       expect(adapters[6].id).toBe(WalletId.Brave);
-      expect(adapters[7].id).toBe(WalletId.Ledger);
     });
   });
 

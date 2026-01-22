@@ -85,9 +85,6 @@ importers:
       '@gemini-wallet/core':
         specifier: ^0.3.2
         version: 0.3.2(viem@2.42.1)
-      '@ledgerhq/connect-kit-loader':
-        specifier: ^1.1.8
-        version: 1.1.8
       '@metamask/sdk':
         specifier: ~0.33.1
         version: 0.33.1
@@ -1564,10 +1561,6 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  /@ledgerhq/connect-kit-loader@1.1.8:
-    resolution: {integrity: sha512-mDJsOucVW8m3Lk2fdQst+P74SgiKebvq1iBk4sXLbADQOwhL9bWGaArvO+tW7jPJZwEfSPWBdHcHoYi11XAwZw==}
-    dev: false
 
   /@lit-labs/ssr-dom-shim@1.4.0:
     resolution: {integrity: sha512-ficsEARKnmmW5njugNYKipTm4SFnbik7CXtoencDZzmzo/dQ+2Q0bgkzJuoJP20Aj0F+izzJjOqsnkd6F/o1bw==}
