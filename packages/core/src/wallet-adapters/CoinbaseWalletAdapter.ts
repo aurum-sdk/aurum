@@ -65,24 +65,20 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
       throw new Error('Coinbase Wallet is not available');
     }
 
-    try {
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
 
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Coinbase Wallet');
-        throw new Error('No accounts returned from Coinbase Wallet');
-      }
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Coinbase Wallet');
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Coinbase Wallet');
+      throw new Error('No accounts returned from Coinbase Wallet');
     }
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {

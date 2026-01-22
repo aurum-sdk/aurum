@@ -15,13 +15,19 @@ interface ConnectionStatusBaseProps {
   extraContent?: React.ReactNode;
 }
 
+// EIP-1193 error codes
+const ERROR_CODE = {
+  USER_REJECTED: 4001,
+  REQUEST_PENDING: -32002,
+} as const;
+
 export const ConnectionStatusBase: React.FC<ConnectionStatusBaseProps> = ({
   title,
   pendingHeaderText,
   pendingSubContent,
   extraContent,
 }) => {
-  const { selectedWallet, error, success, goBackToHome, retryConnection } = useConnectModal();
+  const { selectedWallet, error, errorCode, success, goBackToHome, retryConnection } = useConnectModal();
   const { onDismiss, brandConfig } = useWidgetContext();
   const [shouldShake, setShouldShake] = useState(false);
 
@@ -42,13 +48,16 @@ export const ConnectionStatusBase: React.FC<ConnectionStatusBaseProps> = ({
 
   const getHeaderVariant = () => {
     if (success) return 'success';
-    if (error) return 'error';
+    if (error && errorCode !== ERROR_CODE.REQUEST_PENDING) return 'error';
     return 'primary';
   };
 
   const getHeaderText = () => {
     if (success) return '';
-    if (error) return 'Request Rejected';
+    if (error) {
+      if (errorCode === ERROR_CODE.REQUEST_PENDING) return 'Request Pending';
+      return 'Request Rejected';
+    }
     return pendingHeaderText;
   };
 
@@ -62,6 +71,13 @@ export const ConnectionStatusBase: React.FC<ConnectionStatusBaseProps> = ({
     }
 
     if (error) {
+      if (errorCode === ERROR_CODE.REQUEST_PENDING) {
+        return (
+          <Text align="center" size="sm" variant="secondary">
+            Check your wallet for a {'\n'}pending connection request
+          </Text>
+        );
+      }
       return (
         <Text align="center" size="sm" variant="secondary">
           Please try again or select a {'\n'}different wallet

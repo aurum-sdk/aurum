@@ -96,31 +96,27 @@ export class BraveAdapter implements WalletAdapter {
       throw new Error('Brave Wallet is not available');
     }
 
-    try {
-      // Force Brave Wallet to prompt for a fresh connection instead of returning cached accounts
-      await this.provider.request({
-        method: 'wallet_requestPermissions',
-        params: [{ eth_accounts: {} }],
-      });
+    // Force Brave Wallet to prompt for a fresh connection instead of returning cached accounts
+    await this.provider.request({
+      method: 'wallet_requestPermissions',
+      params: [{ eth_accounts: {} }],
+    });
 
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
 
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Brave Wallet');
-        throw new Error('No accounts returned from Brave Wallet');
-      }
-
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Brave Wallet');
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Brave Wallet');
+      throw new Error('No accounts returned from Brave Wallet');
     }
+
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {

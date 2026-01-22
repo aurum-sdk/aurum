@@ -18,6 +18,7 @@ interface ConnectModalProviderProps {
 
 interface ConnectModalContextValue {
   error: boolean;
+  errorCode: number | null;
   configError: boolean;
   success: boolean;
   qrSuccess: boolean;
@@ -53,6 +54,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
   } = useConnectSelectedWallet();
 
   const [error, setError] = useState<boolean>(false);
+  const [errorCode, setErrorCode] = useState<number | null>(null);
   const [configError, setConfigError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [qrSuccess, setQrSuccess] = useState<boolean>(false);
@@ -61,6 +63,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
   const connectWallet = async (wallet: WalletAdapter) => {
     try {
       setError(false);
+      setErrorCode(null);
       setConfigError(false);
       setSuccess(false);
       setQrSuccess(false);
@@ -106,6 +109,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
       }
     } catch (err) {
       setError(true);
+      setErrorCode((err as { code?: number })?.code ?? null);
       if (isConfigError(err)) {
         setConfigError(true);
       }
@@ -133,6 +137,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
     navigateTo(PAGE_IDS.SELECT_WALLET);
     setSelectedWallet(null);
     setError(false);
+    setErrorCode(null);
     setConfigError(false);
     setSuccess(false);
     setQrSuccess(false);
@@ -140,6 +145,7 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
 
   const contextValue: ConnectModalContextValue = {
     error,
+    errorCode,
     configError,
     success,
     qrSuccess,
