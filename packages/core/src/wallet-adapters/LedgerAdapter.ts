@@ -31,49 +31,45 @@ export class LedgerAdapter implements WalletAdapter {
   }
 
   async connect(): Promise<WalletConnectionResult> {
-    try {
-      if (!this.walletConnectProjectId) {
-        throw createConfigError('Ledger');
-      }
-
-      const { loadConnectKit } = await import('@ledgerhq/connect-kit-loader');
-      const connectKit = await loadConnectKit();
-
-      connectKit.enableDebugLogs();
-
-      connectKit.checkSupport({
-        providerType: SupportedProviders.Ethereum,
-        chainId: 1,
-        walletConnectVersion: 2,
-        projectId: this.walletConnectProjectId,
-        rpc: { 1: mainnet.rpcUrls.default.http[0] },
-      });
-
-      this.provider = (await connectKit.getProvider()) as AurumRpcProvider;
-
-      if (!this.provider) {
-        sentryLogger.error('Failed to get Ledger provider');
-        throw new Error('Failed to get Ledger provider');
-      }
-
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
-
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Ledger');
-        throw new Error('No accounts returned from Ledger');
-      }
-
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Ledger');
+    if (!this.walletConnectProjectId) {
+      throw createConfigError('Ledger');
     }
+
+    const { loadConnectKit } = await import('@ledgerhq/connect-kit-loader');
+    const connectKit = await loadConnectKit();
+
+    connectKit.enableDebugLogs();
+
+    connectKit.checkSupport({
+      providerType: SupportedProviders.Ethereum,
+      chainId: 1,
+      walletConnectVersion: 2,
+      projectId: this.walletConnectProjectId,
+      rpc: { 1: mainnet.rpcUrls.default.http[0] },
+    });
+
+    this.provider = (await connectKit.getProvider()) as AurumRpcProvider;
+
+    if (!this.provider) {
+      sentryLogger.error('Failed to get Ledger provider');
+      throw new Error('Failed to get Ledger provider');
+    }
+
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
+
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Ledger');
+      throw new Error('No accounts returned from Ledger');
+    }
+
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {

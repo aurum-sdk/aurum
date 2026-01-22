@@ -290,9 +290,10 @@ export class WalletConnectAdapter implements WalletAdapter {
       this.lastKnownAccounts = [address];
 
       return { address, provider: this.provider, walletId: this.id };
-    } catch {
+    } catch (error) {
       this.connectionUri = null;
-      throw new Error('Failed to connect to WalletConnect');
+      // Re-throw to preserve error context (e.g., user rejection)
+      throw error;
     }
   }
 
@@ -337,9 +338,10 @@ export class WalletConnectAdapter implements WalletAdapter {
       waitForConnection: async () => {
         try {
           return await connectionPromise;
-        } catch {
+        } catch (error) {
           this.connectionUri = null;
-          throw new Error('Failed to connect via WalletConnect');
+          // Re-throw to preserve error context (e.g., user rejection)
+          throw error;
         }
       },
     };

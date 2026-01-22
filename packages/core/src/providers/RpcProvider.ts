@@ -1,6 +1,34 @@
 import type { AurumRpcProvider } from '@aurum-sdk/types';
 
 /**
+ * EIP-1193 compliant provider error.
+ * @see https://eips.ethereum.org/EIPS/eip-1193#provider-errors
+ */
+export class ProviderRpcError extends Error {
+  readonly code: number;
+  readonly data?: unknown;
+
+  constructor(code: number, message: string, data?: unknown) {
+    super(message);
+    this.name = 'ProviderRpcError';
+    this.code = code;
+    this.data = data;
+  }
+}
+
+/**
+ * EIP-1193 Provider Error Codes
+ * @see https://eips.ethereum.org/EIPS/eip-1193#provider-errors
+ */
+export const ProviderErrorCode = {
+  USER_REJECTED: 4001, // User rejected the request
+  UNAUTHORIZED: 4100, // The requested account/method has not been authorized
+  UNSUPPORTED_METHOD: 4200, // The provider does not support the requested method
+  DISCONNECTED: 4900, // The provider is disconnected from all chains
+  CHAIN_DISCONNECTED: 4901, // The provider is not connected to the requested chain
+} as const;
+
+/**
  * RpcProvider acts as a default provider when no wallet is connected.
  * It accepts eth_requestAccounts to prompt the wallet modal to connect.
  * It accepts eth_accounts and returns [].
@@ -33,7 +61,10 @@ export class RpcProvider implements AurumRpcProvider {
           const address = await this.handleConnect();
           return [address] as T;
         } else {
-          throw new Error('No wallet connection available. Please use aurum.connect() instead.');
+          throw new ProviderRpcError(
+            ProviderErrorCode.DISCONNECTED,
+            'No wallet connection available. Please use aurum.connect() instead.',
+          );
         }
 
       // Chain/network information
@@ -45,8 +76,9 @@ export class RpcProvider implements AurumRpcProvider {
 
       // Default case for rest of methods
       default:
-        throw new Error(
-          `Method ${method} requires an active connection to a JSON-RPC provider. Please connect a wallet.`,
+        throw new ProviderRpcError(
+          ProviderErrorCode.DISCONNECTED,
+          `Method ${method} requires an active wallet connection. Please connect a wallet first.`,
         );
     }
   }

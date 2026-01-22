@@ -91,31 +91,27 @@ export class RabbyAdapter implements WalletAdapter {
       throw new Error('Rabby is not available');
     }
 
-    try {
-      // Force Rabby to prompt for a fresh connection instead of returning cached accounts
-      await this.provider.request({
-        method: 'wallet_requestPermissions',
-        params: [{ eth_accounts: {} }],
-      });
+    // Force Rabby to prompt for a fresh connection instead of returning cached accounts
+    await this.provider.request({
+      method: 'wallet_requestPermissions',
+      params: [{ eth_accounts: {} }],
+    });
 
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
 
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Rabby');
-        throw new Error('No accounts returned from Rabby');
-      }
-
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Rabby');
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Rabby');
+      throw new Error('No accounts returned from Rabby');
     }
+
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {
