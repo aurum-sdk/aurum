@@ -11,7 +11,6 @@ vi.mock('@src/wallet-adapters', () => ({
   RabbyAdapter: vi.fn(),
   BraveAdapter: vi.fn(),
   LedgerAdapter: vi.fn(),
-  AppKitAdapter: vi.fn(),
 }));
 
 import { createWalletAdapters } from '@src/utils/createWalletAdapters';
@@ -24,7 +23,6 @@ import {
   RabbyAdapter,
   BraveAdapter,
   LedgerAdapter,
-  AppKitAdapter,
 } from '@src/wallet-adapters';
 
 describe('createWalletAdapters', () => {
@@ -58,19 +56,16 @@ describe('createWalletAdapters', () => {
     vi.mocked(LedgerAdapter).mockImplementation(
       (config) => ({ id: WalletId.Ledger, name: WalletName.Ledger, config }) as unknown as LedgerAdapter,
     );
-    vi.mocked(AppKitAdapter).mockImplementation(
-      (config) => ({ id: WalletId.AppKit, name: WalletName.AppKit, config }) as unknown as AppKitAdapter,
-    );
   });
 
-  it('creates all 9 adapters', () => {
+  it('creates all 8 adapters', () => {
     const adapters = createWalletAdapters({
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
     });
 
-    expect(adapters).toHaveLength(9);
+    expect(adapters).toHaveLength(8);
     expect(EmailAdapter).toHaveBeenCalledTimes(1);
     expect(MetaMaskAdapter).toHaveBeenCalledTimes(1);
     expect(WalletConnectAdapter).toHaveBeenCalledTimes(1);
@@ -79,7 +74,6 @@ describe('createWalletAdapters', () => {
     expect(RabbyAdapter).toHaveBeenCalledTimes(1);
     expect(BraveAdapter).toHaveBeenCalledTimes(1);
     expect(LedgerAdapter).toHaveBeenCalledTimes(1);
-    expect(AppKitAdapter).toHaveBeenCalledTimes(1);
   });
 
   it('passes email projectId to EmailAdapter', () => {
@@ -122,19 +116,23 @@ describe('createWalletAdapters', () => {
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
       projectId: 'test-reown-project-id',
       appName: 'Test App',
+      modalZIndex: 1000,
+      theme: 'dark',
     });
   });
 
-  it('passes appName to WalletConnectAdapter', () => {
+  it('passes appName, modalZIndex, and theme to WalletConnectAdapter', () => {
     createWalletAdapters({
       appName: 'My Custom App',
-      modalZIndex: 1000,
-      theme: 'dark',
+      modalZIndex: 9999,
+      theme: 'light',
     });
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
       projectId: undefined,
       appName: 'My Custom App',
+      modalZIndex: 9999,
+      theme: 'light',
     });
   });
 
@@ -162,39 +160,6 @@ describe('createWalletAdapters', () => {
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
       appName: 'Test App',
       appLogoUrl: undefined,
-    });
-  });
-
-  it('passes walletConnect projectId to AppKitAdapter', () => {
-    createWalletAdapters({
-      walletsConfig: {
-        walletConnect: { projectId: 'test-reown-project-id' },
-      },
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-    });
-
-    expect(AppKitAdapter).toHaveBeenCalledWith({
-      projectId: 'test-reown-project-id',
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-    });
-  });
-
-  it('passes modalZIndex and theme to AppKitAdapter', () => {
-    createWalletAdapters({
-      appName: 'Test App',
-      modalZIndex: 9999,
-      theme: 'light',
-    });
-
-    expect(AppKitAdapter).toHaveBeenCalledWith({
-      projectId: undefined,
-      appName: 'Test App',
-      modalZIndex: 9999,
-      theme: 'light',
     });
   });
 
@@ -230,7 +195,6 @@ describe('createWalletAdapters', () => {
       expect(adapters[5].id).toBe(WalletId.Rabby);
       expect(adapters[6].id).toBe(WalletId.Brave);
       expect(adapters[7].id).toBe(WalletId.Ledger);
-      expect(adapters[8].id).toBe(WalletId.AppKit);
     });
   });
 
@@ -251,16 +215,12 @@ describe('createWalletAdapters', () => {
       expect(WalletConnectAdapter).toHaveBeenCalledWith({
         projectId: 'reown-id',
         appName: 'Full Config App',
+        modalZIndex: 5000,
+        theme: 'light',
       });
       expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
         appName: 'Full Config App',
         appLogoUrl: 'https://example.com/logo.svg',
-      });
-      expect(AppKitAdapter).toHaveBeenCalledWith({
-        projectId: 'reown-id',
-        appName: 'Full Config App',
-        modalZIndex: 5000,
-        theme: 'light',
       });
     });
   });

@@ -176,7 +176,7 @@ describe('AurumCore', () => {
     it('accepts various exclude configurations', async () => {
       // Test with WalletId enum values
       let AurumCore = await getAurumCore();
-      expect(() => new AurumCore({ wallets: { exclude: [WalletId.Email, WalletId.AppKit] } })).not.toThrow();
+      expect(() => new AurumCore({ wallets: { exclude: [WalletId.Email, WalletId.WalletConnect] } })).not.toThrow();
 
       vi.resetModules();
       vi.clearAllMocks();
@@ -190,7 +190,9 @@ describe('AurumCore', () => {
 
       // Test with string literals
       AurumCore = await getAurumCore();
-      expect(() => new AurumCore({ wallets: { exclude: ['email', 'appkit'] as `${WalletId}`[] } })).not.toThrow();
+      expect(
+        () => new AurumCore({ wallets: { exclude: ['email', 'walletconnect'] as `${WalletId}`[] } }),
+      ).not.toThrow();
     });
   });
 
@@ -250,7 +252,7 @@ describe('AurumCore', () => {
     it('accepts wallet config updates without throwing', async () => {
       const AurumCore = await getAurumCore();
       const core = new AurumCore({
-        wallets: { exclude: [WalletId.Email, WalletId.AppKit] },
+        wallets: { exclude: [WalletId.Email, WalletId.WalletConnect] },
       });
 
       // Should not throw when updating exclusions

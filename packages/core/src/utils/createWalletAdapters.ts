@@ -1,7 +1,6 @@
 import { WalletAdapter } from '@src/types/internal';
 import { WalletsConfig } from '@aurum-sdk/types';
 import {
-  AppKitAdapter,
   RabbyAdapter,
   BraveAdapter,
   LedgerAdapter,
@@ -34,12 +33,16 @@ export function createWalletAdapters({
   return [
     new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId }),
     new MetaMaskAdapter(),
-    new WalletConnectAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName }),
+    new WalletConnectAdapter({
+      projectId: walletsConfig?.walletConnect?.projectId,
+      appName,
+      modalZIndex,
+      theme,
+    }),
     new CoinbaseWalletAdapter({ appName, appLogoUrl }),
     new PhantomAdapter(),
     new RabbyAdapter(),
     new BraveAdapter(),
     new LedgerAdapter({ walletConnectProjectId: walletsConfig?.walletConnect?.projectId }),
-    new AppKitAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName, modalZIndex, theme }),
   ];
 }

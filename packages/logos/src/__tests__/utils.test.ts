@@ -9,7 +9,8 @@ describe('resolveLogoPrefix', () => {
     expect(resolveLogoPrefix(WalletId.CoinbaseWallet)).toBe('coinbase-wallet');
     expect(resolveLogoPrefix(WalletId.WalletConnect)).toBe('walletconnect');
     expect(resolveLogoPrefix(WalletId.Rabby)).toBe('rabby');
-    expect(resolveLogoPrefix(WalletId.AppKit)).toBe('appkit');
+    expect(resolveLogoPrefix(WalletId.Ledger)).toBe('ledger');
+    expect(resolveLogoPrefix(WalletId.Brave)).toBe('brave');
   });
 
   it('returns coinbase-wallet prefix for Email wallet', () => {

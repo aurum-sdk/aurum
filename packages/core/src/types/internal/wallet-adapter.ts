@@ -16,7 +16,6 @@ export interface WalletAdapter {
   // Ex:
   // hide Brave on non-Brave browsers
   // hide Email adapter since that's not rendered like other wallets
-  // hide AppKit since that's only prompt-able from the QR code screen
   readonly hide: boolean;
   readonly downloadUrl: string | null;
 
@@ -36,6 +35,9 @@ export interface WalletAdapter {
   // Email adapter only
   emailAuthStart?(email: string): Promise<SignInWithEmailResult>;
   emailAuthVerify?(email: string, otp: string): Promise<VerifyEmailOTPResult>;
+
+  // WalletConnect adapter only - opens the AppKit modal
+  openModal?(): Promise<WalletConnectionResult>;
 
   // Listeners
   onAccountsChanged(callback: (accounts: string[]) => void): void;

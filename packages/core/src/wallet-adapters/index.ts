@@ -1,4 +1,3 @@
-export { AppKitAdapter } from '@src/wallet-adapters/AppKitAdapter';
 export { RabbyAdapter } from '@src/wallet-adapters/RabbyAdapter';
 export { BraveAdapter } from '@src/wallet-adapters/BraveAdapter';
 export { LedgerAdapter } from '@src/wallet-adapters/LedgerAdapter';
