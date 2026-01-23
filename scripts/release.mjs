@@ -84,7 +84,28 @@ async function main() {
       newVersion = semver.inc(currentVersion, `pre${bumpType}`, 'canary');
     }
   } else {
-    newVersion = semver.inc(currentVersion, bumpType);
+    // Production release
+    if (isCurrentCanary) {
+      // When going from canary to production, bump from last production version (not canary base)
+      let lastProductionVersion = currentVersion;
+      try {
+        const tags = execSync('git tag -l "v*" --sort=-v:refname', { encoding: 'utf-8' })
+          .trim()
+          .split('\n')
+          .filter(Boolean);
+        const productionTag = tags.find((tag) => !tag.includes('canary'));
+        if (productionTag) {
+          lastProductionVersion = productionTag.replace(/^v/, '');
+          console.log(`${pc.gray('Last production version:')} ${pc.bold(lastProductionVersion)}`);
+        }
+      } catch {
+        // If git fails, fall back to stripping prerelease from current version
+        lastProductionVersion = currentVersion.replace(/-canary\.\d+$/, '');
+      }
+      newVersion = semver.inc(lastProductionVersion, bumpType);
+    } else {
+      newVersion = semver.inc(currentVersion, bumpType);
+    }
   }
 
   // 6. Confirm Version
