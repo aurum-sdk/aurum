@@ -1,6 +1,6 @@
 {
   "name": "@aurum-sdk/core",
-  "version": "0.2.1",
+  "version": "0.2.3-canary.3",
   "description": "Aurum wallet connection SDK",
   "sideEffects": [
     "*.css"
@@ -49,7 +49,7 @@
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
     "viem": ">=2.0.0",
-    "wagmi": ">=3.0.0"
+    "wagmi": ">=2.0.0"
   },
   "peerDependenciesMeta": {
     "viem": {
@@ -69,7 +69,7 @@
     "react-dom": "^19.2.2",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
-    "viem": "^2.42.1",
+    "viem": "^2.44.2",
     "vite": "^6.0.0",
     "vitest": "^2.1.0",
     "wagmi": "^3.1.0"
@@ -96,16 +96,15 @@
     "@coinbase/wallet-sdk": "^4.3.7",
     "@gemini-wallet/core": "^0.3.2",
     "@metamask/sdk": "~0.33.1",
-    "@react-native-async-storage/async-storage": "^1.24.0",
-    "@reown/appkit": "^1.8.15",
-    "@reown/appkit-adapter-wagmi": "^1.8.15",
+    "@react-native-async-storage/async-storage": "^2.0.0",
+    "@reown/appkit": "^1.8.17",
+    "@reown/appkit-adapter-wagmi": "^1.8.17",
     "@sentry/browser": "^10.29.0",
     "buffer": "^6.0.3",
     "lucide-react": "^0.460.0",
     "mobile-detect": "^1.4.5",
     "porto": "^0.2.37",
     "react-qrcode-logo": "^3.0.0",
-    "x402-fetch": "^0.7.0",
     "zustand": "^5.0.9"
   }
 }

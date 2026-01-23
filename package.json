@@ -1,6 +1,6 @@
 {
   "name": "aurum-monorepo",
-  "version": "0.2.1",
+  "version": "0.2.3-canary.3",
   "description": "Aurum wallet connection SDK monorepo",
   "private": true,
   "engines": {
@@ -65,13 +65,17 @@
       "ignoreMissing": [
         "@types/react",
         "react",
-        "@react-native-async-storage/async-storage"
+        "@react-native-async-storage/async-storage",
+        "@wagmi/core",
+        "@metamask/sdk"
       ],
       "allowedVersions": {
-        "react": "18",
-        "@types/react": "18",
-        "@react-native-async-storage/async-storage": "1",
-        "typescript": "5"
+        "react": "18 || 19",
+        "@types/react": "18 || 19",
+        "typescript": "5",
+        "wagmi": "2 || 3",
+        "@wagmi/core": "2 || 3",
+        "@react-native-async-storage/async-storage": "1 || 2"
       }
     },
     "overrides": {

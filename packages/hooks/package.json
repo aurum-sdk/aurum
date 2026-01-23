@@ -1,6 +1,6 @@
 {
   "name": "@aurum-sdk/hooks",
-  "version": "0.2.1",
+  "version": "0.2.3-canary.3",
   "description": "React hooks for Aurum SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -50,7 +50,7 @@
     "react": "^19.2.2",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
-    "viem": "^2.42.1",
+    "viem": "^2.44.2",
     "vitest": "^2.1.0"
   },
   "keywords": [
