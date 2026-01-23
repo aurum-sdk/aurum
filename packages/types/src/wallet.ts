@@ -5,7 +5,7 @@ export enum WalletName {
   Phantom = 'Phantom',
   WalletConnect = 'WalletConnect',
   Rabby = 'Rabby',
-  Brave = 'Brave Wallet',
+  Brave = 'Brave',
 }
 
 export enum WalletId {
