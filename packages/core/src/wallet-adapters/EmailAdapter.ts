@@ -65,14 +65,9 @@ export class EmailAdapter implements WalletAdapter {
       throw new Error('Email is not available');
     }
 
-    try {
-      const { signInWithEmail } = await import('@coinbase/cdp-core');
-      const authResult = await signInWithEmail({ email });
-      return authResult;
-    } catch (error) {
-      sentryLogger.error('Failed to start email authentication', { error });
-      throw error;
-    }
+    const { signInWithEmail } = await import('@coinbase/cdp-core');
+    const authResult = await signInWithEmail({ email });
+    return authResult;
   }
 
   async emailAuthVerify(flowId: string, otp: string): Promise<VerifyEmailOTPResult> {
