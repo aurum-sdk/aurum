@@ -92,7 +92,7 @@
   "dependencies": {
     "@aurum-sdk/logos": "workspace:^",
     "@aurum-sdk/types": "workspace:^",
-    "@coinbase/cdp-core": "^0.0.74",
+    "@coinbase/cdp-core": "^0.0.78",
     "@coinbase/wallet-sdk": "^4.3.7",
     "@gemini-wallet/core": "^0.3.2",
     "@metamask/sdk": "~0.33.1",
