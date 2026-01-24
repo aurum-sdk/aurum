@@ -41,6 +41,21 @@ import aurumBrand from '@src/assets/aurum.brand.svg';
 import aurumBlack from '@src/assets/aurum.black.svg';
 import aurumWhite from '@src/assets/aurum.white.svg';
 
+import googleIcon from '@src/assets/google.icon.svg';
+import googleBrand from '@src/assets/google.brand.svg';
+import googleBlack from '@src/assets/google.black.svg';
+import googleWhite from '@src/assets/google.white.svg';
+
+import appleIcon from '@src/assets/apple.icon.svg';
+import appleBrand from '@src/assets/apple.brand.svg';
+import appleBlack from '@src/assets/apple.black.svg';
+import appleWhite from '@src/assets/apple.white.svg';
+
+import xIcon from '@src/assets/x.icon.svg';
+import xBrand from '@src/assets/x.brand.svg';
+import xBlack from '@src/assets/x.black.svg';
+import xWhite from '@src/assets/x.white.svg';
+
 export const SVG_REGISTRY: Record<string, string> = {
   'metamask.icon': metamaskIcon,
   'metamask.brand': metamaskBrand,
@@ -81,4 +96,19 @@ export const SVG_REGISTRY: Record<string, string> = {
   'aurum.brand': aurumBrand,
   'aurum.black': aurumBlack,
   'aurum.white': aurumWhite,
+
+  'google.icon': googleIcon,
+  'google.brand': googleBrand,
+  'google.black': googleBlack,
+  'google.white': googleWhite,
+
+  'apple.icon': appleIcon,
+  'apple.brand': appleBrand,
+  'apple.black': appleBlack,
+  'apple.white': appleWhite,
+
+  'x.icon': xIcon,
+  'x.brand': xBrand,
+  'x.black': xBlack,
+  'x.white': xWhite,
 };

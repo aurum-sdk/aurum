@@ -2,14 +2,14 @@
 
 import { useState, useCallback } from 'react';
 import { useAurumContext } from '@src/AurumContext';
-import type { WalletId, WalletConnectSessionResult } from '@aurum-sdk/types';
+import type { WalletId, WalletConnectSessionResult, OAuthProvider } from '@aurum-sdk/types';
 
 /**
  * Connect to a wallet.
  *
  * @example
  * ```tsx
- * const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, isPending, error } = useConnect();
+ * const { connect, emailAuthStart, emailAuthVerify, getWalletConnectSession, signInWithOAuth, isPending, error } = useConnect();
  *
  * // Open wallet selection modal
  * await connect();
@@ -25,6 +25,9 @@ import type { WalletId, WalletConnectSessionResult } from '@aurum-sdk/types';
  * const { uri, waitForConnection } = await getWalletConnectSession();
  * // Display your own QR code with `uri`
  * const address = await waitForConnection();
+ *
+ * // Or use OAuth (Google, Apple, X)
+ * await signInWithOAuth('google');
  * ```
  */
 export function useConnect() {
@@ -106,11 +109,30 @@ export function useConnect() {
     }
   }, [aurum]);
 
+  const signInWithOAuth = useCallback(
+    async (provider: OAuthProvider) => {
+      setIsPending(true);
+      setError(null);
+
+      try {
+        await aurum.oauthSignIn(provider);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error(`Failed to sign in with ${provider}`);
+        setError(error);
+        throw error;
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [aurum],
+  );
+
   return {
     connect,
     emailAuthStart,
     emailAuthVerify,
     getWalletConnectSession,
+    signInWithOAuth,
     isPending,
     error,
   };

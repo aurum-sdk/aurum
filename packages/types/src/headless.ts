@@ -12,3 +12,5 @@ export interface WalletConnectSessionResult {
   uri: string;
   waitForConnection: () => Promise<`0x${string}`>;
 }
+
+export type OAuthProvider = 'google' | 'apple' | 'x';

@@ -36,6 +36,9 @@ export interface WalletAdapter {
   emailAuthStart?(email: string): Promise<SignInWithEmailResult>;
   emailAuthVerify?(email: string, otp: string): Promise<VerifyEmailOTPResult>;
 
+  // OAuth adapter only
+  signInWithOAuth?(): Promise<void>;
+  
   // WalletConnect adapter only - opens the AppKit modal
   openModal?(): Promise<WalletConnectionResult>;
 

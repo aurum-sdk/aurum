@@ -4,6 +4,7 @@ import { WalletId, WalletName } from '@aurum-sdk/types';
 // Mock all wallet adapters - use factory functions that return vi.fn()
 vi.mock('@src/wallet-adapters', () => ({
   EmailAdapter: vi.fn(),
+  OAuthAdapter: vi.fn(),
   MetaMaskAdapter: vi.fn(),
   WalletConnectAdapter: vi.fn(),
   CoinbaseWalletAdapter: vi.fn(),
@@ -15,6 +16,7 @@ vi.mock('@src/wallet-adapters', () => ({
 import { createWalletAdapters } from '@src/utils/createWalletAdapters';
 import {
   EmailAdapter,
+  OAuthAdapter,
   MetaMaskAdapter,
   WalletConnectAdapter,
   CoinbaseWalletAdapter,
@@ -63,6 +65,7 @@ describe('createWalletAdapters', () => {
 
     expect(adapters).toHaveLength(7);
     expect(EmailAdapter).toHaveBeenCalledTimes(1);
+    expect(OAuthAdapter).toHaveBeenCalledTimes(3); // Google, Apple, and X
     expect(MetaMaskAdapter).toHaveBeenCalledTimes(1);
     expect(WalletConnectAdapter).toHaveBeenCalledTimes(1);
     expect(CoinbaseWalletAdapter).toHaveBeenCalledTimes(1);
@@ -99,6 +102,27 @@ describe('createWalletAdapters', () => {
     expect(EmailAdapter).toHaveBeenCalledWith({
       projectId: undefined,
       telemetry: true,
+    });
+  });
+
+  it('passes embedded projectId to OAuthAdapters', () => {
+    createWalletAdapters({
+      walletsConfig: {
+        embedded: { projectId: 'test-cdp-project-id' },
+      },
+      appName: 'Test App',
+      modalZIndex: 1000,
+      theme: 'dark',
+      telemetry: true,
+    });
+
+    expect(OAuthAdapter).toHaveBeenCalledWith({
+      projectId: 'test-cdp-project-id',
+      provider: 'google',
+    });
+    expect(OAuthAdapter).toHaveBeenCalledWith({
+      projectId: 'test-cdp-project-id',
+      provider: 'apple',
     });
   });
 

@@ -1,5 +1,5 @@
 import { WalletAdapter } from '@src/types/internal';
-import { WalletsConfig } from '@aurum-sdk/types';
+import { WalletId, WalletsConfig } from '@aurum-sdk/types';
 import {
   RabbyAdapter,
   BraveAdapter,
@@ -8,6 +8,7 @@ import {
   MetaMaskAdapter,
   WalletConnectAdapter,
   EmailAdapter,
+  OAuthAdapter,
 } from '@src/wallet-adapters';
 
 interface CreateWalletAdaptersParams {
@@ -33,6 +34,9 @@ export function createWalletAdapters({
 }: CreateWalletAdaptersParams): WalletAdapter[] {
   return [
     new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId, telemetry }),
+    new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.Google }),
+    new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.Apple }),
+    new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.X }),
     new MetaMaskAdapter(),
     new WalletConnectAdapter({
       projectId: walletsConfig?.walletConnect?.projectId,

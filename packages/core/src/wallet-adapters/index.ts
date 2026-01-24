@@ -5,3 +5,4 @@ export { CoinbaseWalletAdapter } from '@src/wallet-adapters/CoinbaseWalletAdapte
 export { MetaMaskAdapter } from '@src/wallet-adapters/MetaMaskAdapter';
 export { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
 export { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
+export { OAuthAdapter } from '@src/wallet-adapters/OAuthAdapter';

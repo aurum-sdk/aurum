@@ -11,6 +11,7 @@ import type {
   EmailAuthStartResult,
   EmailAuthVerifyResult,
   WalletConnectSessionResult,
+  OAuthProvider,
 } from '@aurum-sdk/types';
 
 /**
@@ -314,5 +315,25 @@ export class Aurum {
    */
   public async getWalletConnectSession(): Promise<WalletConnectSessionResult> {
     return this.core.getWalletConnectSession();
+  }
+
+  /**
+   * Initiates an OAuth sign-in flow (Google, Apple, X).
+   * The user will be redirected to the OAuth provider to complete login.
+   * After returning to the app, the connection will be restored automatically.
+   *
+   * @param provider - The OAuth provider to use ('google', 'apple', 'x')
+   * @throws Error if the OAuth provider is not configured or is excluded
+   *
+   * @example
+   * ```typescript
+   * // Sign in with Google
+   * await aurum.oauthSignIn('google');
+   * // User is redirected to Google, then back to your app
+   * // Connection is automatically restored on page load
+   * ```
+   */
+  public async oauthSignIn(provider: OAuthProvider): Promise<void> {
+    return this.core.oauthSignIn(provider);
   }
 }
