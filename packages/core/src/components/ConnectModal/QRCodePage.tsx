@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useConnectModal } from '@src/contexts/ConnectModalContext';
 import { useNavigation } from '@src/contexts/NavigationContext';
 import { useWidgetContext } from '@src/contexts/WidgetContext';
@@ -7,8 +7,7 @@ import { Spacer, Column, Button, Text } from '@src/ui';
 import { ChevronLeft, X, SquareArrowOutUpRight, CircleCheck } from 'lucide-react';
 import { ModalHeader } from '@src/components/ModalHeader/ModalHeader';
 import { PAGE_IDS } from '@src/components/ConnectModal/PageIds';
-import { WalletId, WalletName } from '@aurum-sdk/types';
-import { WalletAdapter } from '@src/types/internal';
+import { WalletName } from '@aurum-sdk/types';
 
 export const QRCodePage: React.FC = () => {
   const { onDismiss } = useWidgetContext();
@@ -17,27 +16,12 @@ export const QRCodePage: React.FC = () => {
 
   const [connectionUri, setConnectionUri] = useState<string | null>(null);
 
-  // Preserve the original wallet that brought user to this page (don't let AppKit override it)
-  const originalWalletRef = useRef<WalletAdapter | null>(null);
-
-  useEffect(() => {
-    // Only update the original wallet if selectedWallet is not AppKit
-    if (selectedWallet && selectedWallet.id !== WalletId.AppKit) {
-      originalWalletRef.current = selectedWallet;
-    }
-  }, [selectedWallet]);
-
-  // Use the preserved wallet for display, fall back to selectedWallet
-  const displayWallet = originalWalletRef.current || selectedWallet;
-
   const goBackToHome = () => {
     navigateTo(PAGE_IDS.SELECT_WALLET);
   };
 
   const title =
-    displayWallet?.name === WalletName.WalletConnect || displayWallet?.name === WalletName.AppKit
-      ? 'Scan QR code'
-      : `Scan with ${displayWallet?.name} app`;
+    selectedWallet?.name === WalletName.WalletConnect ? 'Scan QR code' : `Scan with ${selectedWallet?.name} app`;
 
   useEffect(() => {
     const handleWalletConnectURI = (event: CustomEvent<{ uri: string }>) => {
@@ -91,17 +75,17 @@ export const QRCodePage: React.FC = () => {
           <Column align="center" gap={24}>
             <QRCodeDisplay uri={error ? null : connectionUri} />
           </Column>
-          {displayWallet?.downloadUrl && (
+          {selectedWallet?.downloadUrl && (
             <>
               <Spacer size={15} />
               <Button
                 variant="tertiary"
                 expand
-                onClick={() => window.open(displayWallet.downloadUrl ?? '', '_blank', 'noopener,noreferrer')}
+                onClick={() => window.open(selectedWallet.downloadUrl ?? '', '_blank', 'noopener,noreferrer')}
               >
                 <SquareArrowOutUpRight size={16} color="var(--color-foreground-muted)" />
                 <Text size="sm" weight="semibold" variant="secondary">
-                  Download {displayWallet.name}
+                  Download {selectedWallet.name}
                 </Text>
               </Button>
             </>

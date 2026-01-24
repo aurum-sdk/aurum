@@ -11,8 +11,6 @@ vi.mock('@src/wallet-adapters', () => ({
   PhantomAdapter: vi.fn(),
   RabbyAdapter: vi.fn(),
   BraveAdapter: vi.fn(),
-  LedgerAdapter: vi.fn(),
-  AppKitAdapter: vi.fn(),
 }));
 
 import { createWalletAdapters } from '@src/utils/createWalletAdapters';
@@ -25,8 +23,6 @@ import {
   PhantomAdapter,
   RabbyAdapter,
   BraveAdapter,
-  LedgerAdapter,
-  AppKitAdapter,
 } from '@src/wallet-adapters';
 
 describe('createWalletAdapters', () => {
@@ -37,21 +33,6 @@ describe('createWalletAdapters', () => {
     vi.mocked(EmailAdapter).mockImplementation(
       (config) => ({ id: WalletId.Email, name: WalletName.Email, config }) as unknown as EmailAdapter,
     );
-    vi.mocked(OAuthAdapter).mockImplementation((config) => {
-      let id: WalletId;
-      let name: WalletName;
-      if (config.provider === 'google') {
-        id = WalletId.Google;
-        name = WalletName.Google;
-      } else if (config.provider === 'apple') {
-        id = WalletId.Apple;
-        name = WalletName.Apple;
-      } else {
-        id = WalletId.X;
-        name = WalletName.X;
-      }
-      return { id, name, config } as unknown as OAuthAdapter;
-    });
     vi.mocked(MetaMaskAdapter).mockImplementation(
       () => ({ id: WalletId.MetaMask, name: WalletName.MetaMask }) as unknown as MetaMaskAdapter,
     );
@@ -72,22 +53,17 @@ describe('createWalletAdapters', () => {
     vi.mocked(BraveAdapter).mockImplementation(
       () => ({ id: WalletId.Brave, name: WalletName.Brave }) as unknown as BraveAdapter,
     );
-    vi.mocked(LedgerAdapter).mockImplementation(
-      (config) => ({ id: WalletId.Ledger, name: WalletName.Ledger, config }) as unknown as LedgerAdapter,
-    );
-    vi.mocked(AppKitAdapter).mockImplementation(
-      (config) => ({ id: WalletId.AppKit, name: WalletName.AppKit, config }) as unknown as AppKitAdapter,
-    );
   });
 
-  it('creates all 12 adapters', () => {
+  it('creates all 7 adapters', () => {
     const adapters = createWalletAdapters({
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
-    expect(adapters).toHaveLength(12);
+    expect(adapters).toHaveLength(7);
     expect(EmailAdapter).toHaveBeenCalledTimes(1);
     expect(OAuthAdapter).toHaveBeenCalledTimes(3); // Google, Apple, and X
     expect(MetaMaskAdapter).toHaveBeenCalledTimes(1);
@@ -96,8 +72,6 @@ describe('createWalletAdapters', () => {
     expect(PhantomAdapter).toHaveBeenCalledTimes(1);
     expect(RabbyAdapter).toHaveBeenCalledTimes(1);
     expect(BraveAdapter).toHaveBeenCalledTimes(1);
-    expect(LedgerAdapter).toHaveBeenCalledTimes(1);
-    expect(AppKitAdapter).toHaveBeenCalledTimes(1);
   });
 
   it('passes email projectId to EmailAdapter', () => {
@@ -108,10 +82,12 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(EmailAdapter).toHaveBeenCalledWith({
       projectId: 'test-cdp-project-id',
+      telemetry: true,
     });
   });
 
@@ -120,10 +96,12 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(EmailAdapter).toHaveBeenCalledWith({
       projectId: undefined,
+      telemetry: true,
     });
   });
 
@@ -135,6 +113,7 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(OAuthAdapter).toHaveBeenCalledWith({
@@ -155,24 +134,32 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
       projectId: 'test-reown-project-id',
       appName: 'Test App',
+      modalZIndex: 1000,
+      theme: 'dark',
+      telemetry: true,
     });
   });
 
-  it('passes appName to WalletConnectAdapter', () => {
+  it('passes appName, modalZIndex, and theme to WalletConnectAdapter', () => {
     createWalletAdapters({
       appName: 'My Custom App',
-      modalZIndex: 1000,
-      theme: 'dark',
+      modalZIndex: 9999,
+      theme: 'light',
+      telemetry: true,
     });
 
     expect(WalletConnectAdapter).toHaveBeenCalledWith({
       projectId: undefined,
       appName: 'My Custom App',
+      modalZIndex: 9999,
+      theme: 'light',
+      telemetry: true,
     });
   });
 
@@ -182,11 +169,13 @@ describe('createWalletAdapters', () => {
       appLogoUrl: 'https://example.com/logo.png',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
       appName: 'Test App',
       appLogoUrl: 'https://example.com/logo.png',
+      telemetry: true,
     });
   });
 
@@ -195,59 +184,13 @@ describe('createWalletAdapters', () => {
       appName: 'Test App',
       modalZIndex: 1000,
       theme: 'dark',
+      telemetry: true,
     });
 
     expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
       appName: 'Test App',
       appLogoUrl: undefined,
-    });
-  });
-
-  it('passes walletConnect projectId to AppKitAdapter', () => {
-    createWalletAdapters({
-      walletsConfig: {
-        walletConnect: { projectId: 'test-reown-project-id' },
-      },
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-    });
-
-    expect(AppKitAdapter).toHaveBeenCalledWith({
-      projectId: 'test-reown-project-id',
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-    });
-  });
-
-  it('passes modalZIndex and theme to AppKitAdapter', () => {
-    createWalletAdapters({
-      appName: 'Test App',
-      modalZIndex: 9999,
-      theme: 'light',
-    });
-
-    expect(AppKitAdapter).toHaveBeenCalledWith({
-      projectId: undefined,
-      appName: 'Test App',
-      modalZIndex: 9999,
-      theme: 'light',
-    });
-  });
-
-  it('passes walletConnect projectId to LedgerAdapter', () => {
-    createWalletAdapters({
-      walletsConfig: {
-        walletConnect: { projectId: 'test-reown-project-id' },
-      },
-      appName: 'Test App',
-      modalZIndex: 1000,
-      theme: 'dark',
-    });
-
-    expect(LedgerAdapter).toHaveBeenCalledWith({
-      walletConnectProjectId: 'test-reown-project-id',
+      telemetry: true,
     });
   });
 
@@ -257,21 +200,17 @@ describe('createWalletAdapters', () => {
         appName: 'Test App',
         modalZIndex: 1000,
         theme: 'dark',
+        telemetry: true,
       });
 
       // Verify order matches createWalletAdapters implementation
       expect(adapters[0].id).toBe(WalletId.Email);
-      expect(adapters[1].id).toBe(WalletId.Google);
-      expect(adapters[2].id).toBe(WalletId.Apple);
-      expect(adapters[3].id).toBe(WalletId.X);
-      expect(adapters[4].id).toBe(WalletId.MetaMask);
-      expect(adapters[5].id).toBe(WalletId.WalletConnect);
-      expect(adapters[6].id).toBe(WalletId.CoinbaseWallet);
-      expect(adapters[7].id).toBe(WalletId.Phantom);
-      expect(adapters[8].id).toBe(WalletId.Rabby);
-      expect(adapters[9].id).toBe(WalletId.Brave);
-      expect(adapters[10].id).toBe(WalletId.Ledger);
-      expect(adapters[11].id).toBe(WalletId.AppKit);
+      expect(adapters[1].id).toBe(WalletId.MetaMask);
+      expect(adapters[2].id).toBe(WalletId.WalletConnect);
+      expect(adapters[3].id).toBe(WalletId.CoinbaseWallet);
+      expect(adapters[4].id).toBe(WalletId.Phantom);
+      expect(adapters[5].id).toBe(WalletId.Rabby);
+      expect(adapters[6].id).toBe(WalletId.Brave);
     });
   });
 
@@ -286,25 +225,21 @@ describe('createWalletAdapters', () => {
         appLogoUrl: 'https://example.com/logo.svg',
         modalZIndex: 5000,
         theme: 'light',
+        telemetry: true,
       });
 
-      expect(EmailAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id' });
-      expect(OAuthAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id', provider: 'google' });
-      expect(OAuthAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id', provider: 'apple' });
-      expect(OAuthAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id', provider: 'x' });
+      expect(EmailAdapter).toHaveBeenCalledWith({ projectId: 'cdp-id', telemetry: true });
       expect(WalletConnectAdapter).toHaveBeenCalledWith({
-        projectId: 'reown-id',
-        appName: 'Full Config App',
-      });
-      expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
-        appName: 'Full Config App',
-        appLogoUrl: 'https://example.com/logo.svg',
-      });
-      expect(AppKitAdapter).toHaveBeenCalledWith({
         projectId: 'reown-id',
         appName: 'Full Config App',
         modalZIndex: 5000,
         theme: 'light',
+        telemetry: true,
+      });
+      expect(CoinbaseWalletAdapter).toHaveBeenCalledWith({
+        appName: 'Full Config App',
+        appLogoUrl: 'https://example.com/logo.svg',
+        telemetry: true,
       });
     });
   });

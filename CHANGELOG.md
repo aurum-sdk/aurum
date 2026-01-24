@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.2.2] - 2026-01-23
+
+- consolidate walletconnect & appkit, remove ledger, various other fixes
+
+## [0.2.1] - 2026-01-21
+
+- undo walletconnect and appkit consolidation, needs further testing
+
+## [0.2.0] - 2026-01-21
+
+- consolidate walletconnect and appkit
+
+## [0.1.5] - 2026-01-20
+
+- update READMEs
+
+## [0.1.4] - 2026-01-19
+
+- update wallet grid ui. update link in aurum footer'
+
+## [0.1.3] - 2026-01-18
+
+- update wallet grid ui, update wallet config, update logger
+
 ## [0.1.2] - 2026-01-15
 
 - fix brave browser detection on mobile, open to appkit AllWallets page

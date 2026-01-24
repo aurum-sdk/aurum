@@ -86,7 +86,7 @@ export class PhantomAdapter implements WalletAdapter {
   }
 
   isInstalled(): boolean {
-    return Boolean(this.provider);
+    return Boolean(this.provider ?? this.detectLegacyProvider());
   }
 
   async connect(): Promise<WalletConnectionResult> {
@@ -100,31 +100,27 @@ export class PhantomAdapter implements WalletAdapter {
       throw new Error('Phantom is not available');
     }
 
-    try {
-      // Force Phantom to prompt for a fresh connection instead of returning cached accounts
-      await this.provider.request({
-        method: 'wallet_requestPermissions',
-        params: [{ eth_accounts: {} }],
-      });
+    // Force Phantom to prompt for a fresh connection instead of returning cached accounts
+    await this.provider.request({
+      method: 'wallet_requestPermissions',
+      params: [{ eth_accounts: {} }],
+    });
 
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
 
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Phantom');
-        throw new Error('No accounts returned from Phantom');
-      }
-
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Phantom');
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Phantom');
+      throw new Error('No accounts returned from Phantom');
     }
+
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {

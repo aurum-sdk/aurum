@@ -1,11 +1,12 @@
 # Aurum SDK
 
-<!-- [Live Demo](https://demo.aurumsdk.com/)
-[Aurum Website](https://aurumsdk.com/) -->
+- [Docs](https://docs.aurumsdk.com/)
+- [Live Demo](https://demo.aurumsdk.com/)
+- [Website](https://aurumsdk.com/)
 
-Aurum is a frontend JavaScript SDK that makes it easy to add wallets to your dapp.
+Aurum is an open-source JavaScript SDK that makes it easy to add wallets to your web app.
 
-Supported Wallets includes: Coinbase Embedded Wallet (email), MetaMask, Phantom, Coinbase Wallet, Rabby, Brave, Ledger, WalletConnect, and Reown AppKit
+Supported Wallets includes: Coinbase Embedded Wallet (email), MetaMask, Phantom, Coinbase Wallet, Rabby, Brave, and WalletConnect
 
 ---
 
@@ -28,6 +29,6 @@ Supported Wallets includes: Coinbase Embedded Wallet (email), MetaMask, Phantom,
 
 ---
 
-### Feedback / Contributions
+### Feedback
 
-Not currently accepting external contributions. If you find a bug or have a feature request, please [open an issue](https://github.com/aurum-sdk/aurum/issues).
+If you find a bug or have a feature request, please [open an issue](https://github.com/aurum-sdk/aurum/issues).

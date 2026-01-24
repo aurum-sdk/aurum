@@ -1,10 +1,8 @@
 import { WalletAdapter } from '@src/types/internal';
 import { WalletId, WalletsConfig } from '@aurum-sdk/types';
 import {
-  AppKitAdapter,
   RabbyAdapter,
   BraveAdapter,
-  LedgerAdapter,
   PhantomAdapter,
   CoinbaseWalletAdapter,
   MetaMaskAdapter,
@@ -19,6 +17,7 @@ interface CreateWalletAdaptersParams {
   appLogoUrl?: string;
   modalZIndex: number;
   theme: 'light' | 'dark';
+  telemetry: boolean;
 }
 
 /**
@@ -31,19 +30,24 @@ export function createWalletAdapters({
   appLogoUrl,
   modalZIndex,
   theme,
+  telemetry,
 }: CreateWalletAdaptersParams): WalletAdapter[] {
   return [
-    new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId }),
+    new EmailAdapter({ projectId: walletsConfig?.embedded?.projectId, telemetry }),
     new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.Google }),
     new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.Apple }),
     new OAuthAdapter({ projectId: walletsConfig?.embedded?.projectId, provider: WalletId.X }),
     new MetaMaskAdapter(),
-    new WalletConnectAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName }),
-    new CoinbaseWalletAdapter({ appName, appLogoUrl }),
+    new WalletConnectAdapter({
+      projectId: walletsConfig?.walletConnect?.projectId,
+      appName,
+      modalZIndex,
+      theme,
+      telemetry,
+    }),
+    new CoinbaseWalletAdapter({ appName, appLogoUrl, telemetry }),
     new PhantomAdapter(),
     new RabbyAdapter(),
     new BraveAdapter(),
-    new LedgerAdapter({ walletConnectProjectId: walletsConfig?.walletConnect?.projectId }),
-    new AppKitAdapter({ projectId: walletsConfig?.walletConnect?.projectId, appName, modalZIndex, theme }),
   ];
 }

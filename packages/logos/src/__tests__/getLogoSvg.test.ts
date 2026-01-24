@@ -26,7 +26,7 @@ describe('getLogoSvg', () => {
         WalletId.Phantom,
         WalletId.WalletConnect,
         WalletId.Rabby,
-        WalletId.AppKit,
+        WalletId.Brave,
       ];
 
       walletIds.forEach((id) => {

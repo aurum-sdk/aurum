@@ -65,6 +65,7 @@ export class AurumCore {
       appLogoUrl: this.brandConfig.logo,
       modalZIndex: this.brandConfig.modalZIndex,
       theme: this.brandConfig.theme,
+      telemetry: telemetryEnabled,
     });
 
     this.skeletonProvider = new RpcProvider(() => this.connect());
@@ -103,9 +104,6 @@ export class AurumCore {
     if (walletId === WalletId.Email) {
       throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
     }
-    if (walletId === WalletId.WalletConnect) {
-      throw new Error('Use getWalletConnectSession() for WalletConnect connections');
-    }
     if (walletId === WalletId.Google || walletId === WalletId.Apple || walletId === WalletId.X) {
       throw new Error('Use oauthSignIn() for OAuth connections');
     }
@@ -131,10 +129,16 @@ export class AurumCore {
       if (!adapter) {
         throw new Error(`${walletId} is not configured`);
       }
-      if (!adapter.isInstalled()) {
-        throw new Error(`${adapter.name} is not installed`);
+
+      // WalletConnect opens the AppKit modal for wallet selection
+      if (walletId === WalletId.WalletConnect && adapter.openModal) {
+        result = await adapter.openModal();
+      } else {
+        if (!adapter.isInstalled()) {
+          throw new Error(`${adapter.name} is not installed`);
+        }
+        result = await adapter.connect();
       }
-      result = await adapter.connect();
     } else {
       // Open modal to let user choose
       const displayedWallets = this.wallets.filter((w) => !this.excludedWallets.has(w.id));
@@ -210,7 +214,7 @@ export class AurumCore {
     );
   }
 
-  public async handleWidgetConnection(result: WalletConnectionResult): Promise<void> {
+  public async handleWidgetConnection(result: WalletConnectionResult): Promise<UserInfo> {
     await this.whenReady();
 
     const adapter = this.wallets.find((w) => w.id === result.walletId) || null;
@@ -242,6 +246,8 @@ export class AurumCore {
     this.emitAccountsChanged([checksumAdr]);
 
     sentryLogger.info(`Wallet connected: ${adapter.id} (widget)`);
+
+    return this.userInfo;
   }
 
   public async getChainId(): Promise<number> {
@@ -297,6 +303,12 @@ export class AurumCore {
           ? (newConfig.walletLayout ?? defaultTheme.walletLayout)
           : this.brandConfig.walletLayout,
     };
+
+    // If theme changed, update WalletConnect adapter's AppKit modal
+    if ('theme' in newConfig && this.brandConfig.theme) {
+      const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
+      wcAdapter?.updateTheme(this.brandConfig.theme);
+    }
   }
 
   public updateWalletsConfig(newConfig: Partial<Pick<WalletsConfig, 'exclude'>>): void {

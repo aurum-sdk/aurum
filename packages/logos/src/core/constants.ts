@@ -7,8 +7,6 @@ export const WALLET_NAME_TO_ID: Record<WalletName, WalletId> = {
   [WalletName.WalletConnect]: WalletId.WalletConnect,
   [WalletName.Rabby]: WalletId.Rabby,
   [WalletName.Brave]: WalletId.Brave,
-  [WalletName.Ledger]: WalletId.Ledger,
-  [WalletName.AppKit]: WalletId.AppKit,
   [WalletName.Email]: WalletId.Email,
   [WalletName.Google]: WalletId.Google,
   [WalletName.Apple]: WalletId.Apple,

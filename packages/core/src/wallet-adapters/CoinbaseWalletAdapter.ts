@@ -23,17 +23,29 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
   private provider: CoinbaseProvider | null = null;
   private accountsChangedCallback: ((accounts: string[]) => void) | null = null;
 
-  constructor({ appName, appLogoUrl }: { appName: string; appLogoUrl?: string }) {
-    this.provider = this.detectProvider({ appName, appLogoUrl });
+  constructor({ appName, appLogoUrl, telemetry }: { appName: string; appLogoUrl?: string; telemetry?: boolean }) {
+    this.provider = this.detectProvider({ appName, appLogoUrl, telemetry: telemetry ?? false });
   }
 
-  private detectProvider({ appName, appLogoUrl }: { appName: string; appLogoUrl?: string }): CoinbaseProvider | null {
+  private detectProvider({
+    appName,
+    appLogoUrl,
+    telemetry,
+  }: {
+    appName: string;
+    appLogoUrl?: string;
+    telemetry: boolean;
+  }): CoinbaseProvider | null {
     if (typeof window === 'undefined') return null;
 
     try {
       const coinbaseSdk = createCoinbaseWalletSDK({
         appName,
         appLogoUrl,
+        preference: {
+          options: 'all',
+          telemetry,
+        },
       });
 
       return coinbaseSdk.getProvider() as CoinbaseProvider;
@@ -53,24 +65,20 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
       throw new Error('Coinbase Wallet is not available');
     }
 
-    try {
-      const accounts = await this.provider.request<string[]>({
-        method: 'eth_requestAccounts',
-        params: [],
-      });
+    const accounts = await this.provider.request<string[]>({
+      method: 'eth_requestAccounts',
+      params: [],
+    });
 
-      if (!accounts || accounts.length === 0 || !accounts[0]) {
-        sentryLogger.error('No accounts returned from Coinbase Wallet');
-        throw new Error('No accounts returned from Coinbase Wallet');
-      }
-      return {
-        address: accounts[0],
-        provider: this.provider,
-        walletId: this.id,
-      };
-    } catch {
-      throw new Error('Failed to connect to Coinbase Wallet');
+    if (!accounts || accounts.length === 0 || !accounts[0]) {
+      sentryLogger.error('No accounts returned from Coinbase Wallet');
+      throw new Error('No accounts returned from Coinbase Wallet');
     }
+    return {
+      address: accounts[0],
+      provider: this.provider,
+      walletId: this.id,
+    };
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {

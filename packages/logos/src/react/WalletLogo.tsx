@@ -33,10 +33,6 @@ import { BraveIcon } from '@src/react/icons/BraveIcon';
 import { BraveBrand } from '@src/react/icons/BraveBrand';
 import { BraveBlack } from '@src/react/icons/BraveBlack';
 import { BraveWhite } from '@src/react/icons/BraveWhite';
-import { LedgerIcon } from '@src/react/icons/LedgerIcon';
-import { LedgerBrand } from '@src/react/icons/LedgerBrand';
-import { LedgerBlack } from '@src/react/icons/LedgerBlack';
-import { LedgerWhite } from '@src/react/icons/LedgerWhite';
 import { GoogleIcon } from '@src/react/icons/GoogleIcon';
 import { GoogleBrand } from '@src/react/icons/GoogleBrand';
 import { GoogleBlack } from '@src/react/icons/GoogleBlack';
@@ -80,10 +76,6 @@ const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>
   'brave.brand': BraveBrand,
   'brave.black': BraveBlack,
   'brave.white': BraveWhite,
-  'ledger.icon': LedgerIcon,
-  'ledger.brand': LedgerBrand,
-  'ledger.black': LedgerBlack,
-  'ledger.white': LedgerWhite,
   'google.icon': GoogleIcon,
   'google.brand': GoogleBrand,
   'google.black': GoogleBlack,

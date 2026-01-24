@@ -8,21 +8,20 @@ interface WalletListGridProps {
   wallets: WalletAdapter[];
 }
 
-const getGridColumns = (walletCount: number): number => {
-  if (walletCount <= 2) return 2;
-  if (walletCount === 3) return 3;
-  if (walletCount === 5) return 3;
-  if (walletCount === 6) return 3;
-  return 4;
-};
+const MAX_COLUMNS = 4;
+
+function getColumnCount(itemCount: number): number {
+  if (itemCount <= MAX_COLUMNS) return itemCount;
+  const numRows = Math.ceil(itemCount / MAX_COLUMNS);
+  return Math.ceil(itemCount / numRows);
+}
 
 export const WalletListGrid: React.FC<WalletListGridProps> = ({ wallets }) => {
   const { connectWallet } = useConnectModal();
-
-  const columns = getGridColumns(wallets.length);
+  const columns = getColumnCount(wallets.length);
 
   return (
-    <div className="aurum-wallet-grid" style={{ '--grid-columns': columns } as React.CSSProperties}>
+    <div className="aurum-wallet-grid" style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
       {wallets.map((wallet) => (
         <GridWalletButton key={wallet.id} wallet={wallet} connectWallet={connectWallet} />
       ))}
