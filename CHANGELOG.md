@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.3] - 2026-04-15
+
+- `@coinbase/wallet-sdk` is now lazy-loaded on first use instead of at module import time
+
 ## [0.2.2] - 2026-01-23
 
 - consolidate walletconnect & appkit, remove ledger, various other fixes
