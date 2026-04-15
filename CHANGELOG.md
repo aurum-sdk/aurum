@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.4] - 2026-04-15
+
+- Bundle @coinbase/cdp-core, @coinbase/wallet-sdk, porto, and other internal deps inline — consumers no longer need to resolve Aurum's transitive wallet connector dependencies at build time. @reown/appkit remains external (installed as a transitive dep) due to its wagmi/@walletconnect dependency chain.
+
 ## [0.2.3] - 2026-04-15
 
 - `@coinbase/wallet-sdk` is now lazy-loaded on first use instead of at module import time
