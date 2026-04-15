@@ -152,7 +152,6 @@ export class MetaMaskAdapter implements WalletAdapter {
         walletId: this.id,
       };
     } catch {
-      // sentryLogger.warn('Failed to restore connection to MetaMask', { error });
       return null;
     }
   }

@@ -1,4 +1,3 @@
-import { createCoinbaseWalletSDK } from '@coinbase/wallet-sdk';
 import { sentryLogger } from '@src/services/sentry';
 import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
 import { getLogoDataUri } from '@aurum-sdk/logos';
@@ -12,6 +11,12 @@ interface CoinbaseProvider extends AurumRpcProvider {
   disconnect?: () => Promise<void>;
 }
 
+interface CoinbaseWalletConfig {
+  appName: string;
+  appLogoUrl?: string;
+  telemetry: boolean;
+}
+
 export class CoinbaseWalletAdapter implements WalletAdapter {
   readonly id = WalletId.CoinbaseWallet;
   readonly name = WalletName.CoinbaseWallet;
@@ -22,45 +27,50 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
 
   private provider: CoinbaseProvider | null = null;
   private accountsChangedCallback: ((accounts: string[]) => void) | null = null;
+  private config: CoinbaseWalletConfig;
+  private initPromise: Promise<void> | null = null;
 
   constructor({ appName, appLogoUrl, telemetry }: { appName: string; appLogoUrl?: string; telemetry?: boolean }) {
-    this.provider = this.detectProvider({ appName, appLogoUrl, telemetry: telemetry ?? false });
+    this.config = { appName, appLogoUrl, telemetry: telemetry ?? false };
   }
 
-  private detectProvider({
-    appName,
-    appLogoUrl,
-    telemetry,
-  }: {
-    appName: string;
-    appLogoUrl?: string;
-    telemetry: boolean;
-  }): CoinbaseProvider | null {
-    if (typeof window === 'undefined') return null;
+  private async ensureInitialized(): Promise<void> {
+    if (this.provider) return;
+    if (!this.initPromise) {
+      this.initPromise = this.initializeProvider();
+    }
+    await this.initPromise;
+  }
+
+  private async initializeProvider(): Promise<void> {
+    if (typeof window === 'undefined') return;
 
     try {
+      const { createCoinbaseWalletSDK } = await import('@coinbase/wallet-sdk');
+
       const coinbaseSdk = createCoinbaseWalletSDK({
-        appName,
-        appLogoUrl,
+        appName: this.config.appName,
+        appLogoUrl: this.config.appLogoUrl,
         preference: {
           options: 'all',
-          telemetry,
+          telemetry: this.config.telemetry,
         },
       });
 
-      return coinbaseSdk.getProvider() as CoinbaseProvider;
+      this.provider = coinbaseSdk.getProvider() as CoinbaseProvider;
     } catch (error) {
       sentryLogger.warn('Failed to initialize Coinbase Wallet provider', { error });
-      return null;
     }
   }
 
   isInstalled(): boolean {
-    return Boolean(this.provider);
+    return true;
   }
 
   async connect(): Promise<WalletConnectionResult> {
-    if (!this.isInstalled() || !this.provider) {
+    await this.ensureInitialized();
+
+    if (!this.provider) {
       sentryLogger.error('Coinbase Wallet is not available');
       throw new Error('Coinbase Wallet is not available');
     }
@@ -82,7 +92,9 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
   }
 
   async tryRestoreConnection(): Promise<WalletConnectionResult | null> {
-    if (!this.isInstalled() || !this.provider) {
+    await this.ensureInitialized();
+
+    if (!this.provider) {
       return null;
     }
 
@@ -102,16 +114,18 @@ export class CoinbaseWalletAdapter implements WalletAdapter {
         walletId: this.id,
       };
     } catch {
-      // sentryLogger.warn('Failed to restore connection to Coinbase Wallet', { error });
       return null;
     }
   }
 
   async disconnect(): Promise<void> {
+    // Only disconnect if provider was initialized
+    if (!this.provider) return;
+
     try {
-      if (this.provider?.close) {
+      if (this.provider.close) {
         await this.provider.close();
-      } else if (this.provider?.disconnect) {
+      } else if (this.provider.disconnect) {
         await this.provider.disconnect();
       }
     } catch (error) {

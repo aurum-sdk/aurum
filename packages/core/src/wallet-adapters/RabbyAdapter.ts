@@ -140,7 +140,6 @@ export class RabbyAdapter implements WalletAdapter {
         walletId: this.id,
       };
     } catch {
-      // sentryLogger.warn('Failed to restore connection to Rabby', { error });
       return null;
     }
   }

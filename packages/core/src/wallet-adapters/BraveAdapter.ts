@@ -145,7 +145,6 @@ export class BraveAdapter implements WalletAdapter {
         walletId: this.id,
       };
     } catch {
-      // sentryLogger.warn('Failed to restore connection to Brave Wallet', { error });
       return null;
     }
   }

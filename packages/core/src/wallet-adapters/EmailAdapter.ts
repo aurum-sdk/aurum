@@ -113,7 +113,6 @@ export class EmailAdapter implements WalletAdapter {
         walletId: this.id,
       };
     } catch {
-      // sentryLogger.warn('Failed to restore connection to Email', { error });
       return null;
     }
   }
