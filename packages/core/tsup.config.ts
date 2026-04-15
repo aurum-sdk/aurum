@@ -12,6 +12,7 @@ export default defineConfig({
   splitting: true,
   sourcemap: true,
   clean: true,
+  platform: 'browser',
   // Externalize React, viem, wagmi and all sub-paths to prevent duplicate instances
   external: [
     'react',
@@ -25,6 +26,27 @@ export default defineConfig({
     'wagmi',
     /^wagmi\//,
     'pino-pretty',
+  ],
+  // Bundle internal deps inline so consumers don't need to resolve them.
+  // These have no shared-instance requirement with the host app (unlike react/viem/wagmi).
+  // @reown/appkit and @reown/appkit-adapter-wagmi are kept external — bundling them pulls in
+  // the full wagmi/@wagmi/connectors/@walletconnect stack which esbuild can't resolve cleanly.
+  noExternal: [
+    '@coinbase/cdp-core',
+    '@coinbase/wallet-sdk',
+    '@gemini-wallet/core',
+    'porto',
+    'buffer',
+    '@aurum-sdk/logos',
+    /^@aurum-sdk\/logos/,
+    '@aurum-sdk/types',
+    'zustand',
+    /^zustand\//,
+    'lucide-react',
+    'mobile-detect',
+    'react-qrcode-logo',
+    '@sentry/browser',
+    /^@sentry\//,
   ],
   // CSS is pre-bundled via scripts/bundle-css.js and injected into Shadow DOM
   // Individual CSS imports in components are kept for IDE support but ignored at runtime
