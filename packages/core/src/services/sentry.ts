@@ -1,10 +1,12 @@
-import * as Sentry from '@sentry/browser';
+import { BrowserClient, defaultStackParser, getDefaultIntegrations, makeFetchTransport, Scope } from '@sentry/browser';
 
 declare const __SDK_VERSION__: string;
 declare const __SENTRY_DSN__: string;
 
 let initialized = false;
 let telemetryEnabled = true;
+// Isolated scope+client — never touches the consumer's global Sentry hub
+let aurumScope: Scope | null = null;
 
 function getEnvironment(): string {
   if (typeof window !== 'undefined') {
@@ -21,13 +23,19 @@ export function initSentry(enabled: boolean = true) {
   if (initialized || !telemetryEnabled || !__SENTRY_DSN__) return;
   initialized = true;
 
-  Sentry.init({
+  const client = new BrowserClient({
     dsn: __SENTRY_DSN__,
     environment: getEnvironment(),
     release: `@aurum-sdk/core@${__SDK_VERSION__}`,
     sendDefaultPii: false,
-    enableLogs: true,
+    transport: makeFetchTransport,
+    stackParser: defaultStackParser,
+    integrations: getDefaultIntegrations({}),
   });
+
+  aurumScope = new Scope();
+  aurumScope.setClient(client);
+  client.init();
 }
 
 function getUrl(): string | undefined {
@@ -37,15 +45,15 @@ function getUrl(): string | undefined {
   return undefined;
 }
 
-// Wrapper that no-ops when telemetry is disabled
+function capture(message: string, level: 'info' | 'warning' | 'error', attributes?: Record<string, unknown>) {
+  if (!telemetryEnabled || !aurumScope) return;
+  const scope = aurumScope.clone();
+  scope.setContext('attributes', { url: getUrl(), ...attributes });
+  scope.captureMessage(message, level);
+}
+
 export const sentryLogger = {
-  info: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.info(message, { url: getUrl(), ...attributes });
-  },
-  warn: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.warn(message, { url: getUrl(), ...attributes });
-  },
-  error: (message: string, attributes?: Record<string, unknown>) => {
-    if (telemetryEnabled) Sentry.logger.error(message, { url: getUrl(), ...attributes });
-  },
+  info: (message: string, attributes?: Record<string, unknown>) => capture(message, 'info', attributes),
+  warn: (message: string, attributes?: Record<string, unknown>) => capture(message, 'warning', attributes),
+  error: (message: string, attributes?: Record<string, unknown>) => capture(message, 'error', attributes),
 };
