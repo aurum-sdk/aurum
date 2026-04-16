@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.5] - 2026-04-16
+
+- Replace `react-qrcode-logo` with `@liquid-js/qr-code-styling` to fix fatal `require("react")` crash in browser ESM contexts
+
 ## [0.2.4] - 2026-04-15
 
 - Bundle @coinbase/cdp-core, @coinbase/wallet-sdk, porto, and other internal deps inline — consumers no longer need to resolve Aurum's transitive wallet connector dependencies at build time. @reown/appkit remains external (installed as a transitive dep) due to its wagmi/@walletconnect dependency chain.
