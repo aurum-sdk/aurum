@@ -81,7 +81,14 @@
     "overrides": {
       "@types/react": "^18.0.0",
       "@types/react-dom": "^18.0.0",
-      "ox": "^0.9.6"
+      "ox": "^0.9.6",
+      "@reown/appkit": "1.8.17",
+      "@reown/appkit-adapter-wagmi": "1.8.17",
+      "@walletconnect/core": "2.23.2",
+      "@walletconnect/sign-client": "2.23.2",
+      "@walletconnect/types": "2.23.2",
+      "@walletconnect/universal-provider": "2.23.2",
+      "@walletconnect/utils": "2.23.2"
     }
   }
 }

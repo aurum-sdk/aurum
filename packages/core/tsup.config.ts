@@ -25,7 +25,6 @@ export default defineConfig({
     /^viem\//,
     'wagmi',
     /^wagmi\//,
-    'pino-pretty',
   ],
   // Bundle internal deps inline so consumers don't need to resolve them.
   // These have no shared-instance requirement with the host app (unlike react/viem/wagmi).
@@ -63,10 +62,25 @@ export default defineConfig({
     options.inject = ['./polyfills.js'];
     options.alias = {
       '@src': path.resolve(__dirname, 'src'),
+      // Stub Node-only optional deps pulled in transitively by bundled packages
+      // (e.g. @coinbase/cdp-core references x402-fetch for a code path Aurum does not expose).
+      // Without this, downstream consumers who externalize @aurum-sdk/core fail to resolve these
+      // at their own build step.
+      'x402-fetch': path.resolve(__dirname, 'scripts/empty-stub.js'),
+      'pino-pretty': path.resolve(__dirname, 'scripts/empty-stub.js'),
     };
     options.loader = {
       ...options.loader,
       '.svg': 'text',
+    };
+    // Defensive: silence warnings from unresolvable dynamic-import globs in transitive deps
+    // (e.g. Stencil-generated web components in @metamask/sdk use import(`./${i}.entry.js`)).
+    // MetaMask is externalized today so no warning fires on our build — but keep this as a
+    // safety net for future deps that ship similar patterns.
+    options.logOverride = {
+      ...options.logOverride,
+      'unsupported-dynamic-import': 'silent',
+      'unsupported-require-call': 'silent',
     };
   },
 });

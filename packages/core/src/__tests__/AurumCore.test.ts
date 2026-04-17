@@ -265,11 +265,37 @@ describe('AurumCore', () => {
   describe('singleton behavior', () => {
     it('returns same instance when constructed multiple times', async () => {
       const AurumCore = await getAurumCore();
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       const core1 = new AurumCore({ brand: { appName: 'First' } });
       const core2 = new AurumCore({ brand: { appName: 'Second' } });
 
       // Both should be the same instance
       expect(core1).toBe(core2);
+      warnSpy.mockRestore();
+    });
+
+    it('warns when re-constructed with a different config', async () => {
+      const AurumCore = await getAurumCore();
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      new AurumCore({ brand: { appName: 'First' } });
+      new AurumCore({ brand: { appName: 'Second' } });
+
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy.mock.calls[0][0]).toMatch(/different config/i);
+      warnSpy.mockRestore();
+    });
+
+    it('does not warn when re-constructed with the same config', async () => {
+      const AurumCore = await getAurumCore();
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const config: AurumConfig = { brand: { appName: 'Same' }, telemetry: false };
+
+      new AurumCore(config);
+      new AurumCore({ brand: { appName: 'Same' }, telemetry: false });
+
+      expect(warnSpy).not.toHaveBeenCalled();
+      warnSpy.mockRestore();
     });
   });
 });

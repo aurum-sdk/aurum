@@ -26,6 +26,11 @@ export class AurumCore {
   // Singleton instance
   private static instance: AurumCore | null = null;
 
+  // Serialized first-construction config used to detect mismatched re-inits (dev footgun: HMR,
+  // cross-module imports, etc). Stored as a string so re-construction with structurally-equal
+  // config doesn't false-positive.
+  private static storedConfigJson: string | null = null;
+
   // Events managed by AurumCore (not forwarded to underlying provider)
   private static readonly MANAGED_EVENTS = ['accountsChanged', 'connect', 'disconnect'];
 
@@ -49,8 +54,18 @@ export class AurumCore {
 
   constructor(config: AurumConfig) {
     if (AurumCore.instance) {
+      const incoming = AurumCore.serializeConfig(config);
+      if (incoming !== null && incoming !== AurumCore.storedConfigJson) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          'Aurum Constructor called a second time with a different config; the original config is kept. ' +
+            'Use updateBrandConfig() / updateWalletsConfig() to change config at runtime.',
+        );
+      }
       return AurumCore.instance;
     }
+
+    AurumCore.storedConfigJson = AurumCore.serializeConfig(config);
 
     const telemetryEnabled = config.telemetry !== false;
     initSentry(telemetryEnabled);
@@ -73,6 +88,14 @@ export class AurumCore {
     this.readyPromise = this.tryRestoreConnection();
 
     AurumCore.instance = this;
+  }
+
+  private static serializeConfig(config: AurumConfig): string | null {
+    try {
+      return JSON.stringify(config);
+    } catch {
+      return null;
+    }
   }
 
   public async whenReady(): Promise<void> {
@@ -521,6 +544,12 @@ export class AurumCore {
   }
 
   private async tryRestoreConnection(): Promise<void> {
+    // SSR: store hydration is skipped on the server (see aurumStore.ts skipHydration),
+    // so waitForStoreHydration() would never resolve. Mark ready and return so whenReady() is inert.
+    if (typeof window === 'undefined') {
+      this.ready = true;
+      return;
+    }
     try {
       // Wait for Zustand to finish hydrating from localStorage
       await waitForStoreHydration();
