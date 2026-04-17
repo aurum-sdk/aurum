@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.6] - 2026-04-17
+
+- Stub `x402-fetch` and `pino-pretty` in the build so downstream SDKs can externalize `@aurum-sdk/core` without  
+  build-time resolution errors (fixes ~40x bundle bloat from the workaround)
+- Fix SSR hang: `whenReady()` now resolves instantly on the server instead of waiting forever on store hydration
+- Warn (instead of silently ignoring) when `new Aurum()` is called a second time with a different config
+- Pin `@reown/*` subtree to exact versions for more deterministic installs
+
 ## [0.2.5] - 2026-04-16
 
 - Replace `react-qrcode-logo` with `@liquid-js/qr-code-styling` to fix fatal `require("react")` crash in browser ESM contexts
