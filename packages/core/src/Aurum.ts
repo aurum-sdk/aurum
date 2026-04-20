@@ -315,4 +315,33 @@ export class Aurum {
   public async getWalletConnectSession(): Promise<WalletConnectSessionResult> {
     return this.core.getWalletConnectSession();
   }
+
+  /**
+   * Registers an EIP-1193 event listener on the wallet provider.
+   * Listeners survive provider swaps (connect/disconnect) so consumers register once.
+   *
+   * @example
+   * ```typescript
+   * aurum.on('accountsChanged', (accounts) => console.log(accounts));
+   * aurum.on('chainChanged', (chainId) => console.log(chainId));
+   * ```
+   */
+  public on: AurumRpcProvider['on'] = (event, listener) => {
+    (this.core.on as (e: typeof event, l: typeof listener) => void)(event, listener);
+  };
+
+  /**
+   * Removes an EIP-1193 event listener previously registered with `on()`.
+   * Alias for `removeListener`.
+   */
+  public off: AurumRpcProvider['removeListener'] = (event, listener) => {
+    (this.core.off as (e: typeof event, l: typeof listener) => void)(event, listener);
+  };
+
+  /**
+   * Removes an EIP-1193 event listener previously registered with `on()`.
+   */
+  public removeListener: AurumRpcProvider['removeListener'] = (event, listener) => {
+    (this.core.removeListener as (e: typeof event, l: typeof listener) => void)(event, listener);
+  };
 }
