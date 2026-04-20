@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.7] - 2026-04-20
+
+### Added
+
+- **Typed error hierarchy.** New `AurumError` base class plus `UserRejectedError`, `ChainSwitchRejectedError`,  
+  `WalletNotInstalledError`, `WalletNotConfiguredError`, `WalletExcludedError`, `ChainNotSupportedError`,  
+  `InvalidConfigError`, and `ConnectionError` — all exported from `@aurum-sdk/core`. Each has a stable string `code`
+  field (e.g. `'USER_REJECTED'`) and preserves the original error as `err.cause`. Consumers can now discriminate  
+  failures via `instanceof UserRejectedError` or `err.code === 'USER_REJECTED'` instead of message-sniffing.
+- **`aurum.on()` / `aurum.off()` / `aurum.removeListener()`** convenience passthroughs on the `Aurum` instance.
+  Previously required `aurum.rpcProvider.on(...)`. Fully typed for EIP-1193 events (`accountsChanged`, `connect`,  
+  `disconnect`, `chainChanged`); listeners survive provider swaps.
+
+### Changed
+
+- Public methods (`connect`, `disconnect`, `switchChain`, `emailAuthStart`, `emailAuthVerify`,
+  `getWalletConnectSession`, `handleWidgetConnection`) now normalize thrown adapter errors into typed `AurumError`  
+  subclasses at the boundary. EIP-1193 `code: 4001`, ethers-style `ACTION_REJECTED`, and common rejection messages are
+  mapped to `UserRejectedError` (or `ChainSwitchRejectedError` during `switchChain`). Unclassified errors surface as
+  `ConnectionError`.
+
 ## [0.2.6] - 2026-04-17
 
 - Stub `x402-fetch` and `pino-pretty` in the build so downstream SDKs can externalize `@aurum-sdk/core` without  
