@@ -21,6 +21,14 @@ import { RpcProvider } from '@src/providers/RpcProvider';
 import { initSentry, sentryLogger } from '@src/services/sentry';
 import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
 import { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
+import {
+  ConnectionError,
+  InvalidConfigError,
+  WalletExcludedError,
+  WalletNotConfiguredError,
+  WalletNotInstalledError,
+  normalizeError,
+} from '@src/errors';
 
 export class AurumCore {
   // Singleton instance
@@ -120,104 +128,112 @@ export class AurumCore {
   }
 
   public async connect(walletId?: WalletId): Promise<`0x${string}`> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    if (walletId === 'email') {
-      throw new Error('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
-    }
-
-    // If already connected, return existing address (unless requesting a different wallet)
-    if (this.userInfo?.publicAddress && this.connectedWalletAdapter?.getProvider()) {
-      if (!walletId || this.userInfo.walletId === walletId) {
-        return this.userInfo.publicAddress as `0x${string}`;
-      }
-      // Different wallet requested - disconnect first
-      await this.disconnect();
-    }
-
-    let adapter: WalletAdapter | null = null;
-    let result: WalletConnectionResult;
-
-    if (walletId) {
-      // Direct connection - bypass modal
-      if (this.excludedWallets.has(walletId)) {
-        throw new Error(`${walletId} is excluded from wallet options`);
-      }
-      adapter = this.wallets.find((w) => w.id === walletId) || null;
-      if (!adapter) {
-        throw new Error(`${walletId} is not configured`);
+      if (walletId === 'email') {
+        throw new InvalidConfigError('Use emailAuthStart() and emailAuthVerify() for email wallet connections');
       }
 
-      // WalletConnect opens the AppKit modal for wallet selection
-      if (walletId === WalletId.WalletConnect && adapter.openModal) {
-        result = await adapter.openModal();
-      } else {
-        if (!adapter.isInstalled()) {
-          throw new Error(`${adapter.name} is not installed`);
+      // If already connected, return existing address (unless requesting a different wallet)
+      if (this.userInfo?.publicAddress && this.connectedWalletAdapter?.getProvider()) {
+        if (!walletId || this.userInfo.walletId === walletId) {
+          return this.userInfo.publicAddress as `0x${string}`;
         }
-        result = await adapter.connect();
-      }
-    } else {
-      // Open modal to let user choose
-      const displayedWallets = this.wallets.filter((w) => !this.excludedWallets.has(w.id));
-      const modalResult = await renderConnectModal({ displayedWallets, brandConfig: this.brandConfig });
-      if (!modalResult) {
-        sentryLogger.error('Missing modal result');
-        throw new Error('Missing modal result');
+        // Different wallet requested - disconnect first
+        await this.disconnect();
       }
 
-      adapter = this.wallets.find((w) => w.id === modalResult.walletId) || null;
-      if (!adapter) {
-        sentryLogger.error(`Selected wallet adapter not found: ${modalResult.walletId}`);
-        throw new Error('Selected wallet adapter not found');
+      let adapter: WalletAdapter | null = null;
+      let result: WalletConnectionResult;
+
+      if (walletId) {
+        // Direct connection - bypass modal
+        if (this.excludedWallets.has(walletId)) {
+          throw new WalletExcludedError(walletId);
+        }
+        adapter = this.wallets.find((w) => w.id === walletId) || null;
+        if (!adapter) {
+          throw new WalletNotConfiguredError(walletId);
+        }
+
+        // WalletConnect opens the AppKit modal for wallet selection
+        if (walletId === WalletId.WalletConnect && adapter.openModal) {
+          result = await adapter.openModal();
+        } else {
+          if (!adapter.isInstalled()) {
+            throw new WalletNotInstalledError(adapter.name);
+          }
+          result = await adapter.connect();
+        }
+      } else {
+        // Open modal to let user choose
+        const displayedWallets = this.wallets.filter((w) => !this.excludedWallets.has(w.id));
+        const modalResult = await renderConnectModal({ displayedWallets, brandConfig: this.brandConfig });
+        if (!modalResult) {
+          sentryLogger.error('Missing modal result');
+          throw new ConnectionError('Missing modal result');
+        }
+
+        adapter = this.wallets.find((w) => w.id === modalResult.walletId) || null;
+        if (!adapter) {
+          sentryLogger.error(`Selected wallet adapter not found: ${modalResult.walletId}`);
+          throw new ConnectionError('Selected wallet adapter not found');
+        }
+        result = modalResult;
       }
-      result = modalResult;
+
+      const provider = result.provider ?? adapter.getProvider();
+      if (!provider) {
+        sentryLogger.error(`Error fetching provider on login: ${adapter.id}`);
+        throw new ConnectionError('Error fetching provider. Please try again.');
+      }
+
+      // Update internal state
+      const checksumAdr = checksumAddress(result.address as `0x${string}`);
+      this.connectedWalletAdapter = adapter;
+      this.updateProvider(provider);
+      this.userInfo = {
+        publicAddress: checksumAdr,
+        walletName: adapter.name,
+        walletId: adapter.id,
+        email: result.email,
+      };
+
+      this.persistConnectionState(adapter, checksumAdr, result.email);
+      this.setInternalAccountChangeListener(adapter);
+
+      // Notify listeners - EIP-1193 events
+      const chainId = await provider.request<string>({ method: 'eth_chainId' });
+      this.emitConnect(chainId);
+      this.emitAccountsChanged([checksumAdr]);
+
+      sentryLogger.info(`Wallet connected: ${adapter.id} (${walletId ? 'headless' : 'modal'})`);
+
+      return checksumAdr;
+    } catch (err) {
+      throw normalizeError(err, { operation: 'connect' });
     }
-
-    const provider = result.provider ?? adapter.getProvider();
-    if (!provider) {
-      sentryLogger.error(`Error fetching provider on login: ${adapter.id}`);
-      throw new Error('Error fetching provider. Please try again.');
-    }
-
-    // Update internal state
-    const checksumAdr = checksumAddress(result.address as `0x${string}`);
-    this.connectedWalletAdapter = adapter;
-    this.updateProvider(provider);
-    this.userInfo = {
-      publicAddress: checksumAdr,
-      walletName: adapter.name,
-      walletId: adapter.id,
-      email: result.email,
-    };
-
-    this.persistConnectionState(adapter, checksumAdr, result.email);
-    this.setInternalAccountChangeListener(adapter);
-
-    // Notify listeners - EIP-1193 events
-    const chainId = await provider.request<string>({ method: 'eth_chainId' });
-    this.emitConnect(chainId);
-    this.emitAccountsChanged([checksumAdr]);
-
-    sentryLogger.info(`Wallet connected: ${adapter.id} (${walletId ? 'headless' : 'modal'})`);
-
-    return checksumAdr;
   }
 
   public async disconnect(): Promise<void> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    // Clean up event listeners before disconnecting
-    if (this.connectedWalletAdapter) {
-      this.connectedWalletAdapter.removeListeners();
-      await this.connectedWalletAdapter.disconnect();
+      // Clean up event listeners before disconnecting
+      if (this.connectedWalletAdapter) {
+        this.connectedWalletAdapter.removeListeners();
+        await this.connectedWalletAdapter.disconnect();
+      }
+
+      this.resetConnectionState();
+
+      // Notify listeners - EIP-1193 events
+      this.emitDisconnect();
+      this.emitAccountsChanged([]);
+    } catch (err) {
+      throw normalizeError(err, { operation: 'disconnect' });
     }
-
-    this.resetConnectionState();
-
-    // Notify listeners - EIP-1193 events
-    this.emitDisconnect();
-    this.emitAccountsChanged([]);
   }
 
   public async getUserInfo(): Promise<UserInfo | undefined> {
@@ -232,40 +248,67 @@ export class AurumCore {
     );
   }
 
+  // EIP-1193 event listener passthroughs. Delegates to the proxy rpcProvider so listeners survive
+  // provider swaps (connect/disconnect) without consumers needing to re-register.
+  public on: AurumRpcProvider['on'] = (event, listener) => {
+    (this.rpcProvider.on as (e: string, l: (...args: unknown[]) => void) => void)(
+      event as string,
+      listener as (...args: unknown[]) => void,
+    );
+  };
+
+  public off: AurumRpcProvider['removeListener'] = (event, listener) => {
+    (this.rpcProvider.removeListener as (e: string, l: (...args: unknown[]) => void) => void)(
+      event as string,
+      listener as (...args: unknown[]) => void,
+    );
+  };
+
+  public removeListener: AurumRpcProvider['removeListener'] = (event, listener) => {
+    (this.rpcProvider.removeListener as (e: string, l: (...args: unknown[]) => void) => void)(
+      event as string,
+      listener as (...args: unknown[]) => void,
+    );
+  };
+
   public async handleWidgetConnection(result: WalletConnectionResult): Promise<UserInfo> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    const adapter = this.wallets.find((w) => w.id === result.walletId) || null;
-    if (!adapter) throw new Error('Selected wallet adapter not found');
+      const adapter = this.wallets.find((w) => w.id === result.walletId) || null;
+      if (!adapter) throw new ConnectionError('Selected wallet adapter not found');
 
-    const provider = result.provider ?? adapter.getProvider();
-    if (!provider) {
-      sentryLogger.error(`Error fetching provider on widget login: ${result?.walletId}`);
-      throw new Error('Error fetching provider. Please try again.');
+      const provider = result.provider ?? adapter.getProvider();
+      if (!provider) {
+        sentryLogger.error(`Error fetching provider on widget login: ${result?.walletId}`);
+        throw new ConnectionError('Error fetching provider. Please try again.');
+      }
+
+      // Update internal state (mirrors connect() logic)
+      const checksumAdr = checksumAddress(result.address as `0x${string}`);
+      this.connectedWalletAdapter = adapter;
+      this.updateProvider(provider);
+      this.userInfo = {
+        publicAddress: checksumAdr,
+        walletName: adapter.name,
+        walletId: adapter.id,
+        email: result.email,
+      };
+
+      this.persistConnectionState(adapter, checksumAdr, result.email);
+      this.setInternalAccountChangeListener(adapter);
+
+      // Notify listeners - EIP-1193 events
+      const chainId = await provider.request<string>({ method: 'eth_chainId' });
+      this.emitConnect(chainId);
+      this.emitAccountsChanged([checksumAdr]);
+
+      sentryLogger.info(`Wallet connected: ${adapter.id} (widget)`);
+
+      return this.userInfo;
+    } catch (err) {
+      throw normalizeError(err, { operation: 'connect' });
     }
-
-    // Update internal state (mirrors connect() logic)
-    const checksumAdr = checksumAddress(result.address as `0x${string}`);
-    this.connectedWalletAdapter = adapter;
-    this.updateProvider(provider);
-    this.userInfo = {
-      publicAddress: checksumAdr,
-      walletName: adapter.name,
-      walletId: adapter.id,
-      email: result.email,
-    };
-
-    this.persistConnectionState(adapter, checksumAdr, result.email);
-    this.setInternalAccountChangeListener(adapter);
-
-    // Notify listeners - EIP-1193 events
-    const chainId = await provider.request<string>({ method: 'eth_chainId' });
-    this.emitConnect(chainId);
-    this.emitAccountsChanged([checksumAdr]);
-
-    sentryLogger.info(`Wallet connected: ${adapter.id} (widget)`);
-
-    return this.userInfo;
   }
 
   public async getChainId(): Promise<number> {
@@ -275,15 +318,19 @@ export class AurumCore {
   }
 
   public async switchChain(chainId: `0x${string}` | string | number, chain?: Chain): Promise<void> {
-    await this.whenReady();
-
-    const hexChainId = normalizeChainId(chainId);
-
     try {
-      await this.attemptSwitchChain(hexChainId);
-    } catch (switchError: unknown) {
-      if (!isChainNotAddedError(switchError as { code?: number; message?: string }) || !chain) throw switchError;
-      await this.handleMissingChain(hexChainId, chain);
+      await this.whenReady();
+
+      const hexChainId = normalizeChainId(chainId);
+
+      try {
+        await this.attemptSwitchChain(hexChainId);
+      } catch (switchError: unknown) {
+        if (!isChainNotAddedError(switchError as { code?: number; message?: string }) || !chain) throw switchError;
+        await this.handleMissingChain(hexChainId, chain);
+      }
+    } catch (err) {
+      throw normalizeError(err, { operation: 'switchChain' });
     }
   }
 
@@ -342,15 +389,19 @@ export class AurumCore {
    * @returns flowId to use with emailAuthVerify
    */
   public async emailAuthStart(email: string): Promise<EmailAuthStartResult> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
-    if (!emailAdapter || !emailAdapter.emailAuthStart) {
-      throw new Error('Email wallet is not configured');
+      const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
+      if (!emailAdapter || !emailAdapter.emailAuthStart) {
+        throw new WalletNotConfiguredError('email');
+      }
+
+      const result = await emailAdapter.emailAuthStart(email);
+      return { flowId: result.flowId };
+    } catch (err) {
+      throw normalizeError(err, { operation: 'emailAuthStart' });
     }
-
-    const result = await emailAdapter.emailAuthStart(email);
-    return { flowId: result.flowId };
   }
 
   /**
@@ -360,51 +411,55 @@ export class AurumCore {
    * @returns The connected wallet address and email
    */
   public async emailAuthVerify(flowId: string, otp: string): Promise<EmailAuthVerifyResult> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
-    if (!emailAdapter || !emailAdapter.emailAuthVerify) {
-      throw new Error('Email wallet is not configured');
+      const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
+      if (!emailAdapter || !emailAdapter.emailAuthVerify) {
+        throw new WalletNotConfiguredError('email');
+      }
+
+      const verifyResult = await emailAdapter.emailAuthVerify(flowId, otp);
+      const provider = emailAdapter.getProvider();
+
+      if (!provider) {
+        sentryLogger.error('Failed to get provider after email verification');
+        throw new ConnectionError('Failed to get provider after email verification');
+      }
+
+      const address = verifyResult.user?.evmAccounts?.[0];
+      const email = verifyResult.user?.authenticationMethods?.email?.email;
+
+      if (!address || !email) {
+        sentryLogger.error('Address or email not found after email verification');
+        throw new ConnectionError('Address or email not found after email verification');
+      }
+
+      const checksumAdr = checksumAddress(address as `0x${string}`);
+
+      this.connectedWalletAdapter = emailAdapter;
+      this.updateProvider(provider);
+      this.userInfo = {
+        publicAddress: checksumAdr,
+        walletName: emailAdapter.name,
+        walletId: emailAdapter.id,
+        email,
+      };
+
+      this.persistConnectionState(emailAdapter, checksumAdr, email);
+      this.setInternalAccountChangeListener(emailAdapter);
+
+      // Notify listeners - EIP-1193 events
+      const chainId = await provider.request<string>({ method: 'eth_chainId' });
+      this.emitConnect(chainId);
+      this.emitAccountsChanged([checksumAdr]);
+
+      sentryLogger.info(`Wallet connected: ${emailAdapter.id} (headless)`);
+
+      return { address: checksumAdr, email: email ?? '', isNewUser: verifyResult.isNewUser ?? false };
+    } catch (err) {
+      throw normalizeError(err, { operation: 'emailAuthVerify' });
     }
-
-    const verifyResult = await emailAdapter.emailAuthVerify(flowId, otp);
-    const provider = emailAdapter.getProvider();
-
-    if (!provider) {
-      sentryLogger.error('Failed to get provider after email verification');
-      throw new Error('Failed to get provider after email verification');
-    }
-
-    const address = verifyResult.user?.evmAccounts?.[0];
-    const email = verifyResult.user?.authenticationMethods?.email?.email;
-
-    if (!address || !email) {
-      sentryLogger.error('Address or email not found after email verification');
-      throw new Error('Address or email not found after email verification');
-    }
-
-    const checksumAdr = checksumAddress(address as `0x${string}`);
-
-    this.connectedWalletAdapter = emailAdapter;
-    this.updateProvider(provider);
-    this.userInfo = {
-      publicAddress: checksumAdr,
-      walletName: emailAdapter.name,
-      walletId: emailAdapter.id,
-      email,
-    };
-
-    this.persistConnectionState(emailAdapter, checksumAdr, email);
-    this.setInternalAccountChangeListener(emailAdapter);
-
-    // Notify listeners - EIP-1193 events
-    const chainId = await provider.request<string>({ method: 'eth_chainId' });
-    this.emitConnect(chainId);
-    this.emitAccountsChanged([checksumAdr]);
-
-    sentryLogger.info(`Wallet connected: ${emailAdapter.id} (headless)`);
-
-    return { address: checksumAdr, email: email ?? '', isNewUser: verifyResult.isNewUser ?? false };
   }
 
   /**
@@ -412,48 +467,56 @@ export class AurumCore {
    * @returns URI string and a promise that resolves when the user connects
    */
   public async getWalletConnectSession(): Promise<WalletConnectSessionResult> {
-    await this.whenReady();
+    try {
+      await this.whenReady();
 
-    const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
-    if (!wcAdapter) {
-      throw new Error('WalletConnect is not enabled');
+      const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
+      if (!wcAdapter) {
+        throw new WalletNotConfiguredError('walletconnect');
+      }
+
+      const session = await wcAdapter.startSession();
+
+      return {
+        uri: session.uri,
+        waitForConnection: async (): Promise<`0x${string}`> => {
+          try {
+            const result = await session.waitForConnection();
+            const provider = result.provider ?? wcAdapter.getProvider();
+
+            if (!provider) {
+              sentryLogger.error('Failed to get provider after WalletConnect connection');
+              throw new ConnectionError('Failed to get provider after WalletConnect connection');
+            }
+
+            const checksumAdr = checksumAddress(result.address as `0x${string}`);
+            this.connectedWalletAdapter = wcAdapter;
+            this.updateProvider(provider);
+            this.userInfo = {
+              publicAddress: checksumAdr,
+              walletName: wcAdapter.name,
+              walletId: wcAdapter.id,
+            };
+
+            this.persistConnectionState(wcAdapter, checksumAdr);
+            this.setInternalAccountChangeListener(wcAdapter);
+
+            // Notify listeners - EIP-1193 events
+            const chainId = await provider.request<string>({ method: 'eth_chainId' });
+            this.emitConnect(chainId);
+            this.emitAccountsChanged([checksumAdr]);
+
+            sentryLogger.info(`Wallet connected: ${wcAdapter.id} (headless)`);
+
+            return checksumAdr;
+          } catch (err) {
+            throw normalizeError(err, { operation: 'connect' });
+          }
+        },
+      };
+    } catch (err) {
+      throw normalizeError(err, { operation: 'connect' });
     }
-
-    const session = await wcAdapter.startSession();
-
-    return {
-      uri: session.uri,
-      waitForConnection: async (): Promise<`0x${string}`> => {
-        const result = await session.waitForConnection();
-        const provider = result.provider ?? wcAdapter.getProvider();
-
-        if (!provider) {
-          sentryLogger.error('Failed to get provider after WalletConnect connection');
-          throw new Error('Failed to get provider after WalletConnect connection');
-        }
-
-        const checksumAdr = checksumAddress(result.address as `0x${string}`);
-        this.connectedWalletAdapter = wcAdapter;
-        this.updateProvider(provider);
-        this.userInfo = {
-          publicAddress: checksumAdr,
-          walletName: wcAdapter.name,
-          walletId: wcAdapter.id,
-        };
-
-        this.persistConnectionState(wcAdapter, checksumAdr);
-        this.setInternalAccountChangeListener(wcAdapter);
-
-        // Notify listeners - EIP-1193 events
-        const chainId = await provider.request<string>({ method: 'eth_chainId' });
-        this.emitConnect(chainId);
-        this.emitAccountsChanged([checksumAdr]);
-
-        sentryLogger.info(`Wallet connected: ${wcAdapter.id} (headless)`);
-
-        return checksumAdr;
-      },
-    };
   }
 
   /* PROVIDER METHODS */
@@ -683,7 +746,7 @@ export class AurumCore {
 
   private async addChain(chain: Chain): Promise<void> {
     if (!chain?.id || !chain?.name || !chain?.nativeCurrency || !chain?.rpcUrls?.default?.http) {
-      throw new Error('Invalid chain configuration: missing required properties');
+      throw new InvalidConfigError('Invalid chain configuration: missing required properties');
     }
 
     await this.rpcProvider.request({
