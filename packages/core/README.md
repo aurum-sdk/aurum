@@ -14,12 +14,6 @@ Aurum is an open-source JavaScript SDK that makes it easy to add wallets to your
 pnpm add @aurum-sdk/core
 ```
 
-> **pnpm local development (link:)**: `@reown/appkit` and `@reown/appkit-adapter-wagmi` are loaded as dynamic requires at runtime rather than bundled inline. With a normal `pnpm add` install this is transparent — pnpm installs them as transitive deps. But if you're linking Aurum locally via `link:` or a workspace `link:` protocol, pnpm's strict isolation may prevent your app's webpack from resolving them. Fix by adding them explicitly to your app's dependencies:
->
-> ```bash
-> pnpm add @reown/appkit @reown/appkit-adapter-wagmi
-> ```
-
 ## Quick Start
 
 ```typescript
