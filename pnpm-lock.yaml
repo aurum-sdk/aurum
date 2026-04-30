@@ -106,10 +106,13 @@ importers:
         version: 1.8.17(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(react@19.2.3)(typescript@5.9.3)(ws@8.19.0)
       '@reown/appkit-adapter-wagmi':
         specifier: 1.8.17
-        version: 1.8.17(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)(wagmi@3.1.0)(ws@8.19.0)
+        version: 1.8.17(@coinbase/wallet-sdk@4.3.7)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)(wagmi@3.1.0)(ws@8.19.0)
       '@sentry/browser':
         specifier: ^10.29.0
         version: 10.29.0
+      '@wagmi/connectors':
+        specifier: ^7.2.1
+        version: 7.2.1(@coinbase/wallet-sdk@4.3.7)(@metamask/sdk@0.33.1)(porto@0.2.37)(typescript@5.9.3)(viem@2.44.4)
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -2306,7 +2309,7 @@ packages:
       react: 19.2.3
       react-native: 0.83.1(@babel/core@7.28.5)(@types/react@18.3.26)(react@19.2.3)
 
-  /@reown/appkit-adapter-wagmi@1.8.17(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)(wagmi@3.1.0)(ws@8.19.0):
+  /@reown/appkit-adapter-wagmi@1.8.17(@coinbase/wallet-sdk@4.3.7)(@metamask/sdk@0.33.1)(@react-native-async-storage/async-storage@2.2.0)(@types/react@18.3.26)(fastestsmallesttextencoderdecoder@1.0.22)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)(wagmi@3.1.0)(ws@8.19.0):
     resolution: {integrity: sha512-yQo0o6AZqx/D6uHzQL85sxcH6dnReiWXLIvlo5VMi9ZwcBvRvz+rgihGOLEgI7/X3CJnaYO/mSedtJLaJOBVxA==}
     peerDependencies:
       '@wagmi/core': '>=2.21.2 || 2 || 3'
@@ -2328,7 +2331,7 @@ packages:
       viem: 2.44.4(typescript@5.9.3)
       wagmi: 3.1.0(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(@tanstack/react-query@5.90.19)(@types/react@18.3.26)(porto@0.2.37)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)
     optionalDependencies:
-      '@wagmi/connectors': 7.1.5(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(porto@0.2.37)(typescript@5.9.3)(viem@2.44.4)
+      '@wagmi/connectors': 7.2.1(@coinbase/wallet-sdk@4.3.7)(@metamask/sdk@0.33.1)(porto@0.2.37)(typescript@5.9.3)(viem@2.44.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -2340,7 +2343,6 @@ packages:
       - '@capacitor/preferences'
       - '@coinbase/wallet-sdk'
       - '@deno/kv'
-      - '@gemini-wallet/core'
       - '@metamask/sdk'
       - '@netlify/blobs'
       - '@planetscale/database'
@@ -5186,17 +5188,15 @@ packages:
       typescript: 5.9.3
       viem: 2.44.4(typescript@5.9.3)
 
-  /@wagmi/connectors@7.1.5(@coinbase/wallet-sdk@4.3.7)(@gemini-wallet/core@0.3.2)(@metamask/sdk@0.33.1)(porto@0.2.37)(typescript@5.9.3)(viem@2.44.4):
-    resolution: {integrity: sha512-+hrb4RJywjGtUsDZNLSc4eOF+jD6pVkCZ/KFi24p993u0ymsm/kGTLXjhYx5r8Rf/cxFHEiaQaRnEfB9qyDJyw==}
-    requiresBuild: true
+  /@wagmi/connectors@7.2.1(@coinbase/wallet-sdk@4.3.7)(@metamask/sdk@0.33.1)(porto@0.2.37)(typescript@5.9.3)(viem@2.44.4):
+    resolution: {integrity: sha512-/tyDepUMDM8eNzNX3ofjqHNRFZ6XcZ3u0+cQp5x0/LHCpMA8tRh7A1/e7dTrYiIJeL7iLgHzfHUXCsU02OKMLQ==}
     peerDependencies:
       '@base-org/account': ^2.5.1
       '@coinbase/wallet-sdk': ^4.3.6
-      '@gemini-wallet/core': ~0.3.1
       '@metamask/sdk': ~0.33.1
       '@safe-global/safe-apps-provider': ~0.18.6
       '@safe-global/safe-apps-sdk': ^9.1.0
-      '@wagmi/core': 3.3.1 || 2 || 3
+      '@wagmi/core': 3.4.0 || 2 || 3
       '@walletconnect/ethereum-provider': ^2.21.1
       porto: ~0.2.35
       typescript: '>=5.7.3 || 5'
@@ -5205,8 +5205,6 @@ packages:
       '@base-org/account':
         optional: true
       '@coinbase/wallet-sdk':
-        optional: true
-      '@gemini-wallet/core':
         optional: true
       '@metamask/sdk':
         optional: true
@@ -5224,13 +5222,11 @@ packages:
         optional: true
     dependencies:
       '@coinbase/wallet-sdk': 4.3.7(typescript@5.9.3)
-      '@gemini-wallet/core': 0.3.2(viem@2.44.4)
       '@metamask/sdk': 0.33.1
       porto: 0.2.37(@tanstack/react-query@5.90.19)(@types/react@18.3.26)(react-native@0.83.1)(react@19.2.3)(typescript@5.9.3)(viem@2.44.4)(wagmi@3.1.0)
       typescript: 5.9.3
       viem: 2.44.4(typescript@5.9.3)
     dev: false
-    optional: true
 
   /@wagmi/core@3.0.0(@types/react@18.3.26)(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0)(viem@2.44.4):
     resolution: {integrity: sha512-wOn8jwB9GNYTdrc4CP/huf1aAhDoQ5GKl5OhxGBZx9X4qE+wReW05dTcurEc+XBl9B/ZVis2JdXVU3ZiYqyS8Q==}
@@ -5623,6 +5619,7 @@ packages:
   /@xmldom/xmldom@0.9.9:
     resolution: {integrity: sha512-qycIHAucxy/LXAYIjmLmtQ8q9GPnMbnjG1KXhWm9o5sCr6pOYDATkMPiTNa6/v8eELyqOQ2FsEqeoFYmgv/gJg==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
     dev: false
 
   /abitype@1.0.6(typescript@5.9.3)(zod@3.25.76):

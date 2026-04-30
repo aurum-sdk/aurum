@@ -102,6 +102,7 @@
     "@reown/appkit": "1.8.17",
     "@reown/appkit-adapter-wagmi": "1.8.17",
     "@sentry/browser": "^10.29.0",
+    "@wagmi/connectors": "^7.2.1",
     "buffer": "^6.0.3",
     "lucide-react": "^0.460.0",
     "mobile-detect": "^1.4.5",
