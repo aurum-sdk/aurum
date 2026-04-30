@@ -1,11 +1,13 @@
 # Changelog
 
-## [0.2.7] - 2026-04-20
+## [0.2.8] - 2026-04-30
 
 - Fix Next.js consumer build failure (`Module not found: Can't resolve 'accounts'` originating from `@wagmi/core@3.4.7/tempo/Connectors.js`).  
   `@reown/appkit-adapter-wagmi@1.8.17` declares `@wagmi/connectors: ">=5.9.9"` as an optional dependency, which let consumer trees resolve `@wagmi/connectors@8.0.8` and  
   pull in `@wagmi/core@3.4.7`'s tempo modules whose runtime peers (`accounts`, etc.) are not auto-installed. Pin `@wagmi/connectors` to `^7.2.1` directly in  
   `@aurum-sdk/core` so consumer trees resolve a connectors version that doesn't pull the broken tempo subtree.
+
+## [0.2.7] - 2026-04-20
 
 ### Added
 
