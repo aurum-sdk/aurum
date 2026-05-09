@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { WalletId, WalletName } from '@aurum-sdk/types';
-import type { WalletAdapter } from '@src/types/internal';
+import type { WalletAdapterManifest } from '@src/types/internal';
 
 // Mock the store
 vi.mock('@src/store', () => ({
@@ -14,8 +14,11 @@ vi.mock('@src/store', () => ({
 import { useAurumStore } from '@src/store';
 import { sortWallets } from '@src/utils/sortWallets';
 
-// Helper to create mock wallet adapters
-const createMockAdapter = (id: WalletId, options: { installed?: boolean; hide?: boolean } = {}): WalletAdapter => ({
+// Helper to create mock manifests
+const createMockAdapter = (
+  id: WalletId,
+  options: { installed?: boolean; hide?: boolean } = {},
+): WalletAdapterManifest => ({
   id,
   name: id as unknown as WalletName,
   icon: '',
@@ -23,12 +26,7 @@ const createMockAdapter = (id: WalletId, options: { installed?: boolean; hide?: 
   downloadUrl: null,
   wcDeepLinkUrl: null,
   isInstalled: vi.fn(() => options.installed ?? false),
-  getProvider: vi.fn(() => null),
-  connect: vi.fn(),
-  tryRestoreConnection: vi.fn(),
-  disconnect: vi.fn(),
-  onAccountsChanged: vi.fn(),
-  removeListeners: vi.fn(),
+  load: vi.fn(),
 });
 
 describe('sortWallets', () => {

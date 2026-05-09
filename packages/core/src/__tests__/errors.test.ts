@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  AdapterLoadError,
   AurumError,
   ChainNotSupportedError,
   ChainSwitchRejectedError,
@@ -23,6 +24,7 @@ describe('error classes', () => {
       [new ChainNotSupportedError('x'), 'CHAIN_NOT_SUPPORTED'],
       [new InvalidConfigError('x'), 'INVALID_CONFIG'],
       [new ConnectionError('x'), 'CONNECTION_FAILED'],
+      [new AdapterLoadError('metamask'), 'ADAPTER_LOAD_FAILED'],
     ];
 
     for (const [err, code] of cases) {
@@ -37,6 +39,14 @@ describe('error classes', () => {
     const err = new WalletNotInstalledError('phantom');
     expect(err.walletId).toBe('phantom');
     expect(err.message).toContain('phantom');
+  });
+
+  it('AdapterLoadError preserves walletId and cause', () => {
+    const inner = new Error('chunk load failed');
+    const err = new AdapterLoadError('metamask', inner);
+    expect(err.walletId).toBe('metamask');
+    expect(err.message).toContain('metamask');
+    expect(err.cause).toBe(inner);
   });
 });
 

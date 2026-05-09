@@ -1,6 +1,7 @@
 import { PAGE_IDS, PageIdType } from '@src/components/ConnectModal/PageIds';
-import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import { useNavigation } from '@src/contexts/NavigationContext';
+import { loadAdapter } from '@src/utils/walletAdapterCache';
 import {
   clearExistingDeepLinkListeners,
   createWalletConnectHandlers,
@@ -13,8 +14,8 @@ import { sentryLogger } from '@src/services/sentry';
 import { isMobile } from '@src/utils/platform/isMobile';
 
 interface ResolvePayloadProps {
-  adapter: WalletAdapter;
-  displayedWallets?: WalletAdapter[];
+  adapter: WalletAdapterManifest;
+  displayedWallets?: WalletAdapterManifest[];
   onConnect: (payload: WalletConnectionResult) => void;
   navigateTo?: (pageId: PageIdType) => void;
   setSuccess?: (success: boolean) => void;
@@ -23,10 +24,12 @@ interface ResolvePayloadProps {
 export const useConnectSelectedWallet = () => {
   const { navigateTo } = useNavigation();
 
-  const connectInstalledWallet = async ({ adapter, onConnect, setSuccess }: ResolvePayloadProps) => {
+  const connectInstalledWallet = async ({ adapter: manifest, onConnect, setSuccess }: ResolvePayloadProps) => {
+    // Navigate first so the connecting screen covers the chunk-download wait.
     navigateTo(PAGE_IDS.CONNECTING);
 
     try {
+      const adapter = await loadAdapter(manifest);
       const { address, provider } = await adapter.connect();
 
       setSuccess?.(true);
@@ -44,8 +47,8 @@ export const useConnectSelectedWallet = () => {
   };
 
   const connectUninstalledWalletQRCode = async ({ displayedWallets, onConnect, setSuccess }: ResolvePayloadProps) => {
-    const walletConnectAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
-    if (!walletConnectAdapter) {
+    const wcManifest = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
+    if (!wcManifest) {
       sentryLogger.error('connectUninstalledWalletQRCode: WalletConnect adapter not found');
       throw new Error('WalletConnect adapter not found');
     }
@@ -53,6 +56,7 @@ export const useConnectSelectedWallet = () => {
     navigateTo(PAGE_IDS.QR_CODE);
 
     try {
+      const walletConnectAdapter = await loadAdapter(wcManifest);
       const { address, provider } = await walletConnectAdapter.connect();
 
       setSuccess?.(true);
@@ -71,12 +75,12 @@ export const useConnectSelectedWallet = () => {
 
   const connectWithMobileDeepLink = async ({
     displayedWallets,
-    adapter,
+    adapter: manifest,
     onConnect,
     setSuccess,
   }: ResolvePayloadProps) => {
-    const walletConnectAdapter = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
-    if (!walletConnectAdapter) {
+    const wcManifest = displayedWallets?.find(({ id }) => id === WalletId.WalletConnect);
+    if (!wcManifest) {
       sentryLogger.error('connectWithMobileDeepLink: WalletConnect adapter not found');
       throw new Error('WalletConnect adapter not found');
     }
@@ -85,7 +89,7 @@ export const useConnectSelectedWallet = () => {
 
     clearExistingDeepLinkListeners();
 
-    const handlers = createWalletConnectHandlers(adapter.wcDeepLinkUrl, () => {
+    const handlers = createWalletConnectHandlers(manifest.wcDeepLinkUrl, () => {
       isRejected = true;
     });
 
@@ -95,6 +99,7 @@ export const useConnectSelectedWallet = () => {
     try {
       navigateTo(PAGE_IDS.MOBILE_DEEP_LINK);
 
+      const walletConnectAdapter = await loadAdapter(wcManifest);
       const { address, provider } = await walletConnectAdapter.connect();
 
       cleanupGlobal();
@@ -118,8 +123,9 @@ export const useConnectSelectedWallet = () => {
     }
   };
 
-  const connectWalletConnectModal = async ({ adapter, onConnect, setSuccess }: ResolvePayloadProps) => {
+  const connectWalletConnectModal = async ({ adapter: manifest, onConnect, setSuccess }: ResolvePayloadProps) => {
     try {
+      const adapter = await loadAdapter(manifest);
       // Use openModal() for AppKit modal flow
       if (!adapter.openModal) {
         throw new Error('Adapter does not support openModal');

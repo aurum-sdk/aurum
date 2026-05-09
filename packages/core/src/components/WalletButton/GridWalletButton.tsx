@@ -1,4 +1,4 @@
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { Button } from '@src/ui';
 import { WalletLogoWrapper } from '@src/components/WalletLogoWrapper/WalletLogoWrapper';
 
@@ -6,8 +6,8 @@ export const GridWalletButton = ({
   wallet,
   connectWallet,
 }: {
-  wallet: WalletAdapter;
-  connectWallet: (wallet: WalletAdapter) => void;
+  wallet: WalletAdapterManifest;
+  connectWallet: (wallet: WalletAdapterManifest) => void;
 }) => {
   return (
     <Button

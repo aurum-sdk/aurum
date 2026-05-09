@@ -1,4 +1,4 @@
-import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import { ThemeContainer } from '@src/ui';
 import { ConnectUIProviders } from '@src/components/ConnectUIProviders';
 import { ModalShell } from '@src/components/ConnectModal/ModalShell';
@@ -9,7 +9,7 @@ import { NonNullableBrandConfig } from '@aurum-sdk/types';
 const CONTAINER_ID = 'aurum-modal-container';
 
 interface RenderConnectModalProps {
-  displayedWallets: WalletAdapter[];
+  displayedWallets: WalletAdapterManifest[];
   brandConfig: NonNullableBrandConfig;
 }
 

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import { PAGE_IDS } from '@src/components/ConnectModal/PageIds';
 import { isMobile } from '@src/utils/platform/isMobile';
 import { useConnectSelectedWallet } from '@src/hooks/useConnectSelectedWallet';
@@ -12,7 +12,7 @@ import { sentryLogger } from '@src/services/sentry';
 
 interface ConnectModalProviderProps {
   children: React.ReactNode;
-  displayedWallets: WalletAdapter[];
+  displayedWallets: WalletAdapterManifest[];
   onConnect: (result: WalletConnectionResult) => void;
 }
 
@@ -22,13 +22,13 @@ interface ConnectModalContextValue {
   configError: boolean;
   success: boolean;
   qrSuccess: boolean;
-  selectedWallet: WalletAdapter | null;
-  displayedWallets: WalletAdapter[];
+  selectedWallet: WalletAdapterManifest | null;
+  displayedWallets: WalletAdapterManifest[];
   goBackToHome: () => void;
-  connectWallet: (wallet: WalletAdapter) => void;
+  connectWallet: (wallet: WalletAdapterManifest) => void;
   openWalletConnectModal: () => void;
   retryConnection: () => void;
-  setSelectedWallet: (wallet: WalletAdapter | null) => void;
+  setSelectedWallet: (wallet: WalletAdapterManifest | null) => void;
   setSuccess: (success: boolean) => void;
   setQrSuccess: (success: boolean) => void;
 }
@@ -58,9 +58,9 @@ export const ConnectModalProvider = ({ children, displayedWallets, onConnect }: 
   const [configError, setConfigError] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [qrSuccess, setQrSuccess] = useState<boolean>(false);
-  const [selectedWallet, setSelectedWallet] = useState<WalletAdapter | null>(null);
+  const [selectedWallet, setSelectedWallet] = useState<WalletAdapterManifest | null>(null);
 
-  const connectWallet = async (wallet: WalletAdapter) => {
+  const connectWallet = async (wallet: WalletAdapterManifest) => {
     try {
       setError(false);
       setErrorCode(null);

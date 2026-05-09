@@ -1,11 +1,11 @@
 import React from 'react';
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { GridWalletButton } from '@src/components/WalletButton/GridWalletButton';
 import '@src/components/ConnectModal/WalletGrid.css';
 import { useConnectModal } from '@src/contexts/ConnectModalContext';
 
 interface WalletListGridProps {
-  wallets: WalletAdapter[];
+  wallets: WalletAdapterManifest[];
 }
 
 const MAX_COLUMNS = 4;

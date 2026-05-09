@@ -1,4 +1,4 @@
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { useAurumStore } from '@src/store';
 import { WalletId } from '@aurum-sdk/types';
 
@@ -22,7 +22,10 @@ export interface SortWalletsOptions {
  * 2. Installed wallets before uninstalled
  * 3. WALLET_PRIORITY order
  */
-export function sortWallets(wallets: WalletAdapter[], options: SortWalletsOptions = {}): WalletAdapter[] {
+export function sortWallets(
+  wallets: WalletAdapterManifest[],
+  options: SortWalletsOptions = {},
+): WalletAdapterManifest[] {
   const { filterHidden = true } = options;
   const lastUsedWalletId = useAurumStore.getState().lastUsedWalletId;
 

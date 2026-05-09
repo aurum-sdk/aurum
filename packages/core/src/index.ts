@@ -9,5 +9,6 @@ export {
   ChainNotSupportedError,
   InvalidConfigError,
   ConnectionError,
+  AdapterLoadError,
   normalizeError,
 } from '@src/errors';
