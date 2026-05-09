@@ -33,8 +33,6 @@ export default defineConfig({
   noExternal: [
     '@coinbase/cdp-core',
     '@coinbase/wallet-sdk',
-    '@gemini-wallet/core',
-    'porto',
     'buffer',
     '@aurum-sdk/logos',
     /^@aurum-sdk\/logos/,
