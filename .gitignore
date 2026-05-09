@@ -24,8 +24,9 @@ pnpm-debug.log*
 # Package managers
 .pnpm-debug.log*
 
-# Cursor
+# AI
 .cursor/
+CLAUDE.md
 
 # Personal docs
 RELEASE.md
