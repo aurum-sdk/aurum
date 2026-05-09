@@ -4,7 +4,7 @@
 - [Live Demo](https://demo.aurumsdk.com/)
 - [Website](https://aurumsdk.com/)
 
-Aurum is an open-source JavaScript SDK that makes it easy to add wallets to your web app.
+Aurum is an open-source React SDK that makes it easy to add wallets to your web app. Requires React 18 or 19.
 
 Supported Wallets includes: Coinbase Embedded Wallet (email), MetaMask, Phantom, Coinbase Wallet, Rabby, Brave, and WalletConnect
 

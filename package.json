@@ -63,8 +63,6 @@
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
-        "@types/react",
-        "react",
         "@react-native-async-storage/async-storage",
         "@wagmi/core",
         "@metamask/sdk"
