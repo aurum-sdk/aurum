@@ -1,4 +1,4 @@
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { Button, Row, Text } from '@src/ui';
 import { QrCode } from 'lucide-react';
 import { WalletButtonLabel } from '@src/components/WalletButton/WalletButtonLabel';
@@ -11,8 +11,8 @@ export const WalletButton = ({
   isLastUsed = false,
   iconSize = 32,
 }: {
-  wallet: WalletAdapter;
-  connectWallet: (wallet: WalletAdapter) => void;
+  wallet: WalletAdapterManifest;
+  connectWallet: (wallet: WalletAdapterManifest) => void;
   isLastUsed?: boolean;
   iconSize?: number;
 }) => {

@@ -70,6 +70,16 @@ export class ConnectionError extends AurumError {
   readonly code = 'CONNECTION_FAILED';
 }
 
+export class AdapterLoadError extends AurumError {
+  readonly code = 'ADAPTER_LOAD_FAILED';
+  constructor(
+    public readonly walletId: string,
+    cause?: unknown,
+  ) {
+    super(`Failed to load adapter for ${walletId}`, cause);
+  }
+}
+
 interface NormalizeContext {
   operation?: 'connect' | 'switchChain' | string;
 }

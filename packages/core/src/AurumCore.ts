@@ -3,8 +3,9 @@ import { useAurumStore, waitForStoreHydration } from '@src/store';
 import { normalizeChainId, isChainNotAddedError, isChainExistsError } from '@src/utils/chainHelpers';
 import { renderConnectModal } from '@src/components/ConnectModal/renderConnectModal';
 import { DEFAULT_THEME, getDefaultThemeConfig } from '@src/constants/theme';
-import { createWalletAdapters } from '@src/utils/createWalletAdapters';
-import type { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { createWalletManifests } from '@src/utils/createWalletManifests';
+import { loadAdapter, peekAdapter } from '@src/utils/walletAdapterCache';
+import type { WalletAdapter, WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import type {
   UserInfo,
   AurumRpcProvider,
@@ -19,8 +20,10 @@ import type {
 import { WalletId } from '@aurum-sdk/types';
 import { RpcProvider } from '@src/providers/RpcProvider';
 import { initSentry, sentryLogger } from '@src/services/sentry';
-import { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
-import { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
+// Type-only imports — value references would defeat code splitting (the chunks would be merged
+// back into the main bundle). All call sites use `loadAdapter()` and cast the result.
+import type { WalletConnectAdapter } from '@src/wallet-adapters/WalletConnectAdapter';
+import type { EmailAdapter } from '@src/wallet-adapters/EmailAdapter';
 import {
   ConnectionError,
   InvalidConfigError,
@@ -48,7 +51,7 @@ export class AurumCore {
   // `true` once we have restored the connection state
   public ready: boolean = false;
 
-  private wallets!: WalletAdapter[];
+  private walletManifests!: WalletAdapterManifest[];
   private excludedWallets!: Set<WalletId>;
   private readyPromise!: Promise<void>;
   private brandConfig!: NonNullableBrandConfig;
@@ -80,7 +83,7 @@ export class AurumCore {
 
     this.brandConfig = this.resolveBrandConfig(config);
     this.excludedWallets = new Set((config.wallets?.exclude as WalletId[]) ?? []);
-    this.wallets = createWalletAdapters({
+    this.walletManifests = createWalletManifests({
       walletsConfig: config.wallets,
       appName: this.brandConfig.appName,
       appLogoUrl: this.brandConfig.logo,
@@ -119,8 +122,8 @@ export class AurumCore {
     return this.brandConfig;
   }
 
-  public get walletAdapters(): WalletAdapter[] {
-    return this.wallets;
+  public get walletAdapters(): WalletAdapterManifest[] {
+    return this.walletManifests;
   }
 
   public get excludedWalletIds(): Set<WalletId> {
@@ -144,7 +147,7 @@ export class AurumCore {
         await this.disconnect();
       }
 
-      let adapter: WalletAdapter | null = null;
+      let adapter: WalletAdapter;
       let result: WalletConnectionResult;
 
       if (walletId) {
@@ -152,34 +155,38 @@ export class AurumCore {
         if (this.excludedWallets.has(walletId)) {
           throw new WalletExcludedError(walletId);
         }
-        adapter = this.wallets.find((w) => w.id === walletId) || null;
-        if (!adapter) {
+        const manifest = this.walletManifests.find((m) => m.id === walletId);
+        if (!manifest) {
           throw new WalletNotConfiguredError(walletId);
         }
+
+        adapter = await loadAdapter(manifest);
 
         // WalletConnect opens the AppKit modal for wallet selection
         if (walletId === WalletId.WalletConnect && adapter.openModal) {
           result = await adapter.openModal();
         } else {
-          if (!adapter.isInstalled()) {
+          if (!manifest.isInstalled()) {
             throw new WalletNotInstalledError(adapter.name);
           }
           result = await adapter.connect();
         }
       } else {
         // Open modal to let user choose
-        const displayedWallets = this.wallets.filter((w) => !this.excludedWallets.has(w.id));
+        const displayedWallets = this.walletManifests.filter((m) => !this.excludedWallets.has(m.id));
         const modalResult = await renderConnectModal({ displayedWallets, brandConfig: this.brandConfig });
         if (!modalResult) {
           sentryLogger.error('Missing modal result');
           throw new ConnectionError('Missing modal result');
         }
 
-        adapter = this.wallets.find((w) => w.id === modalResult.walletId) || null;
-        if (!adapter) {
+        const manifest = this.walletManifests.find((m) => m.id === modalResult.walletId);
+        if (!manifest) {
           sentryLogger.error(`Selected wallet adapter not found: ${modalResult.walletId}`);
           throw new ConnectionError('Selected wallet adapter not found');
         }
+        // Cache hit — the modal click already loaded this adapter.
+        adapter = await loadAdapter(manifest);
         result = modalResult;
       }
 
@@ -275,8 +282,10 @@ export class AurumCore {
     try {
       await this.whenReady();
 
-      const adapter = this.wallets.find((w) => w.id === result.walletId) || null;
-      if (!adapter) throw new ConnectionError('Selected wallet adapter not found');
+      const manifest = this.walletManifests.find((m) => m.id === result.walletId);
+      if (!manifest) throw new ConnectionError('Selected wallet adapter not found');
+      // Cache hit — the widget click already loaded this adapter.
+      const adapter = await loadAdapter(manifest);
 
       const provider = result.provider ?? adapter.getProvider();
       if (!provider) {
@@ -369,10 +378,16 @@ export class AurumCore {
           : this.brandConfig.walletLayout,
     };
 
-    // If theme changed, update WalletConnect adapter's AppKit modal
+    // If theme changed and the WalletConnect adapter has already been loaded, push the new
+    // theme into the AppKit modal. We avoid `loadAdapter` here so that changing the theme
+    // doesn't trigger a chunk download — the new theme will be picked up when the adapter
+    // is loaded for real (via the manifest closure passed at construction time).
     if ('theme' in newConfig && this.brandConfig.theme) {
-      const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
-      wcAdapter?.updateTheme(this.brandConfig.theme);
+      const wcPromise = peekAdapter(WalletId.WalletConnect);
+      if (wcPromise) {
+        const theme = this.brandConfig.theme;
+        wcPromise.then((adapter) => (adapter as WalletConnectAdapter).updateTheme(theme)).catch(() => {});
+      }
     }
   }
 
@@ -392,8 +407,12 @@ export class AurumCore {
     try {
       await this.whenReady();
 
-      const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
-      if (!emailAdapter || !emailAdapter.emailAuthStart) {
+      const manifest = this.walletManifests.find((m) => m.id === WalletId.Email);
+      if (!manifest) {
+        throw new WalletNotConfiguredError('email');
+      }
+      const emailAdapter = (await loadAdapter(manifest)) as EmailAdapter;
+      if (!emailAdapter.emailAuthStart) {
         throw new WalletNotConfiguredError('email');
       }
 
@@ -414,8 +433,12 @@ export class AurumCore {
     try {
       await this.whenReady();
 
-      const emailAdapter = this.wallets.find((w) => w.id === WalletId.Email) as EmailAdapter | undefined;
-      if (!emailAdapter || !emailAdapter.emailAuthVerify) {
+      const manifest = this.walletManifests.find((m) => m.id === WalletId.Email);
+      if (!manifest) {
+        throw new WalletNotConfiguredError('email');
+      }
+      const emailAdapter = (await loadAdapter(manifest)) as EmailAdapter;
+      if (!emailAdapter.emailAuthVerify) {
         throw new WalletNotConfiguredError('email');
       }
 
@@ -470,10 +493,11 @@ export class AurumCore {
     try {
       await this.whenReady();
 
-      const wcAdapter = this.wallets.find((w) => w.id === WalletId.WalletConnect) as WalletConnectAdapter | undefined;
-      if (!wcAdapter) {
+      const manifest = this.walletManifests.find((m) => m.id === WalletId.WalletConnect);
+      if (!manifest) {
         throw new WalletNotConfiguredError('walletconnect');
       }
+      const wcAdapter = (await loadAdapter(manifest)) as WalletConnectAdapter;
 
       const session = await wcAdapter.startSession();
 
@@ -622,11 +646,14 @@ export class AurumCore {
         return;
       }
 
-      const persistedAdapter = this.wallets.find((w) => w.id === store.walletId) || null;
-      if (!persistedAdapter || !persistedAdapter.isInstalled()) {
+      const manifest = this.walletManifests.find((m) => m.id === store.walletId);
+      if (!manifest || !manifest.isInstalled()) {
         store.clearConnection();
         return;
       }
+
+      // Restoration only needs to load this one adapter — others stay un-downloaded.
+      const persistedAdapter = await loadAdapter(manifest);
 
       const connectionResult = await persistedAdapter.tryRestoreConnection();
       if (!connectionResult || connectionResult.address.toLowerCase() !== store.address.toLowerCase()) {

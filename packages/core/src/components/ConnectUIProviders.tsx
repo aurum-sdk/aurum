@@ -2,12 +2,12 @@ import React, { ReactNode } from 'react';
 import { NavigationProvider } from '@src/contexts/NavigationContext';
 import { ConnectModalProvider } from '@src/contexts/ConnectModalContext';
 import { PAGE_IDS } from '@src/components/ConnectModal/PageIds';
-import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 
 interface ConnectUIProvidersProps {
   children: ReactNode;
   onConnect: (result: WalletConnectionResult) => void;
-  displayedWallets: WalletAdapter[];
+  displayedWallets: WalletAdapterManifest[];
 }
 
 export const ConnectUIProviders: React.FC<ConnectUIProvidersProps> = ({ children, onConnect, displayedWallets }) => (

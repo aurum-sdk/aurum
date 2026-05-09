@@ -48,3 +48,28 @@ export interface WalletAdapterConfig {
   name: string;
   id: string;
 }
+
+/**
+ * Lightweight, eagerly-bundled descriptor for a wallet.
+ *
+ * The modal renders the wallet list from manifests. The heavy adapter
+ * implementation (with all its third-party SDK dependencies) is only
+ * pulled in via `load()` when the user actually clicks a wallet, calls
+ * `aurum.connect(walletId)`, or session restoration needs it.
+ */
+export interface WalletAdapterManifest {
+  readonly id: WalletId;
+  readonly name: WalletName;
+  readonly icon: string;
+  readonly downloadUrl: string | null;
+  readonly wcDeepLinkUrl: string | null;
+
+  /** Computed each access — Brave depends on runtime browser detection. */
+  readonly hide: boolean;
+
+  /** Synchronous install sniff. Safe to call many times during render. */
+  isInstalled(): boolean;
+
+  /** Dynamic-imports the adapter module and instantiates it. Cached by `walletAdapterCache`. */
+  load(): Promise<WalletAdapter>;
+}

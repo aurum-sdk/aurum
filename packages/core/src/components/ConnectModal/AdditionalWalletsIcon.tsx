@@ -1,11 +1,11 @@
 import React from 'react';
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { WalletLogoWrapper } from '@src/components/WalletLogoWrapper/WalletLogoWrapper';
 import { Row } from '@src/ui';
 import './AdditionalWalletsIcon.css';
 
 interface AdditionalWalletsIconProps {
-  additionalWallets: WalletAdapter[];
+  additionalWallets: WalletAdapterManifest[];
   size?: number;
 }
 

@@ -1,10 +1,10 @@
 import { getLogoDataUri } from '@aurum-sdk/logos';
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { WalletId } from '@aurum-sdk/types';
 
-export const generateQrCodeWalletLogo = (walletAdapter?: WalletAdapter): string => {
-  if (walletAdapter?.icon) {
-    return walletAdapter.icon;
+export const generateQrCodeWalletLogo = (wallet?: WalletAdapterManifest): string => {
+  if (wallet?.icon) {
+    return wallet.icon;
   }
 
   return getLogoDataUri(WalletId.WalletConnect) ?? '';

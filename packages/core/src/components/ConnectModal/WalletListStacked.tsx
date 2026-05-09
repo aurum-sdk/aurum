@@ -1,5 +1,5 @@
 import React from 'react';
-import { WalletAdapter } from '@src/types/internal';
+import { WalletAdapterManifest } from '@src/types/internal';
 import { Column, Button, Row, Text } from '@src/ui';
 import { ChevronRight } from 'lucide-react';
 import { WalletButton } from '@src/components/WalletButton/WalletButton';
@@ -10,7 +10,7 @@ import { useNavigation } from '@src/contexts/NavigationContext';
 import { useConnectModal } from '@src/contexts/ConnectModalContext';
 
 interface WalletListStackedProps {
-  wallets: WalletAdapter[];
+  wallets: WalletAdapterManifest[];
   hasEmailAuth: boolean;
 }
 

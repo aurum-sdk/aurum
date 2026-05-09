@@ -1,6 +1,6 @@
 import { Chain } from 'viem';
 import { AurumCore } from '@src/AurumCore';
-import type { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import type { WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import type {
   UserInfo,
   AurumRpcProvider,
@@ -72,10 +72,12 @@ export class Aurum {
   }
 
   /**
-   * Returns the wallet adapters configured for this instance.
+   * Returns lightweight manifests for the wallets configured on this instance.
+   * Each manifest exposes the metadata needed to render a wallet button (id, name,
+   * icon, install state) plus a `load()` method that pulls in the heavy adapter.
    * @internal Used by widget components (i.e. ConnectWidget)
    */
-  public get walletAdapters(): WalletAdapter[] {
+  public get walletAdapters(): WalletAdapterManifest[] {
     return this.core.walletAdapters;
   }
 

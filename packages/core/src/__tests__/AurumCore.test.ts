@@ -31,8 +31,8 @@ vi.mock('@src/store', () => ({
   waitForStoreHydration: vi.fn(() => Promise.resolve()),
 }));
 
-vi.mock('@src/utils/createWalletAdapters', () => ({
-  createWalletAdapters: vi.fn(() => []),
+vi.mock('@src/utils/createWalletManifests', () => ({
+  createWalletManifests: vi.fn(() => []),
 }));
 
 vi.mock('@src/components/ConnectModal/renderConnectModal', () => ({
@@ -40,7 +40,7 @@ vi.mock('@src/components/ConnectModal/renderConnectModal', () => ({
 }));
 
 import { initSentry } from '@src/services/sentry';
-import { createWalletAdapters } from '@src/utils/createWalletAdapters';
+import { createWalletManifests } from '@src/utils/createWalletManifests';
 
 describe('AurumCore', () => {
   // Reset singleton before each test
@@ -63,8 +63,8 @@ describe('AurumCore', () => {
       const AurumCore = await getAurumCore();
       const _core = new AurumCore({});
 
-      // Verify createWalletAdapters was called with dark theme defaults
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      // Verify createWalletManifests was called with dark theme defaults
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           appName: 'Aurum',
           theme: 'dark',
@@ -80,7 +80,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           theme: 'light',
         }),
@@ -94,7 +94,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           modalZIndex: 9999,
         }),
@@ -108,7 +108,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           appName: 'My Custom App',
         }),
@@ -122,7 +122,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           appLogoUrl: 'https://example.com/logo.png',
         }),
@@ -139,7 +139,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           appName: 'Partial App',
           theme: 'dark', // default
@@ -206,7 +206,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           walletsConfig: expect.objectContaining({
             embedded: { projectId: 'test-cdp-project-id' },
@@ -224,7 +224,7 @@ describe('AurumCore', () => {
       };
       new AurumCore(config);
 
-      expect(createWalletAdapters).toHaveBeenCalledWith(
+      expect(createWalletManifests).toHaveBeenCalledWith(
         expect.objectContaining({
           walletsConfig: expect.objectContaining({
             walletConnect: { projectId: 'test-reown-project-id' },

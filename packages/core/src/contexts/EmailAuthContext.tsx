@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
 import { SignInWithEmailResult } from '@coinbase/cdp-core';
-import { WalletAdapter, WalletConnectionResult } from '@src/types/internal';
+import { WalletAdapter, WalletAdapterManifest, WalletConnectionResult } from '@src/types/internal';
 import { PAGE_IDS, PageIdType } from '@src/components/ConnectModal/PageIds';
 import { AurumRpcProvider } from '@aurum-sdk/types';
 import { sentryLogger } from '@src/services/sentry';
 import { isConfigError } from '@src/utils/isConfigError';
+import { loadAdapter } from '@src/utils/walletAdapterCache';
 
 export interface EmailAuthState {
   email: string;
@@ -14,10 +15,10 @@ export interface EmailAuthState {
 
 interface EmailAuthProviderProps {
   children: React.ReactNode;
-  displayedWallets: WalletAdapter[];
+  displayedWallets: WalletAdapterManifest[];
   onConnect: (result: WalletConnectionResult) => void;
   navigateTo: (pageId: PageIdType) => void;
-  setSelectedWallet: (wallet: WalletAdapter | null) => void;
+  setSelectedWallet: (wallet: WalletAdapterManifest | null) => void;
 }
 
 interface EmailAuthContextValue {
@@ -87,13 +88,22 @@ export const EmailAuthProvider = ({
   };
 
   const sendEmailOTP = async (email: string) => {
-    const emailAdapter = displayedWallets.find((adapter) => adapter.id === 'email');
-    if (!emailAdapter) {
+    const emailManifest = displayedWallets.find((m) => m.id === 'email');
+    if (!emailManifest) {
       sentryLogger.error('sendEmailOTP: Email adapter not found');
       throw new Error('Email adapter not found');
     }
 
     setEmailAuthState((prev) => ({ ...prev, email }));
+
+    let emailAdapter: WalletAdapter;
+    try {
+      emailAdapter = await loadAdapter(emailManifest);
+    } catch (error) {
+      sentryLogger.error('sendEmailOTP: failed to load email adapter', { error });
+      setError('Failed to send email verification');
+      return;
+    }
 
     try {
       await attemptEmailAuth(email, emailAdapter);
@@ -124,20 +134,23 @@ export const EmailAuthProvider = ({
         throw new Error('No auth result found');
       }
 
-      const emailAdapter = displayedWallets.find((adapter) => adapter.id === 'email');
-      if (!emailAdapter) {
+      const emailManifest = displayedWallets.find((m) => m.id === 'email');
+      if (!emailManifest) {
         sentryLogger.error('verifyEmailOTPAndConnect: Email adapter not found');
         throw new Error('Email adapter not found');
       }
 
       setEmailAuthState((prev) => ({ ...prev, step: 'connecting' }));
 
+      // Cache hit — sendEmailOTP already loaded this adapter.
+      const emailAdapter = await loadAdapter(emailManifest);
+
       if (!emailAdapter.emailAuthVerify) {
         sentryLogger.error('emailAuthVerify not implemented');
         throw new Error('emailAuthVerify not implemented');
       }
       const verifyResult = await emailAdapter.emailAuthVerify(emailAuthState.authResult.flowId, otp);
-      setSelectedWallet(emailAdapter);
+      setSelectedWallet(emailManifest);
 
       setEmailAuthState((prev) => ({ ...prev, step: 'success' }));
 

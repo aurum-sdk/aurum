@@ -27,7 +27,10 @@ export const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ uri, size = 256 })
   const cornerType: 'extra-rounded' | 'square' = eyeRadius > 0 ? 'extra-rounded' : 'square';
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const wcAdapter = displayedWallets.find(({ id }) => id === WalletId.WalletConnect);
+  // We only need to know whether WalletConnect is configured — the openModal capability
+  // belongs to the loaded adapter, but it's the only wallet that exposes openModal so the
+  // manifest's presence is a sufficient proxy.
+  const hasWalletConnect = displayedWallets.some(({ id }) => id === WalletId.WalletConnect);
 
   useEffect(() => {
     if (!containerRef.current || !uri) return;
@@ -83,9 +86,9 @@ export const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ uri, size = 256 })
         >
           {!uri ? <QRCodeSkeleton size={size} /> : <div ref={containerRef} style={{ width: size, height: size }} />}
         </div>
-        <Row justify={wcAdapter?.openModal ? 'space-between' : 'center'} style={{ width: '100%' }}>
+        <Row justify={hasWalletConnect ? 'space-between' : 'center'} style={{ width: '100%' }}>
           <CopyButton text={uri || ''} disabled={!uri} variant="secondary" label="Copy URI" />
-          {wcAdapter?.openModal && (
+          {hasWalletConnect && (
             <Button
               variant="text"
               size="sm"
