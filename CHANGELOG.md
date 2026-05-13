@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.3.0] - 2026-05-13
+
+### Added
+
+- **Lazy-loaded wallet adapters.** Each wallet's adapter code (MetaMask, WalletConnect,
+  Coinbase Wallet, Phantom, Rabby, Brave, Email) now ships as its own dynamic-import
+  chunk and is only downloaded the first time the wallet is used. Initial-load gzipped
+  bundle drops from ~370 KB to ~154 KB. The heavy SDKs — `@coinbase/wallet-sdk`
+  (~215 KB gz), `@coinbase/cdp-core` (~45 KB gz), `@reown/appkit*` — now only ship to
+  consumers whose users actually click the corresponding wallet. Tradeoff: a brief
+  one-time chunk download on first click of each wallet, hidden by the existing
+  connecting / QR-code page transition.
+- **`AdapterLoadError`.** New typed error (code `'ADAPTER_LOAD_FAILED'`) thrown when a
+  wallet adapter chunk fails to load — e.g. network drop, or a stale chunk hash after
+  a redeploy. Carries `.walletId` and `.cause`. The loader cache evicts on failure so
+  the next call retries. Exported from `@aurum-sdk/core`.
+
+### Changed
+
+- `aurum.walletAdapters` (an `@internal` getter) now returns `WalletAdapterManifest[]`
+  instead of `WalletAdapter[]`. Manifests expose the metadata needed to render a
+  wallet button (`id`, `name`, `icon`, `hide`, `isInstalled()`) plus a `load()` method
+  that resolves to the heavy adapter. Only `ConnectWidget` consumes this getter
+  internally; consumer code that imports it would need to switch from calling adapter
+  methods directly to going through `manifest.load()`.
+
+### Removed
+
+- `@gemini-wallet/core`, `@react-native-async-storage/async-storage`, `@metamask/sdk`,
+  and `porto` dropped from `@aurum-sdk/core` dependencies. None were imported from
+  source; `MetaMaskAdapter` uses EIP-6963 + `window.ethereum` directly. Net effect:
+  ~276 fewer transitive packages in consumers' `node_modules`.
+
 ## [0.2.8] - 2026-04-30
 
 - Fix Next.js consumer build failure (`Module not found: Can't resolve 'accounts'` originating from `@wagmi/core@3.4.7/tempo/Connectors.js`).  

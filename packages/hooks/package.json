@@ -1,6 +1,6 @@
 {
   "name": "@aurum-sdk/hooks",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "React hooks for Aurum SDK",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
